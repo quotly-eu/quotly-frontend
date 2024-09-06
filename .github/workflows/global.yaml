@@ -43,12 +43,12 @@ jobs:
     needs: build
     steps:
       - name: Pull from Git and Deploy
-        env:
-          USER: ${{ secrets.USER }}
-          TOKEN: ${{ secrets.TOKEN }}
-        run: |
-          cd /var/www/quotly/
-          remote_repo="https://$USER:$TOKEN@github.com/${GITHUB_REPOSITORY}.git"
-          git pull "$remote_repo" main
-          npm install
-          npm run build
+        run: cd /var/www/quotly/build
+      - name: Delete old build
+        run: rm -rf /var/www/quotly/build/*
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+        
+        
+        
