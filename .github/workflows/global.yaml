@@ -42,13 +42,11 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - name: Pull from Git and Deploy
-        run: cd /var/www/quotly/build
-      - name: Delete old build
+      - name: Delete old build if it exists
         run: rm -rf /var/www/quotly/build/*
       - uses: actions/download-artifact@v4
         with:
           name: build-artifact
-        
+          path: /var/www/quotly/build
         
         
