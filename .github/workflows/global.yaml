@@ -43,13 +43,9 @@ jobs:
     needs: build
     steps:
       - name: Pull from Git and Deploy
-        shell: bash
-        env:
-          username: ${{ secrets.USER }}
-          password: ${{ secrets.TOKEN }}
         run: |
           cd /var/www/quotly/
-          git remote add origin https://$username:$password@github.com/$username/quotly-frontend.git
-          git pull
+          remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git pull "$remote_repo" main
           npm install
           npm run build
