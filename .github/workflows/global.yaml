@@ -43,9 +43,12 @@ jobs:
     needs: build
     steps:
       - name: Pull from Git and Deploy
+        env:
+          USER: ${{ secrets.USER }}
+          TOKEN: ${{ secrets.TOKEN }}
         run: |
           cd /var/www/quotly/
-          remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          remote_repo="https://$USER:$TOKEN@github.com/${GITHUB_REPOSITORY}.git"
           git pull "$remote_repo" main
           npm install
           npm run build
