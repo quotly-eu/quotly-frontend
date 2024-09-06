@@ -47,6 +47,7 @@ jobs:
     needs: build
     steps:
       - name: Pull from Git and Deploy
+        shell: bash
         run: |
           cd /var/www/quotly/
           git pull
