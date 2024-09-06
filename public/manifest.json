@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Quotly",
+  "name": "Quotly - The best quotes in the world",
   "icons": [
     {
       "src": "favicon.ico",
@@ -19,11 +19,12 @@
     }
   ],
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
-  "description": "A description for your application",
-  "lang": " The default language of your application",
+  "description": "The best quotes in the world",
+  "lang": "en",
   "dir": "auto",
   "orientation": "any",
   "related_applications": [
@@ -35,7 +36,7 @@
   "prefer_related_applications": false,
   "shortcuts": [
     {
-      "name":"The name you would like to be displayed for your shortcut",
+      "name": "Quotly",
       "url":"The url you would like to open when the user chooses this shortcut. This must be a URL local to your PWA. For example: If my start_url is /, this URL must be something like /shortcut",
       "description":"A description of the functionality of this shortcut"
     }
