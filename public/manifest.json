@@ -8,18 +8,36 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "quotly192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "quotly512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "description": "A description for your application",
+  "lang": " The default language of your application",
+  "dir": "auto",
+  "orientation": "any",
+  "related_applications": [
+    {
+      "platform":"windows",
+      "url": "The URL to your app in that app store"
+    }
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name":"The name you would like to be displayed for your shortcut",
+      "url":"The url you would like to open when the user chooses this shortcut. This must be a URL local to your PWA. For example: If my start_url is /, this URL must be something like /shortcut",
+      "description":"A description of the functionality of this shortcut"
+    }
+  ]
 }
