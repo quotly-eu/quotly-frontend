@@ -46,7 +46,9 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - run: cd /var/www/quotly/
-      - run: git pull
-      - run: npm install
-      - run: npm run build
+      - name: Pull from Git and Deploy
+        run: |
+          cd /var/www/quotly/
+          git pull
+          npm install
+          npm run build
