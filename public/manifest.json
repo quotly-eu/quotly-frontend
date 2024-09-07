@@ -19,7 +19,7 @@
     }
   ],
   "start_url": "/",
-  "scope": "https://quotly.eu/",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
