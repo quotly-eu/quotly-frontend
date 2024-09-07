@@ -17,6 +17,8 @@
         - Push Notifications: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/07?id=push-notifications-on-the-web
         - Badges: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/07?id=application-badges
     */
+    // eslint-disable-next-line no-unused-vars
+    const ignored = self.__WB_MANIFEST;
 
     const HOSTNAME_WHITELIST = [
         self.location.hostname,
