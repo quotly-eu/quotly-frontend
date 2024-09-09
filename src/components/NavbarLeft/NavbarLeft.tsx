@@ -11,18 +11,24 @@ const NavbarLeftContainer = styled.div`
   padding: ${props => props.theme.spacing.m.rem};
   gap: ${props => props.theme.spacing.s.rem};
   grid-template-areas: 
-    "logo"
     "top"
     "center"
     "bottom";
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
 
   align-items: center;
   justify-items: center;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    grid-template-areas: 
+      "top center bottom";
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: none;
+  }
 `;
 
 const LogoBrand = styled.a`
-  grid-area: logo;
+  grid-area: top;
   background-image: url(${Logo});
   width: ${props => props.theme.spacing.xxxl.rem};
   height: ${props => props.theme.spacing.xxxl.rem};
@@ -31,6 +37,10 @@ const LogoBrand = styled.a`
   font-weight: 700;
 
   filter: drop-shadow(${props => props.theme.shadows.accent_default("#245d6059")});
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    display: none;
+  }
 `;
 
 const Top = styled.div`
@@ -41,6 +51,10 @@ const Center = styled.div`
   flex-direction: column;
   grid-area: center;
   gap: ${props => props.theme.spacing.xxl.rem};
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    flex-direction: row;
+  }
 `;
 const Bottom = styled.div`
   grid-area: bottom;

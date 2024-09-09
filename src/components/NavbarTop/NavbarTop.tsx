@@ -7,7 +7,7 @@ const NavbarTopContainer = styled.div`
   display: grid;
   grid-area: navbar-top;
 
-  padding: ${props => props.theme.spacing.l.rem} ${props => props.theme.spacing.s.rem};
+  padding: ${props => props.theme.spacing.m.rem};
   gap: ${props => props.theme.spacing.s.rem};
   grid-template-areas: "left center right";
   grid-template-columns: auto 1fr auto;
@@ -18,7 +18,7 @@ const NavbarTopContainer = styled.div`
 const NavbarTop = () => {
   return (
     <NavbarTopContainer>
-      <Button href='/' style={ButtonStyles.default}><i className="fa-solid fa-circle"></i> BUILD</Button>
+      <Button href='/' style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bell"></i></Button>
     </NavbarTopContainer>
   )
 }
