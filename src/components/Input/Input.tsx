@@ -32,7 +32,10 @@ const InputContainer = styled.div`
     background-color: transparent;
 
     width: 100%;
-    padding: ${props => props.theme.spacing.xs.rem};
+    padding: 
+      ${props => props.theme.spacing.xxs.rem} 
+      ${props => props.theme.spacing.xs.rem} 
+      ${props => props.theme.spacing.xs.rem};
     padding-left: ${props => props.theme.spacing.xxl.rem};
     border-radius: 100vmax;
 
