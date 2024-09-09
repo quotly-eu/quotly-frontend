@@ -18,8 +18,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "https://quotly.eu",
-  "scope": "https://quotly.eu",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
