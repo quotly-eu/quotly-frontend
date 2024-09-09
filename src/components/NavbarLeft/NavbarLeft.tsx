@@ -70,10 +70,10 @@ const NavbarLeft = () => {
       <Center>
         <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-home"></i></Button>
         <Button style={ButtonStyles.primary} isIconButton={true}><i className="fa-solid fa-plus"></i></Button>
-        <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-cog"></i></Button>
+        <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>
       </Center>
       <Bottom>
-
+        
       </Bottom>
     </NavbarLeftContainer>
   )

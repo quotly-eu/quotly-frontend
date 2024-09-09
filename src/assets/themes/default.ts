@@ -80,7 +80,10 @@ const theme = {
       xl: '4rem',
       xxl: '5rem',
       xxxl: '6rem',
-    }
+    },
+    family: {
+      default: '"Zen Maru Gothic", Arial, sans-serif',
+    },
   },
   breakpoints: {
     xs: '320px',
