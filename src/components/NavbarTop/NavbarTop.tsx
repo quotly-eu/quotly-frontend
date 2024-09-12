@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import styled from 'styled-components';
 import Button, { ButtonStyles } from '../Button/Button';
@@ -10,8 +11,8 @@ const NavbarTopContainer = styled.div`
 
   padding: ${props => props.theme.spacing.m.rem};
   gap: ${props => props.theme.spacing.s.rem};
-  grid-template-areas: "left center right";
-  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "center right";
+  grid-template-columns: 1fr auto;
 
   align-items: center;
   justify-items: center;
@@ -39,15 +40,12 @@ const Right = styled.div`
 const NavbarTop = () => {
   return (
     <NavbarTopContainer>
-      <Left>
-      </Left>
       <Center>
-        <Input id='search-input'/>
+        <Input id='search-input' iconClass='fa-solid fa-search'/>
       </Center>
       <Right>
         <Button href='/' style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bell"></i></Button>
       </Right>
-
     </NavbarTopContainer>
   )
 }

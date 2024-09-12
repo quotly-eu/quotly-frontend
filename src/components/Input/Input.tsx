@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 // Styles
-const InputContainer = styled.div`
+const InputContainer = styled.div<{$hasIcon:boolean}>`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -26,6 +26,7 @@ const InputContainer = styled.div`
     left: ${props => props.theme.spacing.m.rem};
 
     border-radius: 100vmax;
+    align-items: center;
   }
   input {
     color: inherit;
@@ -34,19 +35,15 @@ const InputContainer = styled.div`
     width: 100%;
     padding: 
       ${props => props.theme.spacing.xxs.rem} 
-      ${props => props.theme.spacing.xs.rem} 
+      ${props => props.theme.spacing.s.rem} 
       ${props => props.theme.spacing.xs.rem};
-    padding-left: ${props => props.theme.spacing.xxl.rem};
-    border-radius: 100vmax;
+    ${({$hasIcon, theme}) => $hasIcon && `padding-left: ${theme.spacing.xxl.rem}`};
 
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
 
     border: 0;
-    &::placeholder {
-      color: transparent;
-    }
     &:focus {
       outline: none;
     }
@@ -54,16 +51,20 @@ const InputContainer = styled.div`
 `;
 
 const Input = ({
-  id=undefined,
-  name=undefined
+  id,
+  name,
+  placeholder,
+  iconClass,
 }:{
   id?: string,
   name?: string
+  placeholder?: string
+  iconClass?: string
 }) => {
   return (
-    <InputContainer>
-      <label htmlFor={id}><i className="fa-solid fa-search"></i></label>
-      <input id={id} name={name} placeholder='Search' />
+    <InputContainer $hasIcon={iconClass !== undefined}>
+      {iconClass && <label htmlFor={id}><i className={iconClass}></i></label>}
+      <input id={id} name={name} placeholder={placeholder}  />
     </InputContainer>
   )
 }

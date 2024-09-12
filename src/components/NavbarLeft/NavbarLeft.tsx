@@ -54,6 +54,13 @@ const Center = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     flex-direction: row;
+    gap: ${props => props.theme.spacing.xxl.rem};
+  }
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    gap: ${props => props.theme.spacing.m.rem};
+  }
+  @media (max-width: ${props => props.theme.breakpoints.xs}) {
+    gap: ${props => props.theme.spacing.xxxs.rem};
   }
 `;
 const Bottom = styled.div`

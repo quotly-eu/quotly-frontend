@@ -29,8 +29,12 @@ jobs:
         cache: 'npm'
     - name: Install NPM Packages
       run: npm i
+      
     - name: Run Tests
       run: npm test
+    - name: Run Lint
+      run: npm run lint
+
     - name: Build Project
       run: npm run build
     - uses: actions/upload-artifact@v4
