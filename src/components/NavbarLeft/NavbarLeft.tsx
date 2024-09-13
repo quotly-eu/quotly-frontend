@@ -1,7 +1,10 @@
 import React from 'react'
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import Logo from '../../assets/img/quotly.svg';
 import Button, { ButtonStyles } from '../Button/Button';
+import Profile from '../Profile/Profile';
+import Switcher from '../Switcher/Switcher';
+import { DefaultTheme } from 'styled-components/dist/types';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -43,8 +46,13 @@ const LogoBrand = styled.a`
   }
 `;
 
-const Top = styled.div`
+const Top = styled.div<{$type:string}>`
   grid-area: top;
+
+  ${({$type}) => $type === 'mobile' ? `display: none;` : ``}
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    display: block;
+  }
 `;
 const Center = styled.div`
   display: flex;
@@ -54,12 +62,9 @@ const Center = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     flex-direction: row;
-    gap: ${props => props.theme.spacing.xxl.rem};
+    gap: ${props => props.theme.spacing.l.rem};
   }
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    gap: ${props => props.theme.spacing.m.rem};
-  }
-  @media (max-width: ${props => props.theme.breakpoints.xs}) {
     gap: ${props => props.theme.spacing.xxxs.rem};
   }
 `;
@@ -68,19 +73,25 @@ const Bottom = styled.div`
 `;
 
 const NavbarLeft = () => {
+  const theme = useTheme();
+
   return (
     <NavbarLeftContainer>
       <LogoBrand href='/' title='Quotly' />
-      <Top>
-
+      <Top $type='mobile'>
+        <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>
       </Top>
       <Center>
-        <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-home"></i></Button>
+        <Switcher
+          breakpoint={theme.breakpoints.md}
+          mobile={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-home"></i></Button>}
+          desktop={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
+        />
         <Button style={ButtonStyles.primary} isIconButton={true}><i className="fa-solid fa-plus"></i></Button>
-        <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>
+        <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-fire"></i></Button>
       </Center>
       <Bottom>
-        
+        <Profile />
       </Bottom>
     </NavbarLeftContainer>
   )
