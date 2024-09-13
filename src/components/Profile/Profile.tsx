@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import preview from '../../assets/img/a.png';
+import preview from '../../assets/img/a.jpg';
 
 // Styles
 const ProfileContainer = styled.div`

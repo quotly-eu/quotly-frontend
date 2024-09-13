@@ -4,7 +4,6 @@ import Logo from '../../assets/img/quotly.svg';
 import Button, { ButtonStyles } from '../Button/Button';
 import Profile from '../Profile/Profile';
 import Switcher from '../Switcher/Switcher';
-import { DefaultTheme } from 'styled-components/dist/types';
 
 // Styles
 const NavbarLeftContainer = styled.div`
