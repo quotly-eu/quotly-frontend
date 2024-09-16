@@ -13,6 +13,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from '../../assets/themes/GlobalStyle';
 import NavbarLeft from '../NavbarLeft/NavbarLeft';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import NotFound from '../../pages/NotFound/NotFound';
 
 // Styles
 const AppContainer = styled.div`
@@ -59,6 +60,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route index element={<Main />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </RouteContainer>
