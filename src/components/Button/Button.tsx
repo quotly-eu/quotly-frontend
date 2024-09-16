@@ -18,6 +18,8 @@ interface ButtonProps {
 const ButtonContainer = styled.a<ButtonProps>`
   display:flex;
   grid-area: right;
+
+  -webkit-tap-highlight-color: transparent;
   ${({$style, theme}) => {
     switch($style) {
       case ButtonStyles.primary:
@@ -27,6 +29,11 @@ const ButtonContainer = styled.a<ButtonProps>`
           border-color: ${theme.colors.primary};
 
           box-shadow: ${theme.shadows.default};
+
+          &:active {
+            background-color: ${theme.colors.accent_primary_0};
+            border-color: ${theme.colors.accent_primary_0};
+          }
         `;
       case ButtonStyles.secondary:
         return `
@@ -35,11 +42,19 @@ const ButtonContainer = styled.a<ButtonProps>`
           border-color: ${theme.colors.secondary};
           
           box-shadow: ${theme.shadows.default};
+          &:active {
+            background-color: ${theme.colors.accent_secondary_0};
+            border-color: ${theme.colors.accent_secondary_0};
+          }
         `;
       case ButtonStyles.transparent:
         return `
           color: ${theme.colors.text.dark};
           border-color: transparent;
+
+          &:active {
+            background-color: ${theme.colors.transparency.black(0.1)};
+          }
         `;
       case ButtonStyles.default:
       default:
@@ -47,6 +62,10 @@ const ButtonContainer = styled.a<ButtonProps>`
           color: ${theme.colors.text.dark};
           border-color: ${theme.colors.white};
           box-shadow: inset ${theme.shadows.default},${theme.shadows.default};
+
+          &:active {
+            background-color: ${theme.colors.transparency.black(0.1)};
+          }
         `;
     }
   }}
@@ -71,6 +90,10 @@ const ButtonContainer = styled.a<ButtonProps>`
   
   border-width: ${props => props.theme.spacing.xxxs.rem};
   border-style: solid;
+
+  transition-property: background-color, border-color, color;
+  transition-duration: 125ms;
+  transition-timing-function: ease-in-out;
   text-decoration: none;
   justify-content: center;
   align-items: center;

@@ -12,6 +12,8 @@ const theme = {
     info: '#1db0d8',
     accent_white_0: '#ebf3fa',
     accent_white_1: '#acd3eb',
+    accent_primary_0: '#1f4fc4',
+    accent_secondary_0: '#5f4fc4',
     accent_success_0: _accent_success_0,
     transparency: {
       black: (opacity: number) => `rgba(0, 0, 0, ${opacity})`,
@@ -74,6 +76,7 @@ const theme = {
       xxxs: '0.5rem',
       xxs: '0.75rem',
       xs: '1rem',
+      ss: '1.25rem',
       s: '1.5rem',
       m: '2rem',
       l: '3rem',
