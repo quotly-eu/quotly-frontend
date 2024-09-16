@@ -44,7 +44,7 @@ const NavbarTop = () => {
         <Input id='search-input' iconClass='fa-solid fa-search'/>
       </Center>
       <Right>
-        <Button href='/' style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bell"></i></Button>
+        <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bell"></i></Button>
       </Right>
     </NavbarTopContainer>
   )

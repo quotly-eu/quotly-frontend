@@ -4,7 +4,7 @@ import Logo from '../../assets/img/quotly.svg';
 import Button, { ButtonStyles } from '../Button/Button';
 import Profile from '../Profile/Profile';
 import Switcher from '../Switcher/Switcher';
-import FloatDropDown, { DropDownItem } from '../FloatDropDown/FloatDropDown';
+import FloatDropDown, { DropDownItem, PlaceOrientation } from '../FloatDropDown/FloatDropDown';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -74,12 +74,28 @@ const Bottom = styled.div`
 
 const DropDownItems: DropDownItem[] = [
   {
-    label: (<><i className="fa-solid fa-home"></i> Home</>)
+    label: (<><i className="fa-solid fa-home"></i> Home</>),
+    href: '/',
   },
   {
     label: (<><i className="fa-solid fa-fire"></i> Trends</>)
   }
-]
+];
+
+const ProfileDropDownItems: DropDownItem[] = [
+  {
+    label: (<><i className="fa-solid fa-user"></i> Profile</>),
+    href: '/profile',
+  },
+  {
+    label: (<><i className="fa-solid fa-cog"></i> Settings</>),
+    href: '/settings',
+  },
+  {
+    label: (<><i className="fa-solid fa-sign-out"></i> Logout</>),
+    href: '/logout',
+  }
+];
 
 const NavbarLeft = () => {
   const theme = useTheme();
@@ -89,6 +105,7 @@ const NavbarLeft = () => {
       <LogoBrand href='/' title='Quotly' />
       <Top $type='mobile'>
         <FloatDropDown
+          place={PlaceOrientation.TopLeft}
           triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
           dropDownItems={DropDownItems}
         />
@@ -97,7 +114,13 @@ const NavbarLeft = () => {
         <Switcher
           breakpoint={theme.breakpoints.md}
           mobile={<></>}
-          desktop={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
+          desktop={
+            <FloatDropDown
+              place={PlaceOrientation.Right}
+              triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
+              dropDownItems={DropDownItems}
+            />
+          }
         />
         <Button style={ButtonStyles.primary} isIconButton={true}><i className="fa-solid fa-plus"></i></Button>
         <Switcher
@@ -107,7 +130,22 @@ const NavbarLeft = () => {
         />
       </Center>
       <Bottom>
-        <Profile />
+        <Switcher
+          breakpoint={theme.breakpoints.md}
+          mobile={
+            <FloatDropDown
+              place={PlaceOrientation.TopRight}
+              triggerElement={<Profile />}
+              dropDownItems={ProfileDropDownItems}
+            />
+          }
+          desktop={
+            <FloatDropDown
+              place={PlaceOrientation.RightInlineBottom}
+              triggerElement={<Profile />}
+              dropDownItems={ProfileDropDownItems}
+            />
+          } />
       </Bottom>
     </NavbarLeftContainer>
   )

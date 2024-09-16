@@ -98,6 +98,13 @@ const theme = {
   shadows: {
     default: `${_shadows_default} ${_accent_success_0}2c`,
     accent_default: (color: string) => `${_shadows_default} ${color}`,
+  },
+  transition: {
+    times: {
+      s: '150ms',
+      m: '250ms',
+      l: '500ms'
+    }
   }
 }
 export default theme; // Light theme

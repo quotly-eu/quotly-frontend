@@ -92,7 +92,7 @@ const ButtonContainer = styled.a<ButtonProps>`
   border-style: solid;
 
   transition-property: background-color, border-color, color;
-  transition-duration: 125ms;
+  transition-duration: ${props => props.theme.transition.times.s};
   transition-timing-function: ease-in-out;
   text-decoration: none;
   justify-content: center;
