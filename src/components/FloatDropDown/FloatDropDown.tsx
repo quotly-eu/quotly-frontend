@@ -125,8 +125,10 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
   
   ${({$active}:FloatDropDownProps) => $active ? `
     opacity: 1;
+    pointer-events: all;
     ` : `
     opacity: 0;
+    pointer-events: none;
   `}
   transition: all ${props => props.theme.transition.times.m} ease-in-out;
 `;
