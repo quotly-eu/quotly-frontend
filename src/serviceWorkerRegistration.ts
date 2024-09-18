@@ -23,6 +23,9 @@ type Config = {
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
+/**
+ * Register a ServiceWorker
+ */
 export function register(config?: Config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -129,6 +132,9 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
     });
 }
 
+/**
+ * Unregister a ServiceWorker
+ */
 export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready

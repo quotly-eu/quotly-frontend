@@ -50,12 +50,10 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
   }
 `;
 
-const Input = ({
-  id,
-  name,
-  placeholder,
-  iconClass,
-}:{
+/**
+ * Input Component with Icon
+ */
+const Input = ({ id, name, placeholder, iconClass }:{
   id?: string,
   name?: string
   placeholder?: string

@@ -37,6 +37,9 @@ const Right = styled.div`
   width:100%;
 `;
 
+/**
+ * NavbarTop Component
+ */
 const NavbarTop = () => {
   return (
     <NavbarTopContainer>

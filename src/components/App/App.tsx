@@ -49,6 +49,9 @@ const RouteContainer = styled.div`
   }
 `;
 
+/**
+ * App Component with BrowserRouter and Routes
+ */
 function App() {
   return (
     <ThemeProvider theme={theme}>

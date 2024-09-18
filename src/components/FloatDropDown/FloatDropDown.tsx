@@ -1,12 +1,31 @@
 import React, { useEffect, useRef } from 'react'
 import styled, { useTheme } from 'styled-components'
 
+/**
+ * DropDownItem type for FloatDropDown
+ * @example
+ * import FloatDropDown, { DropDownItem } from '../FloatDropDown/FloatDropDown';
+ * 
+ * const dropDownItems: DropDownItem[] = [
+ *  {label: 'Item 1'},
+ *  {label: 'Item 2'}
+ * ];
+ * 
+ * <FloatDropDown dropDownItems={dropDownItems} />
+ */
 export type DropDownItem = {
   label: React.ReactNode,
   href?: string
   onClick?: () => void
 }
 
+/**
+ * PlaceOrientation enum for FloatDropDown
+ * @example
+ * import FloatDropDown, { PlaceOrientation } from '../FloatDropDown/FloatDropDown';
+ * 
+ * <FloatDropDown place={PlaceOrientation.TopLeft} />
+ */
 export enum PlaceOrientation {
   TopLeft,
   Top,
@@ -149,6 +168,9 @@ const FloatDropDownItem = styled.a`
   }
 `;
 
+/**
+ *
+ */
 const FloatDropDown = ({
   triggerElement,
   place=PlaceOrientation.TopLeft, 

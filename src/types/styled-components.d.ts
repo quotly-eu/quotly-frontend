@@ -4,5 +4,12 @@ import theme from '../assets/themes/default';
 type CustomTheme = typeof theme;
 
 declare module "styled-components" {
-  export interface DefaultTheme extends CustomTheme {}
+  /**
+   * Theme extension for styled-components
+   * @example
+   * const Container = styled.div`
+   *  padding: ${props => props.theme.spacing.m.rem};
+   * `;
+   */
+  export type DefaultTheme = CustomTheme
 }

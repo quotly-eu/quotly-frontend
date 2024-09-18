@@ -1,3 +1,6 @@
+/**
+ * Mock the matchMedia function of the window object for testing purposes
+ */
 export const mockMatchMedia = () => {
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {

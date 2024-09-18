@@ -2,6 +2,13 @@ import React from 'react'
 import styled from 'styled-components';
 
 // Types
+/**
+ * ButtonStyles
+ * @example
+ * import Button, { ButtonStyles } from '../Button/Button';
+ * 
+ * <Button style={ButtonStyles.primary}>Primary</Button>
+ */
 export enum ButtonStyles {
   default = 'default',
   primary = 'primary',
@@ -100,12 +107,10 @@ const ButtonContainer = styled.a<ButtonProps>`
   cursor: pointer;
 `;
 
-const Button = ({
-  children,
-  href=undefined,
-  isIconButton=false,
-  style=ButtonStyles.default,
-}:{
+/**
+ * Button and Icon Button Component
+ */
+const Button = ({children, href=undefined, isIconButton=false, style=ButtonStyles.default }:{
   children?: React.ReactNode,
   href?: string,
   isIconButton?: boolean,

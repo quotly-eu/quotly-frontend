@@ -17,7 +17,11 @@ const ProfileImage = styled.img`
 
   cursor:pointer;
 `;
-const Profile = () => {
+
+/**
+ * Profile Button Component
+ */
+const ProfileButton = () => {
   return (
     <ProfileContainer>
       <ProfileImage src={preview} alt='' />
@@ -25,4 +29,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ProfileButton

@@ -24,7 +24,6 @@
     "workbox-expiration": "^6.6.0",
     "workbox-google-analytics": "^6.6.1",
     "workbox-navigation-preload": "^6.6.0",
-    "workbox-precaching": "^6.6.0",
     "workbox-range-requests": "^6.6.0",
     "workbox-routing": "^6.6.0",
     "workbox-strategies": "^6.6.0",
@@ -33,9 +32,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint src --ext .ts,.tsx",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint:check": "eslint ./src",
+    "lint:fix": "eslint ./src --quiet --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -57,9 +57,15 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@eslint/js": "^9.10.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
-    "ajv": "^8.17.1"
+    "@types/eslint__js": "^8.42.3",
+    "ajv": "^8.17.1",
+    "eslint": "^9.10.0",
+    "eslint-plugin-jsdoc": "^50.2.3",
+    "eslint-plugin-react": "^7.36.1",
+    "typescript-eslint": "^8.6.0"
   }
 }
