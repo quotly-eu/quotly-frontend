@@ -17,7 +17,15 @@
     - Push Notifications: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/07?id=push-notifications-on-the-web
     - Badges: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/07?id=application-badges
 */
-export {};
+import { precacheAndRoute } from 'workbox-precaching/precacheAndRoute';
+
+// Declare the __WB_MANIFEST property on the self object
+declare const self: ServiceWorkerGlobalScope & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  __WB_MANIFEST: any;
+};
+
+precacheAndRoute(self.__WB_MANIFEST);
 
 const HOSTNAME_WHITELIST = [
     self.location.hostname,
