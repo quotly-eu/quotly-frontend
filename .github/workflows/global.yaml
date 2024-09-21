@@ -5,11 +5,8 @@ name: Quotly Frontend Pipeline
 
 on:
   workflow_dispatch:
-
   push:
-    branches: [ "*" ]
   pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
