@@ -7,12 +7,9 @@ on:
   workflow_dispatch:
 
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
   pull_request:
     branches: [ "main" ]
-
-  schedule:
-    - cron: '0 12 * * 1'
 
 jobs:
   build:
@@ -38,6 +35,7 @@ jobs:
     - name: Build Project
       run: npm run build
     - uses: actions/upload-artifact@v4
+      if: github.ref_name == 'main'
       with:
         name: build-artifact
         path: build
@@ -45,6 +43,7 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: build
+    if: github.ref_name == 'main'
     steps:
       - name: Delete old build if it exists
         run: rm -rf /var/www/quotly/build/*
