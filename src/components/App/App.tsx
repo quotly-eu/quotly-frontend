@@ -26,7 +26,7 @@ const AppContainer = styled.div`
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${theme.breakpoints.md}) {
     grid-template-areas:
       "navbar-top"
       "route"
@@ -37,16 +37,19 @@ const AppContainer = styled.div`
 `;
 const RouteContainer = styled.div`
   grid-area: route;
-  background-color: ${props => props.theme.colors.transparency.black(0.075)};
-  
-  padding: ${props => props.theme.spacing.s.rem} 0 0 ${props => props.theme.spacing.s.rem};
-  border-top-left-radius: ${props => props.theme.spacing.l.rem};
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    border-top-right-radius: ${props => props.theme.spacing.l.rem};
-    border-bottom-left-radius: ${props => props.theme.spacing.l.rem};
-    border-bottom-right-radius: ${props => props.theme.spacing.l.rem};
-  }
+  ${({ theme }) => `
+    background-color: ${theme.colors.transparency.black(0.075)};
+  
+    padding: ${theme.spacing.s.rem};
+    border-top-left-radius: ${theme.spacing.l.rem};
+
+    @media (max-width: ${theme.breakpoints.md}) {
+      border-top-right-radius: ${theme.spacing.l.rem};
+      border-bottom-left-radius: ${theme.spacing.l.rem};
+      border-bottom-right-radius: ${theme.spacing.l.rem};
+    }
+  `}
 `;
 
 /**

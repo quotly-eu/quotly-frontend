@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { useTheme } from 'styled-components';
-import Logo from '../../assets/img/quotly.svg';
+import { ReactComponent as Logo } from '../../assets/img/quotly.svg';
 import Button, { ButtonStyles } from '../Button/Button';
 import ProfileButton from '../ProfileButton/ProfileButton';
 import Switcher from '../Switcher/Switcher';
@@ -32,7 +32,6 @@ const NavbarLeftContainer = styled.div`
 
 const LogoBrand = styled.a`
   grid-area: top;
-  background-image: url(${Logo});
   width: ${props => props.theme.spacing.xxxl.rem};
   height: ${props => props.theme.spacing.xxxl.rem};
 
@@ -105,7 +104,9 @@ const NavbarLeft = () => {
 
   return (
     <NavbarLeftContainer>
-      <LogoBrand href='/' title='Quotly' />
+      <LogoBrand href='/' title='Quotly'>
+        <Logo />
+      </LogoBrand>
       <Top $type='mobile'>
         <FloatDropDown
           place={PlaceOrientation.TopLeft}

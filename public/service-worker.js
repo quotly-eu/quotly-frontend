@@ -19,12 +19,6 @@
 */
 import { precacheAndRoute } from 'workbox-precaching/precacheAndRoute';
 
-// Declare the __WB_MANIFEST property on the self object
-declare const self: ServiceWorkerGlobalScope & {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  __WB_MANIFEST: any;
-};
-
 precacheAndRoute(self.__WB_MANIFEST);
 
 const HOSTNAME_WHITELIST = [
@@ -32,7 +26,7 @@ const HOSTNAME_WHITELIST = [
 ]
 
 // The Util Function to hack URLs of intercepted requests
-const getFixedUrl = (req: { url: string | URL }) => {
+const getFixedUrl = (req) => {
     const now = Date.now()
     const url = new URL(req.url)
 
@@ -59,8 +53,8 @@ const getFixedUrl = (req: { url: string | URL }) => {
  *
  *  waitUntil(): activating ====> activated
  */
-(self as unknown as ServiceWorkerGlobalScope).addEventListener('activate', (event: ExtendableEvent) => {
-  event.waitUntil((self as unknown as ServiceWorkerGlobalScope).clients.claim())
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim())
 });
 
 /**
@@ -69,7 +63,7 @@ const getFixedUrl = (req: { url: string | URL }) => {
  *
  *  void respondWith(Promise<Response> r)
  */
-(self as unknown as ServiceWorkerGlobalScope).addEventListener('fetch', (event: FetchEvent) => {
+self.addEventListener('fetch', (event) => {
 // Skip some of cross-origin requests, like those for Google Analytics.
 if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
     // Stale-while-revalidate

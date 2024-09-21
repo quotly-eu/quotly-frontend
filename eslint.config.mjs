@@ -1,7 +1,10 @@
 import eslint from "@eslint/js";
+import globals from "globals";
 import jsdoc from "eslint-plugin-jsdoc";
+import reactPlugin from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import reactplugin from "eslint-plugin-react";
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -24,11 +27,18 @@ export default tseslint.config(
   },
   {
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-    ...reactplugin.configs.flat.recommended,
+    ...reactPlugin.configs.flat.recommended,
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
     plugins: {
       jsdoc,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
     rules: {
+      ...reactHooks.configs.recommended.rules,
       "jsdoc/require-jsdoc": [
         "error",
         {
