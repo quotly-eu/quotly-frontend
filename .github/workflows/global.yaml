@@ -20,17 +20,17 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: 'npm'
-    - name: Install NPM Packages
-      run: npm i
-      
+        cache: 'yarn'
+    - name: Install Packages
+      run: yarn install
+
     - name: Run Tests
-      run: npm test
+      run: yarn test
     - name: Run Lint
-      run: npm run lint:check
+      run: yarn lint:check
 
     - name: Build Project
-      run: npm run build
+      run: yarn build
     - uses: actions/upload-artifact@v4
       if: github.ref_name == 'main'
       with:
