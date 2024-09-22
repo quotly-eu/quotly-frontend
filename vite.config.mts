@@ -17,13 +17,6 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       port: Number(env.VITE_PORT),
-      proxy: {
-        '/api': {
-          target: 'https://quotly.eu/',
-          changeOrigin: false,
-          ws: true,
-        }
-      }
     }
   };
 })
