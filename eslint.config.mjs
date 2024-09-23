@@ -4,6 +4,7 @@ import jsdoc from "eslint-plugin-jsdoc";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import stylisticTs from "@stylistic/eslint-plugin-ts";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
@@ -34,6 +35,7 @@ export default tseslint.config(
     },
     plugins: {
       jsdoc,
+      '@stylistic/ts': stylisticTs,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
@@ -53,6 +55,7 @@ export default tseslint.config(
           },
         }
       ],
+      "@stylistic/ts/semi": ["error", "always"],
       "jsdoc/check-tag-names": ["off"],
       "jsdoc/require-description": ["error"],
       "jsdoc/require-returns": ["error"],

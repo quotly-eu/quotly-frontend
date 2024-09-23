@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import Button, { ButtonStyles } from '../Button/Button';
@@ -152,7 +152,7 @@ const NavbarLeft = () => {
           } />
       </Bottom>
     </NavbarLeftContainer>
-  )
-}
+  );
+};
 
-export default NavbarLeft
+export default NavbarLeft;

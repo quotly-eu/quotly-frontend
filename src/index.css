@@ -1,25 +1,10 @@
 @font-face {
-  font-family: 'Zen Maru Gothic';
-  src: url(./assets/fonts/ZenMaruGothic-Light.ttf) format('truetype');
-  font-weight: 300;
+  font-family: 'Nunito';
+  src: url('assets/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
+  font-style: normal;
 }
 @font-face {
-  font-family: 'Zen Maru Gothic';
-  src: url(./assets/fonts/ZenMaruGothic-Regular.ttf) format('truetype');
-  font-weight: 400;
-}
-@font-face {
-  font-family: 'Zen Maru Gothic';
-  src: url(./assets/fonts/ZenMaruGothic-Medium.ttf) format('truetype');
-  font-weight: 500;
-}
-@font-face {
-  font-family: 'Zen Maru Gothic';
-  src: url(./assets/fonts/ZenMaruGothic-Bold.ttf) format('truetype');
-  font-weight: 700;
-}
-@font-face {
-  font-family: 'Zen Maru Gothic';
-  src: url(./assets/fonts/ZenMaruGothic-Black.ttf) format('truetype');
-  font-weight: 900;
+  font-family: 'Nunito';
+  src: url('assets/fonts/Nunito-Italic-VariableFont_wght.ttf') format('truetype');
+  font-style: italic;
 }

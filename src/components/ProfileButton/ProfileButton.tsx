@@ -26,7 +26,7 @@ const ProfileButton = () => {
     <ProfileContainer>
       <ProfileImage src={preview} alt='' />
     </ProfileContainer>
-  )
-}
+  );
+};
 
-export default ProfileButton
+export default ProfileButton;

@@ -15,6 +15,6 @@ export const mockMatchMedia = () => {
         removeEventListener: jest.fn(),
         dispatchEvent: jest.fn(),
       }))
-    })
-  })
+    });
+  });
 };

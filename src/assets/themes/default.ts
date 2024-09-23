@@ -21,6 +21,7 @@ const theme = {
     },
     text: {
       dark: '#294551',
+      gray: '#6491a3',
       light: '#f5f5f5',
     }
   },
@@ -73,9 +74,9 @@ const theme = {
   },
   font: {
     sizes: {
-      xxxs: '0.5rem',
-      xxs: '0.75rem',
-      xs: '1rem',
+      xxxs: '0.75rem',
+      xxs: '1rem',
+      xs: '1.125rem',
       ss: '1.25rem',
       s: '1.5rem',
       m: '2rem',
@@ -85,7 +86,7 @@ const theme = {
       xxxl: '6rem',
     },
     family: {
-      default: '"Zen Maru Gothic", Arial, sans-serif',
+      default: '"Nunito", Arial, sans-serif',
     },
   },
   breakpoints: {
@@ -106,5 +107,5 @@ const theme = {
       l: '500ms'
     }
   }
-}
+};
 export default theme; // Light theme

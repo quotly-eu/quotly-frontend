@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 // Styles
@@ -35,8 +35,7 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
     width: 100%;
     padding: 
       ${props => props.theme.spacing.xxs.rem} 
-      ${props => props.theme.spacing.s.rem} 
-      ${props => props.theme.spacing.xs.rem};
+      ${props => props.theme.spacing.s.rem};
     ${({$hasIcon, theme}) => $hasIcon && `padding-left: ${theme.spacing.xxl.rem}`};
 
     font-family: inherit;
@@ -64,7 +63,7 @@ const Input = ({ id, name, placeholder, iconClass }:{
       {iconClass && <label htmlFor={id}><i className={iconClass}></i></label>}
       <input id={id} name={name} placeholder={placeholder}  />
     </InputContainer>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;

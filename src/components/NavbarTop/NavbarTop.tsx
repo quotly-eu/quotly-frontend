@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import Button, { ButtonStyles } from '../Button/Button';
 import Input from '../Input/Input';
@@ -50,7 +50,7 @@ const NavbarTop = () => {
         <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bell"></i></Button>
       </Right>
     </NavbarTopContainer>
-  )
-}
+  );
+};
 
 export default NavbarTop;

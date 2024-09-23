@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 // Types
@@ -118,7 +118,7 @@ const Button = ({children, href=undefined, isIconButton=false, style=ButtonStyle
 }) => {
   return (
     <ButtonContainer href={href} $style={style} $isIconButton={isIconButton}>{children}</ButtonContainer>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

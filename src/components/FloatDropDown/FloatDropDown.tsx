@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import styled, { useTheme } from 'styled-components'
+import React, { useEffect, useRef } from 'react';
+import styled, { useTheme } from 'styled-components';
 
 /**
  * DropDownItem type for FloatDropDown
@@ -17,7 +17,7 @@ export type DropDownItem = {
   label: React.ReactNode,
   href?: string
   onClick?: () => void
-}
+};
 
 /**
  * PlaceOrientation enum for FloatDropDown
@@ -195,11 +195,11 @@ const FloatDropDown = ({
 
       if(dropDownTarget && !dropDownTarget.contains(event.target as Node)) 
         setIsOpen(false);
-    }
+    };
     document.addEventListener('click', toggleOutside);
 
-    return () => {document.removeEventListener('click', toggleOutside)};
-  }, [])
+    return () => {document.removeEventListener('click', toggleOutside);};
+  }, []);
   const theme = useTheme();
 
   return (
@@ -216,6 +216,6 @@ const FloatDropDown = ({
       </FloatDropDownMenu>
     </FloatDropDownContainer>
   );
-}
+};
 
-export default FloatDropDown
+export default FloatDropDown;

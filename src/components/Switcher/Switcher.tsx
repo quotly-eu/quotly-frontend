@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 /**
  * Switcher Component to switch between mobile and desktop components based on a breakpoint
@@ -18,7 +18,7 @@ const Switcher = ({breakpoint, mobile, desktop}:{breakpoint:string, mobile: Reac
       {!screenIsMobile && desktop}
       {screenIsMobile && mobile}
     </>
-  )
-}
+  );
+};
 
-export default Switcher
+export default Switcher;
