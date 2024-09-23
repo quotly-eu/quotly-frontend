@@ -86,6 +86,8 @@ const Quote = ({text, authorAvatarUrl, authorName, dated}:{
   authorName: string;
   dated: string;
 }) => {
+  const theme = useTheme();
+  
   return (
     <QuoteContainer>
       <Text children={text} />
@@ -101,7 +103,7 @@ const Quote = ({text, authorAvatarUrl, authorName, dated}:{
           triggerElement={<Button isIconButton={true} style={ButtonStyles.transparent}><i className="fas fa-ellipsis-vertical"></i></Button>}
           dropDownItems={quoteOptions}
           place={PlaceOrientation.BottomRight}
-          margin={useTheme().spacing.xxxs.rem}
+          margin={theme.spacing.xxxs.rem}
         />
       </Actions>
     </QuoteContainer>

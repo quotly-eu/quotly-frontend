@@ -3,6 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-import { mockMatchMedia } from './mock/window';
+import { mockMatchMedia } from './__mocks__/window';
 
+jest.mock('react-markdown');
 mockMatchMedia();
