@@ -1,7 +1,8 @@
 import React from 'react';
 import Button, { ButtonStyles } from 'components/Button/Button';
-import styled from 'styled-components';
-import AvatarImage from 'assets/img/a.jpg';
+import Markdown from 'react-markdown';
+import styled, { useTheme } from 'styled-components';
+import FloatDropDown, { DropDownItem, PlaceOrientation } from 'components/FloatDropDown/FloatDropDown';
 
 // Styles
 const QuoteContainer = styled.div`
@@ -22,9 +23,8 @@ const QuoteContainer = styled.div`
   text-align: center;
 `;
 
-const Text = styled.p`
+const Text = styled(Markdown)`
   grid-area: text;
-  font-weight: lighter;
   text-wrap: balance;
   place-self: center;
 `;
@@ -36,19 +36,15 @@ const Author = styled.span`
   ${({ theme }) => `
     color: ${theme.colors.text.gray};
     gap: ${theme.spacing.xxxs.rem};
-    font-size: ${theme.font.sizes.xs};
+    font-size: ${theme.font.sizes.xxs};
   `}
 
   align-items: center;
   justify-content: center;
 `;
 
-const AuthorName = styled.span`
-
-`;
-
 const Avatar = styled.img`
-  height: 1.75em;
+  height: 2em;
 
   border-radius: 100vmax;
 `;
@@ -59,29 +55,54 @@ const Actions = styled.div`
   flex-direction: column;
 `;
 
+const quoteOptions: DropDownItem[] = [
+  {
+    label: (<><i className='fas fa-bookmark'></i> Save</>),
+    onClick: () => {
+      console.log('Save');
+    }
+  },
+  {
+    label: (<><i className="fas fa-pencil"></i> Edit</>),
+    onClick: () => {
+      console.log('Edit');
+    }
+  },
+  {
+    label: (<><i className="fas fa-trash"></i> Delete</>),
+    onClick: () => {
+      console.log('Delete');
+    }
+  }
+];
+
 /**
  * Quote Component, the main component for the Quotly page
  * 
  */
-const Quote = () => {
+const Quote = ({text, authorAvatarUrl, authorName, dated}:{
+  text: string;
+  authorAvatarUrl: string;
+  authorName: string;
+  dated: string;
+}) => {
   return (
     <QuoteContainer>
-      <Text>
-        Daniel: "ich kann gerade nicht, meine Hände liegen da drüben"
-      </Text>
+      <Text children={text} />
       <Author>
-        <Avatar src={AvatarImage} />
-        <AuthorName>Jordan</AuthorName> 
-        •
-        vor 2 Wochen
+        <Avatar src={authorAvatarUrl} />
+        {authorName} • {dated}
       </Author>
       <Actions>
         <Button isIconButton={true} style={ButtonStyles.transparent}>
           <i className="far fa-heart"></i>
         </Button>
-        <Button isIconButton={true} style={ButtonStyles.transparent}>
-          <i className="fas fa-ellipsis-vertical"></i>
-        </Button>
+        <FloatDropDown
+          triggerElement={<Button isIconButton={true} style={ButtonStyles.transparent}><i className="fas fa-ellipsis-vertical"></i></Button>}
+          dropDownItems={quoteOptions}
+          place={PlaceOrientation.BottomRight}
+          margin={useTheme().spacing.xxxs.rem}
+        />
       </Actions>
     </QuoteContainer>
   );

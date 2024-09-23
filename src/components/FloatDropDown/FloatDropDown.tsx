@@ -153,14 +153,16 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
 `;
 
 const FloatDropDownItem = styled.a`
-  display:block;
+  display:flex;
   color: ${props => props.theme.colors.text.dark};
 
   padding: ${props => props.theme.spacing.s.rem};
+  gap: ${props => props.theme.spacing.xxs.rem};
 
   font-size: ${props => props.theme.font.sizes.ss};
 
   text-decoration: none;
+  align-items: center;
   cursor: pointer;
   transition: background-color ${props => props.theme.transition.times.s} ease-in-out;
   &:hover {
