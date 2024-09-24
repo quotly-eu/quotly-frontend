@@ -1,8 +1,13 @@
 import React from 'react';
-import Button, { ButtonStyles } from 'components/Button/Button';
-import Markdown from 'react-markdown';
 import styled, { useTheme } from 'styled-components';
-import FloatDropDown, { DropDownItem, PlaceOrientation } from 'components/FloatDropDown/FloatDropDown';
+
+import Button from 'components/Button/Button';
+import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
+import Markdown from 'react-markdown';
+
+import { ButtonStyles } from 'types/Button.type';
+import { DropDownItem, PlaceOrientation } from 'types/FloatDropDown.type';
+
 
 // Styles
 const QuoteContainer = styled.div`
@@ -12,6 +17,8 @@ const QuoteContainer = styled.div`
     "author actions";
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto;
+
+  gap: ${({ theme }) => theme.spacing.s.rem};
   ${({ theme }) => `
     background-color: ${theme.colors.accent_white_0};
     color: ${theme.colors.text.dark};
@@ -20,6 +27,7 @@ const QuoteContainer = styled.div`
 
     border-radius: ${theme.spacing.s.rem};
   `}
+
   text-align: center;
 `;
 
@@ -29,7 +37,7 @@ const Text = styled(Markdown)`
   place-self: center;
 `;
 
-const Author = styled.span`
+const Author = styled.a`
   display: flex;
   grid-area: author;
 
@@ -39,8 +47,9 @@ const Author = styled.span`
     font-size: ${theme.font.sizes.xxs};
   `}
 
+  text-decoration: none;
+  place-self: center;
   align-items: center;
-  justify-content: center;
 `;
 
 const Avatar = styled.img`
@@ -80,10 +89,11 @@ const quoteOptions: DropDownItem[] = [
  * Quote Component, the main component for the Quotly page
  * 
  */
-const Quote = ({text, authorAvatarUrl, authorName, dated}:{
+const Quote = ({text, authorAvatarUrl, authorName, authorUrl, dated}:{
   text: string;
   authorAvatarUrl: string;
   authorName: string;
+  authorUrl: string;
   dated: string;
 }) => {
   const theme = useTheme();
@@ -91,7 +101,7 @@ const Quote = ({text, authorAvatarUrl, authorName, dated}:{
   return (
     <QuoteContainer>
       <Text children={text} />
-      <Author>
+      <Author href={authorUrl}>
         <Avatar src={authorAvatarUrl} />
         {authorName} • {dated}
       </Author>
@@ -102,7 +112,7 @@ const Quote = ({text, authorAvatarUrl, authorName, dated}:{
         <FloatDropDown
           triggerElement={<Button isIconButton={true} style={ButtonStyles.transparent}><i className="fas fa-ellipsis-vertical"></i></Button>}
           dropDownItems={quoteOptions}
-          place={PlaceOrientation.BottomRight}
+          place={PlaceOrientation.Bottom}
           margin={theme.spacing.xxxs.rem}
         />
       </Actions>

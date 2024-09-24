@@ -1,48 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled, { useTheme } from 'styled-components';
 
-/**
- * DropDownItem type for FloatDropDown
- * @example
- * import FloatDropDown, { DropDownItem } from '../FloatDropDown/FloatDropDown';
- * 
- * const dropDownItems: DropDownItem[] = [
- *  {label: 'Item 1'},
- *  {label: 'Item 2'}
- * ];
- * 
- * <FloatDropDown dropDownItems={dropDownItems} />
- */
-export type DropDownItem = {
-  label: React.ReactNode,
-  href?: string
-  onClick?: () => void
-};
-
-/**
- * PlaceOrientation enum for FloatDropDown
- * @example
- * import FloatDropDown, { PlaceOrientation } from '../FloatDropDown/FloatDropDown';
- * 
- * <FloatDropDown place={PlaceOrientation.TopLeft} />
- */
-export enum PlaceOrientation {
-  TopLeft,
-  Top,
-  TopRight,
-
-  Left,
-  Center,
-  Right,
-  LeftInlineTop,
-  LeftInlineBottom,
-  RightInlineTop,
-  RightInlineBottom,
-
-  BottomLeft,
-  Bottom,
-  BottomRight,
-}
+import { PlaceOrientation, DropDownItem } from 'types/FloatDropDown.type';
 
 interface FloatDropDownProps {
   $placeOrientation?: PlaceOrientation,
@@ -56,9 +15,17 @@ const FloatDropDownContainer = styled.div`
 
 const FloatDropDownMenu = styled.div<FloatDropDownProps>`
   position:absolute;
-  background-color: ${props => props.theme.colors.accent_white_0};
 
   width: max-content;
+
+  ${({ theme }) => `
+    // background-color: ${theme.colors.accent_white_0};
+
+    border-radius: ${theme.spacing.xs.rem};
+    box-shadow: ${theme.shadows.default};
+
+    transition: all ${theme.transition.times.m} ease-in-out;
+  `}
 
   ${({$placeOrientation, $margin}:FloatDropDownProps) => {
     switch($placeOrientation) {
@@ -137,10 +104,8 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
     }
   }}
 
-  border-radius: ${props => props.theme.spacing.xs.em};
-
+  backdrop-filter: brightness(1.075) blur(15px);
   overflow:hidden;
-  box-shadow: ${props => props.theme.shadows.default};
   
   ${({$active}:FloatDropDownProps) => $active ? `
     opacity: 1;
@@ -149,24 +114,32 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
     opacity: 0;
     pointer-events: none;
   `}
-  transition: all ${props => props.theme.transition.times.m} ease-in-out;
+  z-index: 1;
 `;
 
 const FloatDropDownItem = styled.a`
   display:flex;
-  color: ${props => props.theme.colors.text.dark};
 
-  padding: ${props => props.theme.spacing.s.rem};
-  gap: ${props => props.theme.spacing.xxs.rem};
+  ${({ theme }) => `
+    color: ${theme.colors.text.dark};
 
-  font-size: ${props => props.theme.font.sizes.ss};
+    padding: ${theme.spacing.s.rem};
+    gap: ${theme.spacing.xxs.rem};
+
+    font-size: ${theme.font.sizes.ss};
+    transition: background-color ${theme.transition.times.s} ease-in-out;
+
+    &:hover {
+      background-color: ${theme.colors.transparency.black(0.05)};
+    }
+  `}
 
   text-decoration: none;
   align-items: center;
   cursor: pointer;
-  transition: background-color ${props => props.theme.transition.times.s} ease-in-out;
-  &:hover {
-    background-color: ${props => props.theme.colors.transparency.black(0.05)};
+  i {
+    width: 1.5em;
+    text-align: center;
   }
 `;
 
@@ -179,7 +152,7 @@ const FloatDropDown = ({
   dropDownItems,
   margin
 }:{
-  triggerElement: React.ReactNode,
+  triggerElement: React.ReactElement,
   place?: PlaceOrientation
   dropDownItems: DropDownItem[],
   margin?: string
@@ -190,6 +163,10 @@ const FloatDropDown = ({
   const toggleDropDownMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const cloneTriggerElement = React.cloneElement(triggerElement, {
+    onClick: toggleDropDownMenu
+  });
 
   useEffect(() => {
     const toggleOutside = (event: MouseEvent) => {
@@ -206,9 +183,7 @@ const FloatDropDown = ({
 
   return (
     <FloatDropDownContainer ref={dropDownRef}>
-      <div onClick={toggleDropDownMenu}>
-        {triggerElement}
-      </div>
+      {cloneTriggerElement}
       <FloatDropDownMenu $placeOrientation={place} $margin={margin || theme.spacing.xl.rem} $active={isOpen}>
         {dropDownItems.map((dropDownItem, index) => (
           <FloatDropDownItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>

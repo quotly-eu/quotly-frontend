@@ -19,7 +19,7 @@ import NotFound from '../../pages/NotFound/NotFound';
 const AppContainer = styled.div`
   display: grid;
 
-  min-height: inherit;
+  height: inherit;
   grid-template-areas:
     "navbar-left navbar-top"
     "navbar-left route";
@@ -42,7 +42,6 @@ const RouteContainer = styled.div`
     background-color: ${theme.colors.transparency.black(0.075)};
   
     padding: ${theme.spacing.s.rem};
-    padding-bottom: 0;
     border-top-left-radius: ${theme.spacing.l.rem};
 
     @media (max-width: ${theme.breakpoints.md}) {
@@ -50,6 +49,8 @@ const RouteContainer = styled.div`
       border-bottom-left-radius: ${theme.spacing.l.rem};
       border-bottom-right-radius: ${theme.spacing.l.rem};
     }
+
+    overflow-y: auto;
   `}
 `;
 

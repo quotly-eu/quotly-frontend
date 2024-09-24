@@ -1,10 +1,13 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
-import Button, { ButtonStyles } from '../Button/Button';
-import ProfileButton from '../ProfileButton/ProfileButton';
-import Switcher from '../Switcher/Switcher';
-import FloatDropDown, { DropDownItem, PlaceOrientation } from '../FloatDropDown/FloatDropDown';
+import Button from 'components/Button/Button';
+import ProfileButton from 'components/ProfileButton/ProfileButton';
+import Switcher from 'components/Switcher/Switcher';
+import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
+
+import { ButtonStyles } from 'types/Button.type';
+import { DropDownItem, PlaceOrientation } from 'types/FloatDropDown.type';
 
 // Styles
 const NavbarLeftContainer = styled.div`

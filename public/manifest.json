@@ -1,6 +1,6 @@
 {
   "short_name": "Quotly",
-  "name": "Quotly - The best quotes in the world",
+  "name": "Quotly - A simple web app that allows you to create and share funny quotes.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,12 +21,12 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "description": "The best quotes in the world",
+  "theme_color": "#ebf3fa",
+  "background_color": "#ebf3fa",
+  "description": "Quotly is a simple web app that allows you to create and share funny quotes.",
   "lang": "en",
   "dir": "auto",
-  "orientation": "any",
+  "orientation": "portrait",
   "prefer_related_applications": false,
   "id": "quotly_app",
   "categories": [

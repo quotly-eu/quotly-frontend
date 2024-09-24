@@ -1,21 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// Types
-/**
- * ButtonStyles
- * @example
- * import Button, { ButtonStyles } from '../Button/Button';
- * 
- * <Button style={ButtonStyles.primary}>Primary</Button>
- */
-export enum ButtonStyles {
-  default = 'default',
-  primary = 'primary',
-  secondary = 'secondary',
-  transparent = 'transparent',
-}
+import { ButtonStyles } from 'types/Button.type';
 
+// Types
 interface ButtonProps {
   $style?: ButtonStyles,
   $isIconButton?: boolean,
@@ -110,14 +98,15 @@ const ButtonContainer = styled.a<ButtonProps>`
 /**
  * Button and Icon Button Component
  */
-const Button = ({children, href=undefined, isIconButton=false, style=ButtonStyles.default }:{
+const Button = ({children, href=undefined, onClick, isIconButton=false, style=ButtonStyles.default }:{
   children?: React.ReactNode,
   href?: string,
+  onClick?: () => void,
   isIconButton?: boolean,
   style?: ButtonStyles,
 }) => {
   return (
-    <ButtonContainer href={href} $style={style} $isIconButton={isIconButton}>{children}</ButtonContainer>
+    <ButtonContainer href={href} $style={style} $isIconButton={isIconButton} onClick={onClick}>{children}</ButtonContainer>
   );
 };
 

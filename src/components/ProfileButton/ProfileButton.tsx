@@ -21,9 +21,11 @@ const ProfileImage = styled.img`
 /**
  * Profile Button Component
  */
-const ProfileButton = () => {
+const ProfileButton = ({onClick}:{
+  onClick?: () => void
+}) => {
   return (
-    <ProfileContainer>
+    <ProfileContainer onClick={onClick}>
       <ProfileImage src={preview} alt='' />
     </ProfileContainer>
   );
