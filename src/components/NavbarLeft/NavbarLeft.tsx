@@ -1,13 +1,15 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
+
 import Button from 'components/Button/Button';
 import ProfileButton from 'components/ProfileButton/ProfileButton';
 import Switcher from 'components/Switcher/Switcher';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 
-import { ButtonStyles } from 'types/Button.type';
-import { DropDownItem, PlaceOrientation } from 'types/FloatDropDown.type';
+import { ButtonStyles } from 'components/Button/Button.type';
+import { DropDownItem, PlaceOrientation } from 'components/FloatDropDown/FloatDropDown.type';
+
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -142,14 +144,14 @@ const NavbarLeft = () => {
           mobile={
             <FloatDropDown
               place={PlaceOrientation.TopRight}
-              triggerElement={<ProfileButton />}
+              triggerElement={<ProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
             />
           }
           desktop={
             <FloatDropDown
               place={PlaceOrientation.RightInlineBottom}
-              triggerElement={<ProfileButton />}
+              triggerElement={<ProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
             />
           } />

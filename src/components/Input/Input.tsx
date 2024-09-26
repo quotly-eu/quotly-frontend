@@ -52,15 +52,16 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
 /**
  * Input Component with Icon
  */
-const Input = ({ id, name, placeholder, iconClass }:{
+const Input = ({ id, name, placeholder, iconClass, testing }:{
   id?: string,
   name?: string
   placeholder?: string
-  iconClass?: string
+  iconClass?: string,
+  testing?: boolean
 }) => {
   return (
     <InputContainer $hasIcon={iconClass !== undefined}>
-      {iconClass && <label htmlFor={id}><i className={iconClass}></i></label>}
+      {iconClass && <label htmlFor={id} data-testid={testing && "label"}><i className={iconClass} data-testid={testing && "icon"}></i></label>}
       <input id={id} name={name} placeholder={placeholder}  />
     </InputContainer>
   );

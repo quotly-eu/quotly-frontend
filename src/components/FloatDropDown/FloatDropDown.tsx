@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled, { useTheme } from 'styled-components';
 
-import { PlaceOrientation, DropDownItem } from 'types/FloatDropDown.type';
+import { PlaceOrientation, DropDownItem } from './FloatDropDown.type';
 
 interface FloatDropDownProps {
   $placeOrientation?: PlaceOrientation,
@@ -150,12 +150,14 @@ const FloatDropDown = ({
   triggerElement,
   place=PlaceOrientation.TopLeft, 
   dropDownItems,
-  margin
+  margin,
+  "data-testid": dataTestId
 }:{
   triggerElement: React.ReactElement,
   place?: PlaceOrientation
   dropDownItems: DropDownItem[],
-  margin?: string
+  margin?: string,
+  'data-testid'?: string
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
@@ -184,7 +186,7 @@ const FloatDropDown = ({
   return (
     <FloatDropDownContainer ref={dropDownRef}>
       {cloneTriggerElement}
-      <FloatDropDownMenu $placeOrientation={place} $margin={margin || theme.spacing.xl.rem} $active={isOpen}>
+      <FloatDropDownMenu $placeOrientation={place} $margin={margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
         {dropDownItems.map((dropDownItem, index) => (
           <FloatDropDownItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>
             {dropDownItem.label}

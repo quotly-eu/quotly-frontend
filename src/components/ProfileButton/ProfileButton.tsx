@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import preview from 'assets/img/a.jpg';
-
 // Styles
-const ProfileContainer = styled.div`
-
-`;
+const ProfileContainer = styled.div``;
 
 const ProfileImage = styled.img`
   background-color: ${props => props.theme.colors.transparency.black(0.05)};
@@ -21,12 +17,14 @@ const ProfileImage = styled.img`
 /**
  * Profile Button Component
  */
-const ProfileButton = ({onClick}:{
+const ProfileButton = ({src, alt, onClick}:{
+  src: string,
+  alt?: string,
   onClick?: () => void
 }) => {
   return (
     <ProfileContainer onClick={onClick}>
-      <ProfileImage src={preview} alt='' />
+      <ProfileImage src={src} alt={alt} />
     </ProfileContainer>
   );
 };

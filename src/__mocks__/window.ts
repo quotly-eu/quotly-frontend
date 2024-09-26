@@ -6,7 +6,7 @@ export const mockMatchMedia = () => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: jest.fn().mockImplementation((query) => ({
-        matches: false,
+        matches: query == "(max-width: mockMobile)",
         media: query,
         onchange: null,
         addListener: jest.fn(),

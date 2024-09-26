@@ -5,8 +5,8 @@ import Button from 'components/Button/Button';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 import Markdown from 'react-markdown';
 
-import { ButtonStyles } from 'types/Button.type';
-import { DropDownItem, PlaceOrientation } from 'types/FloatDropDown.type';
+import { ButtonStyles } from 'components/Button/Button.type';
+import { DropDownItem, PlaceOrientation } from 'components/FloatDropDown/FloatDropDown.type';
 
 
 // Styles
@@ -26,6 +26,11 @@ const QuoteContainer = styled.div`
     padding: ${theme.spacing.m.rem};
 
     border-radius: ${theme.spacing.s.rem};
+
+    @media (max-width: ${theme.breakpoints.md}) {
+      font-size: ${theme.font.sizes.xs};
+      padding: ${theme.spacing.s.rem};
+    }
   `}
 
   text-align: center;
@@ -45,6 +50,10 @@ const Author = styled.a`
     color: ${theme.colors.text.gray};
     gap: ${theme.spacing.xxxs.rem};
     font-size: ${theme.font.sizes.xxs};
+
+    @media (max-width: ${theme.breakpoints.md}) {
+      font-size: ${theme.font.sizes.xxxs};
+    }
   `}
 
   text-decoration: none;

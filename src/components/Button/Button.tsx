@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ButtonStyles } from 'types/Button.type';
+import { ButtonStyles } from './Button.type';
 
 // Types
 interface ButtonProps {
