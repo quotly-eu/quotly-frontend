@@ -4,6 +4,7 @@ import styled, { useTheme } from 'styled-components';
 import Button from 'components/Button/Button';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 import Markdown from 'react-markdown';
+import { Icon } from '@iconify/react';
 
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem, PlaceOrientation } from 'components/FloatDropDown/FloatDropDown.type';
@@ -71,11 +72,12 @@ const Actions = styled.div`
   grid-area: actions;
   display: flex;
   flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xxs.rem};
 `;
 
 const quoteOptions: DropDownItem[] = [
   {
-    label: (<><i className='fas fa-bookmark'></i> Save</>),
+    label: (<><i className='far fa-bookmark'></i> Save</>),
     onClick: () => {
       console.log('Save');
     }
@@ -115,15 +117,15 @@ const Quote = ({text, authorAvatarUrl, authorName, authorUrl, dated}:{
         {authorName} • {dated}
       </Author>
       <Actions>
-        <Button isIconButton={true} style={ButtonStyles.transparent}>
-          <i className="far fa-heart"></i>
-        </Button>
         <FloatDropDown
-          triggerElement={<Button isIconButton={true} style={ButtonStyles.transparent}><i className="fas fa-ellipsis-vertical"></i></Button>}
+          triggerElement={<Button isIconButton={true} style={ButtonStyles.transparent}><i className="fas fa-ellipsis"></i></Button>}
           dropDownItems={quoteOptions}
-          place={PlaceOrientation.Bottom}
-          margin={theme.spacing.xxxs.rem}
+          place={PlaceOrientation.InsetTopRight}
+          margin={"-"+theme.spacing.xxxs.rem}
         />
+        <Button isIconButton={true} style={ButtonStyles.default}>
+          <Icon icon="fluent-emoji:red-heart" height="100%" />
+        </Button>
       </Actions>
     </QuoteContainer>
   );

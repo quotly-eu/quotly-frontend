@@ -21,6 +21,17 @@ export enum PlaceOrientation {
   BottomLeft,
   Bottom,
   BottomRight,
+
+  InsetTopLeft,
+  InsetTop,
+  InsetTopRight,
+
+  InsetLeft,
+  InsetRight,
+  
+  InsetBottomLeft,
+  InsetBottom,
+  InsetBottomRight
 }
 
 /**

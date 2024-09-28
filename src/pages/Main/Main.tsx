@@ -27,6 +27,20 @@ const Main = () => {
         authorAvatarUrl='https://xsgames.co/randomusers/avatar.php?g=male'
         dated="vor 2 Wochen"
       />
+      <Quote 
+        text={`**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`}
+        authorName="Daniel"
+        authorUrl="/"
+        authorAvatarUrl='https://xsgames.co/randomusers/avatar.php?g=male'
+        dated="vor 2 Wochen"
+      />
+      <Quote 
+        text={`**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`}
+        authorName="Daniel"
+        authorUrl="/"
+        authorAvatarUrl='https://xsgames.co/randomusers/avatar.php?g=male'
+        dated="vor 2 Wochen"
+      />
     </MainContainer>
   );
 };

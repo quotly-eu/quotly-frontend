@@ -19,11 +19,8 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
   width: max-content;
 
   ${({ theme }) => `
-    // background-color: ${theme.colors.accent_white_0};
-
     border-radius: ${theme.spacing.xs.rem};
     box-shadow: ${theme.shadows.default};
-
     transition: all ${theme.transition.times.m} ease-in-out;
   `}
 
@@ -45,6 +42,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
           bottom: calc(100% + ${$margin});
           right: 0;
         `;
+
       case PlaceOrientation.Left: 
         return `
           bottom: 50%;
@@ -63,6 +61,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
           left: calc(100% + ${$margin});
           translate: 0 50%;
         `;
+
       case PlaceOrientation.LeftInlineTop:
         return `
           top: 0;
@@ -73,6 +72,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
           bottom: 0;
           right: calc(100% + ${$margin});
         `;
+
       case PlaceOrientation.RightInlineTop:
         return `
           top: 0;
@@ -83,6 +83,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
           bottom: 0;
           left: calc(100% + ${$margin});
         `;
+
       case PlaceOrientation.BottomLeft:
         return `
           top: calc(100% + ${$margin});
@@ -99,13 +100,57 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
           top: calc(100% + ${$margin});
           right: 0;
         `;
+
+      case PlaceOrientation.InsetTopLeft:
+        return `
+          top: ${$margin};
+          left: ${$margin};
+        `;
+      case PlaceOrientation.InsetTop:
+        return `
+          top: ${$margin};
+          left: 50%;
+          translate: -50% 0;
+        `;
+      case PlaceOrientation.InsetTopRight:
+        return `
+          top: ${$margin};
+          right: ${$margin};
+        `;
+
+      case PlaceOrientation.InsetLeft:
+        return `
+          top: 50%;
+          right: ${$margin};
+          translate: 0 50%;
+        `;
+      case PlaceOrientation.InsetRight:
+        return `
+          top: 50%;
+          left: ${$margin};
+          translate: 0 50%;
+        `;
+
+      case PlaceOrientation.InsetBottomLeft:
+        return `
+          bottom: ${$margin};
+          left: ${$margin};
+        `;
+      case PlaceOrientation.InsetBottom:
+        return `
+          bottom: ${$margin};
+          left: 50%;
+          translate: -50% 0;
+        `;
+      case PlaceOrientation.InsetBottomRight:
+        return `
+          bottom: ${$margin};
+          right: ${$margin};
+        `;
       default:
         return ``;
     }
   }}
-
-  backdrop-filter: brightness(1.075) blur(15px);
-  overflow:hidden;
   
   ${({$active}:FloatDropDownProps) => $active ? `
     opacity: 1;
@@ -114,7 +159,10 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
     opacity: 0;
     pointer-events: none;
   `}
+
+  overflow:hidden;
   z-index: 1;
+  backdrop-filter: brightness(1.075) blur(25px);
 `;
 
 const FloatDropDownItem = styled.a`
@@ -123,7 +171,7 @@ const FloatDropDownItem = styled.a`
   ${({ theme }) => `
     color: ${theme.colors.text.dark};
 
-    padding: ${theme.spacing.s.rem};
+    padding: ${theme.spacing.xs.rem};
     gap: ${theme.spacing.xxs.rem};
 
     font-size: ${theme.font.sizes.ss};
@@ -159,6 +207,7 @@ const FloatDropDown = ({
   margin?: string,
   'data-testid'?: string
 }) => {
+  const theme = useTheme();
   const [isOpen, setIsOpen] = React.useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -173,26 +222,26 @@ const FloatDropDown = ({
   useEffect(() => {
     const toggleOutside = (event: MouseEvent) => {
       const dropDownTarget = dropDownRef.current;
-
       if(dropDownTarget && !dropDownTarget.contains(event.target as Node)) 
         setIsOpen(false);
     };
     document.addEventListener('click', toggleOutside);
 
+    console.log('FloatDropDown mounted');
+
     return () => {document.removeEventListener('click', toggleOutside);};
-  }, []);
-  const theme = useTheme();
+  });
 
   return (
     <FloatDropDownContainer ref={dropDownRef}>
       {cloneTriggerElement}
-      <FloatDropDownMenu $placeOrientation={place} $margin={margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
-        {dropDownItems.map((dropDownItem, index) => (
-          <FloatDropDownItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>
-            {dropDownItem.label}
-          </FloatDropDownItem>
-        ))}
-      </FloatDropDownMenu>
+        <FloatDropDownMenu $placeOrientation={place} $margin={margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
+          {dropDownItems.map((dropDownItem, index) => (
+            <FloatDropDownItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>
+              {dropDownItem.label}
+            </FloatDropDownItem>
+          ))}
+        </FloatDropDownMenu>
     </FloatDropDownContainer>
   );
 };
