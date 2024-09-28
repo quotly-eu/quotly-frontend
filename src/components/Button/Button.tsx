@@ -87,15 +87,16 @@ const ButtonContainer = styled.a<ButtonProps>`
 /**
  * Button and Icon Button Component
  */
-const Button = ({children, href=undefined, onClick, isIconButton=false, style=ButtonStyles.default }:{
+const Button = ({children, href=undefined, isIconButton=false, style=ButtonStyles.default, title, onClick }:{
   children?: React.ReactNode,
   href?: string,
-  onClick?: () => void,
-  isIconButton?: boolean,
   style?: ButtonStyles,
+  isIconButton?: boolean,
+  title?: string,
+  onClick?: () => void,
 }) => {
   return (
-    <ButtonContainer href={href} $style={style} $isIconButton={isIconButton} onClick={onClick}>{children}</ButtonContainer>
+    <ButtonContainer href={href} $style={style} $isIconButton={isIconButton} onClick={onClick} title={title}>{children}</ButtonContainer>
   );
 };
 
