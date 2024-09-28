@@ -227,8 +227,6 @@ const FloatDropDown = ({
     };
     document.addEventListener('click', toggleOutside);
 
-    console.log('FloatDropDown mounted');
-
     return () => {document.removeEventListener('click', toggleOutside);};
   });
 
