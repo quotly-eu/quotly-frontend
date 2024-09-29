@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react';
 
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem, PlaceOrientation } from 'components/FloatDropDown/FloatDropDown.type';
+import ButtonPalette from 'components/ButtonPalette/ButtonPalette';
 
 
 // Styles
@@ -123,9 +124,17 @@ const Quote = ({text, authorAvatarUrl, authorName, authorUrl, dated}:{
           place={PlaceOrientation.InsetTopRight}
           margin={"-"+theme.spacing.xxxs.rem}
         />
-        <Button isIconButton={true} style={ButtonStyles.default}>
-          <Icon icon="fluent-emoji:red-heart" height="100%" />
-        </Button>
+        <ButtonPalette triggerElement={
+          <Button isIconButton={true} style={ButtonStyles.default}>
+            <Icon icon="fluent-emoji:thumbs-up" height="100%" />
+          </Button>
+        } buttons={[
+          <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:red-heart" height="100%" />} />,
+          <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:thumbs-up" height="100%" />} />,
+          <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:face-with-tears-of-joy" height="100%" />} />,
+          <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:melting-face" height="100%" />} />,
+          <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:skull" height="100%" />} />,
+        ]} />
       </Actions>
     </QuoteContainer>
   );
