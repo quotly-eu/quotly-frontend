@@ -12,8 +12,7 @@ const ButtonPaletteContainer = styled.div`
 
 const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
   position: absolute;
-  display: inline-grid;
-  grid-auto-flow: column;
+  display: flex;
 
   right: 0;
   top: 50%;
@@ -21,16 +20,12 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
 
   border-radius: 100vmax;
   justify-content: start;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
   ${({ theme, $active }) => `
-
-
     width: fit-content;
-    gap: ${theme.spacing.xxs.rem};
-    padding: ${theme.spacing.xxxs.rem};
 
     box-shadow: ${theme.shadows.default}, inset ${theme.shadows.default};
-    backdrop-filter: brightness(1.075) blur(25px);
+    backdrop-filter: brightness(1.075) blur(10px);
     ${$active ? `
       opacity: 1;
       pointer-events: all;
@@ -44,7 +39,7 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
 
 /**
  * ButtonPalette Component to display a list of buttons
- * @property {typeof Button[]} buttons - Array of buttons to display
+ * @param {ReactElement<typeof Button>[]} buttons - Array of buttons to display
  * @example
  * <ButtonPalette buttons={[
  *  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:red-heart" height="100%" />} />,
@@ -59,7 +54,6 @@ const ButtonPalette = ({triggerElement, buttons}:{
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
-    console.log('toggleMenu');
     setIsOpen(!isOpen);
   };
 
@@ -72,7 +66,6 @@ const ButtonPalette = ({triggerElement, buttons}:{
       const menuTarget = menuRef.current;
       if(menuTarget && !menuTarget.contains(event.target as Node)) 
         setIsOpen(false);
-      console.log('toggleOutside');
     };
     document.addEventListener('click', toggleOutside);
 
