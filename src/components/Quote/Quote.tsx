@@ -7,8 +7,9 @@ import Markdown from 'react-markdown';
 import { Icon } from '@iconify/react';
 
 import { ButtonStyles } from 'components/Button/Button.type';
-import { DropDownItem, PlaceOrientation } from 'components/FloatDropDown/FloatDropDown.type';
+import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
 import ButtonPalette from 'components/ButtonPalette/ButtonPalette';
+import { PlaceOrientation } from 'types/placeOrientation.type';
 
 
 // Styles
@@ -134,7 +135,10 @@ const Quote = ({text, authorAvatarUrl, authorName, authorUrl, dated}:{
           <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:face-with-tears-of-joy" height="100%" />} />,
           <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:melting-face" height="100%" />} />,
           <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:skull" height="100%" />} />,
-        ]} />
+        ]} 
+          place={PlaceOrientation.InsetRight}
+          startMargin={theme.spacing.xs.rem}
+        />
       </Actions>
     </QuoteContainer>
   );

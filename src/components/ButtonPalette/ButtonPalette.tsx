@@ -1,8 +1,10 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Button from 'components/Button/Button';
+import { placeOrientation } from 'utils/placeOrientation';
+import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
 
-interface ButtonPaletteProps {
+interface ButtonPaletteProps extends PlaceOrientationProps {
   $active: boolean;
 }
 
@@ -13,10 +15,7 @@ const ButtonPaletteContainer = styled.div`
 const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
   position: absolute;
   display: flex;
-
-  right: 0;
-  top: 50%;
-  translate: 10px -50%;
+  ${placeOrientation}
 
   border-radius: 100vmax;
   justify-content: start;
@@ -29,10 +28,10 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
     ${$active ? `
       opacity: 1;
       pointer-events: all;
-      translate: 0 -50%;
       ` : `
       opacity: 0;
       pointer-events: none;
+      scale: 0.95 1;
     `}
   `}
 `;
@@ -46,8 +45,11 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
  *  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:thumbs-up" height="100%" />} />,
  * ]} />
  */
-const ButtonPalette = ({triggerElement, buttons}:{
+const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin="0rem", startMargin="0rem"}:{
   triggerElement: ReactElement;
+  place?: PlaceOrientation;
+  margin?: string;
+  startMargin?: string;
   buttons: ReactElement<typeof Button>[]
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,7 +77,7 @@ const ButtonPalette = ({triggerElement, buttons}:{
   return (
     <ButtonPaletteContainer ref={menuRef}>
       {cloneTriggerElement}
-      <ButtonPaletteMenu $active={isOpen}>
+      <ButtonPaletteMenu $active={isOpen} $margin={isOpen ? margin : startMargin} $placeOrientation={place}>
         {buttons}
       </ButtonPaletteMenu>
     </ButtonPaletteContainer>

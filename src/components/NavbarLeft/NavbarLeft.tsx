@@ -8,7 +8,8 @@ import Switcher from 'components/Switcher/Switcher';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 
 import { ButtonStyles } from 'components/Button/Button.type';
-import { DropDownItem, PlaceOrientation } from 'components/FloatDropDown/FloatDropDown.type';
+import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
+import { PlaceOrientation } from 'types/placeOrientation.type';
 
 
 // Styles
@@ -117,6 +118,7 @@ const NavbarLeft = () => {
           place={PlaceOrientation.TopLeft}
           triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
           dropDownItems={DropDownItems}
+          startMargin={theme.spacing.l.rem}
         />
       </Top>
       <Center>
@@ -128,6 +130,7 @@ const NavbarLeft = () => {
               place={PlaceOrientation.Right}
               triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
               dropDownItems={DropDownItems}
+              startMargin={theme.spacing.l.rem}
             />
           }
         />
@@ -146,6 +149,7 @@ const NavbarLeft = () => {
               place={PlaceOrientation.TopRight}
               triggerElement={<ProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
+              startMargin={theme.spacing.l.rem}
             />
           }
           desktop={
@@ -153,6 +157,7 @@ const NavbarLeft = () => {
               place={PlaceOrientation.RightInlineBottom}
               triggerElement={<ProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
+              startMargin={theme.spacing.l.rem}
             />
           } />
       </Bottom>

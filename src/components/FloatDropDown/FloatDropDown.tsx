@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import styled, { useTheme } from 'styled-components';
 
-import { PlaceOrientation, DropDownItem } from './FloatDropDown.type';
+import { DropDownItem } from './FloatDropDown.type';
+import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
+import { placeOrientation } from 'utils/placeOrientation';
 
-interface FloatDropDownProps {
-  $placeOrientation?: PlaceOrientation,
-  $margin?: string,
+interface FloatDropDownProps extends PlaceOrientationProps {
   $active?: boolean
 }
 
@@ -24,133 +24,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
     transition: all ${theme.transition.times.m} ease-in-out;
   `}
 
-  ${({$placeOrientation, $margin}:FloatDropDownProps) => {
-    switch($placeOrientation) {
-      case PlaceOrientation.TopLeft: 
-        return `
-          bottom: calc(100% + ${$margin});
-          left: 0;
-        `;
-      case PlaceOrientation.Top: 
-        return `
-          bottom: calc(100% + ${$margin});
-          left: 50%;
-          translate: -50% 0;
-        `;
-      case PlaceOrientation.TopRight: 
-        return `
-          bottom: calc(100% + ${$margin});
-          right: 0;
-        `;
-
-      case PlaceOrientation.Left: 
-        return `
-          bottom: 50%;
-          right: calc(100% + ${$margin});
-          translate: 0 50%;
-        `;
-      case PlaceOrientation.Center:
-        return `
-          bottom: 50%;
-          left: calc(50% + ${$margin});
-          translate: -50% 50%;
-        `;
-      case PlaceOrientation.Right:
-        return `
-          bottom: 50%;
-          left: calc(100% + ${$margin});
-          translate: 0 50%;
-        `;
-
-      case PlaceOrientation.LeftInlineTop:
-        return `
-          top: 0;
-          right: calc(100% + ${$margin});
-        `;
-      case PlaceOrientation.LeftInlineBottom:
-        return `
-          bottom: 0;
-          right: calc(100% + ${$margin});
-        `;
-
-      case PlaceOrientation.RightInlineTop:
-        return `
-          top: 0;
-          left: calc(100% + ${$margin});
-        `;
-      case PlaceOrientation.RightInlineBottom:
-        return `
-          bottom: 0;
-          left: calc(100% + ${$margin});
-        `;
-
-      case PlaceOrientation.BottomLeft:
-        return `
-          top: calc(100% + ${$margin});
-          left:0;
-        `;
-      case PlaceOrientation.Bottom:
-        return `
-          top: calc(100% + ${$margin});
-          left: 50%;
-          translate: -50% 0;
-        `;
-      case PlaceOrientation.BottomRight:
-        return `
-          top: calc(100% + ${$margin});
-          right: 0;
-        `;
-
-      case PlaceOrientation.InsetTopLeft:
-        return `
-          top: ${$margin};
-          left: ${$margin};
-        `;
-      case PlaceOrientation.InsetTop:
-        return `
-          top: ${$margin};
-          left: 50%;
-          translate: -50% 0;
-        `;
-      case PlaceOrientation.InsetTopRight:
-        return `
-          top: ${$margin};
-          right: ${$margin};
-        `;
-
-      case PlaceOrientation.InsetLeft:
-        return `
-          top: 50%;
-          right: ${$margin};
-          translate: 0 50%;
-        `;
-      case PlaceOrientation.InsetRight:
-        return `
-          top: 50%;
-          left: ${$margin};
-          translate: 0 50%;
-        `;
-
-      case PlaceOrientation.InsetBottomLeft:
-        return `
-          bottom: ${$margin};
-          left: ${$margin};
-        `;
-      case PlaceOrientation.InsetBottom:
-        return `
-          bottom: ${$margin};
-          left: 50%;
-          translate: -50% 0;
-        `;
-      case PlaceOrientation.InsetBottomRight:
-        return `
-          bottom: ${$margin};
-          right: ${$margin};
-        `;
-      default:
-        return ``;
-    }
-  }}
+  ${placeOrientation}
   
   ${({$active}:FloatDropDownProps) => $active ? `
     opacity: 1;
@@ -158,6 +32,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
     ` : `
     opacity: 0;
     pointer-events: none;
+    scale: 1 0.9;
   `}
 
   overflow:hidden;
@@ -199,12 +74,14 @@ const FloatDropDown = ({
   place=PlaceOrientation.TopLeft, 
   dropDownItems,
   margin,
+  startMargin,
   "data-testid": dataTestId
 }:{
   triggerElement: React.ReactElement,
   place?: PlaceOrientation
   dropDownItems: DropDownItem[],
   margin?: string,
+  startMargin?: string,
   'data-testid'?: string
 }) => {
   const theme = useTheme();
@@ -233,7 +110,7 @@ const FloatDropDown = ({
   return (
     <FloatDropDownContainer ref={dropDownRef}>
       {cloneTriggerElement}
-        <FloatDropDownMenu $placeOrientation={place} $margin={margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
+        <FloatDropDownMenu $placeOrientation={place} $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
           {dropDownItems.map((dropDownItem, index) => (
             <FloatDropDownItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>
               {dropDownItem.label}

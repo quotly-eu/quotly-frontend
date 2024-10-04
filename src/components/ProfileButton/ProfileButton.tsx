@@ -6,6 +6,8 @@ const ProfileContainer = styled.div``;
 
 const ProfileImage = styled.img`
   background-color: ${props => props.theme.colors.transparency.black(0.05)};
+  -webkit-tap-highlight-color: transparent;
+  
   width: ${props => props.theme.spacing.xxl.rem};
   height: ${props => props.theme.spacing.xxl.rem};
 
