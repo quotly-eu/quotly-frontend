@@ -6,6 +6,8 @@ import { ButtonStyles } from './Button.type';
 // Types
 interface ButtonProps {
   $style?: ButtonStyles,
+  $padding?: string,
+  $width?: string,
   $isIconButton?: boolean,
 }
 
@@ -59,14 +61,14 @@ const ButtonContainer = styled.a<ButtonProps>`
         `;
     }
   }}
-  ${({$isIconButton, theme}) => 
+  ${({$isIconButton, $padding, $width, theme}) => 
     $isIconButton ? 
       `
-        padding: ${theme.spacing.xs.rem};
-        width: ${theme.spacing.xxl.rem};
-        height: ${theme.spacing.xxl.rem};
+        padding: ${$padding || theme.spacing.xs.rem};
+        width: ${$width || theme.spacing.xxl.rem};
+        height: ${$width || theme.spacing.xxl.rem};
       ` : `
-        padding: ${theme.spacing.xxs.rem} ${theme.spacing.m.rem};
+        padding: ${$padding || `${theme.spacing.xxs.rem} ${theme.spacing.m.rem}`};
       `
   }
   gap: ${props => props.theme.spacing.xxs.rem};
@@ -87,16 +89,18 @@ const ButtonContainer = styled.a<ButtonProps>`
 /**
  * Button and Icon Button Component
  */
-const Button = ({children, href=undefined, isIconButton=false, style=ButtonStyles.default, title, onClick }:{
+const Button = ({children, href=undefined, isIconButton=false, style=ButtonStyles.default, padding, width, title, onClick}:{
   children?: React.ReactNode,
   href?: string,
   style?: ButtonStyles,
+  padding?: string,
+  width?: string
   isIconButton?: boolean,
   title?: string,
   onClick?: () => void,
 }) => {
   return (
-    <ButtonContainer href={href} $style={style} $isIconButton={isIconButton} onClick={onClick} title={title}>{children}</ButtonContainer>
+    <ButtonContainer href={href} $style={style} $padding={padding} $width={width} $isIconButton={isIconButton} onClick={onClick} title={title}>{children}</ButtonContainer>
   );
 };
 

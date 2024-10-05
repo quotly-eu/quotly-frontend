@@ -20,8 +20,8 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
   border-radius: 100vmax;
   justify-content: start;
   transition: all 0.3s ease-in-out;
+  z-index: 1;
   ${({ theme, $active }) => `
-    width: fit-content;
 
     box-shadow: ${theme.shadows.default}, inset ${theme.shadows.default};
     backdrop-filter: brightness(1.075) blur(10px);
@@ -45,12 +45,13 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
  *  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:thumbs-up" height="100%" />} />,
  * ]} />
  */
-const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin="0rem", startMargin="0rem"}:{
+const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin="0rem", startMargin="0rem", alwaysOpen=false}:{
   triggerElement: ReactElement;
   place?: PlaceOrientation;
   margin?: string;
   startMargin?: string;
-  buttons: ReactElement<typeof Button>[]
+  buttons: ReactElement<typeof Button>[];
+  alwaysOpen?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -77,7 +78,11 @@ const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLef
   return (
     <ButtonPaletteContainer ref={menuRef}>
       {cloneTriggerElement}
-      <ButtonPaletteMenu $active={isOpen} $margin={isOpen ? margin : startMargin} $placeOrientation={place}>
+      <ButtonPaletteMenu 
+        $active={alwaysOpen || isOpen} 
+        $margin={isOpen ? margin : startMargin} 
+        $placeOrientation={place}
+      >
         {buttons}
       </ButtonPaletteMenu>
     </ButtonPaletteContainer>

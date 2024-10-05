@@ -1,4 +1,15 @@
+<p align=center>
+  <img src="https://img.shields.io/github/package-json/v/quotly-eu/quotly-frontend/main?color=%232663e9&logo=npm" alt="quotly-frontend stable version" />
+  <a href="https://github.com/quotly-eu/quotly-frontend/actions/workflows/global.yaml">
+    <img src="https://img.shields.io/github/actions/workflow/status/quotly-eu/quotly-frontend/global.yaml?logo=github&label=Quotly%20Frontend%20Pipeline&color=%232663e9" alt="CI/CD" />
+  </a>
+  <a href="./LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg?color=%232663e9" alt="quotly-frontend is released under the MIT license." />
+  </a>
+</p>
+
 # Getting Started with quotly-frontend
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
