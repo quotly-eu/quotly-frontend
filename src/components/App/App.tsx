@@ -61,17 +61,18 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AppContainer>
-        <GlobalStyle />
-        <NavbarTop />
-        <NavbarLeft />
-        <RouteContainer>
-          <BrowserRouter>
+        
+        <BrowserRouter>
+          <GlobalStyle />
+          <NavbarTop />
+          <NavbarLeft />
+          <RouteContainer>
             <Routes>
               <Route index element={<Main />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrowserRouter>
-        </RouteContainer>
+          </RouteContainer>
+        </BrowserRouter>
       </AppContainer>
     </ThemeProvider>
   );

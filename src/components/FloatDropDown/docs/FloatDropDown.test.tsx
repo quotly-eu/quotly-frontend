@@ -65,7 +65,9 @@ describe("FloatDropDown", () => {
         dropDownItems={dropDownItems}
       />
     );
-    getByText("Test").click();
+    act(() => {
+      getByText("Test").click();
+    });
     expect(onClick).toHaveBeenCalledTimes(1);
   });
   it("has href", () => { 

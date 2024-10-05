@@ -8,7 +8,7 @@ import Switcher from 'components/Switcher/Switcher';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 
 import { ButtonStyles } from 'components/Button/Button.type';
-import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
+import { DropDownItem, DropDownItemType } from 'components/FloatDropDown/FloatDropDown.type';
 import { PlaceOrientation } from 'types/placeOrientation.type';
 
 
@@ -81,6 +81,7 @@ const DropDownItems: DropDownItem[] = [
   {
     label: (<><i className="fa-solid fa-home"></i> Home</>),
     href: '/',
+    type: DropDownItemType.LINK,
   },
   {
     label: (<><i className="fa-solid fa-fire"></i> Trends</>)
@@ -91,14 +92,17 @@ const ProfileDropDownItems: DropDownItem[] = [
   {
     label: (<><i className="fa-solid fa-user"></i> Profile</>),
     href: '/profile',
+    type: DropDownItemType.LINK,
   },
   {
     label: (<><i className="fa-solid fa-cog"></i> Settings</>),
     href: '/settings',
+    type: DropDownItemType.LINK,
   },
   {
     label: (<><i className="fa-solid fa-sign-out"></i> Logout</>),
     href: '/logout',
+    type: DropDownItemType.LINK,
   }
 ];
 

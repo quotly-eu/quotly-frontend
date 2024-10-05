@@ -6,11 +6,17 @@ describe("Quote", () => {
   it("renders", () => {
     expect(render(
       <Quote 
-        text={`**Test:** "test"`}
-        authorName="Author"
-        authorUrl="/"
-        authorAvatarUrl='/'
-        dated="vor 2 Tagen"
+      quote={{
+        id: '1',
+        text: `**Test**`,
+        url: '/',
+        dated: '2 days ago'
+      }}
+      author={{
+        name: 'Author',
+        avatarUrl: '/',
+        url: '/'
+      }}
       />
     )).not.toBeNull();
   });
@@ -18,11 +24,17 @@ describe("Quote", () => {
     const text = `**Test:** "test"`;
     const { getByText } = render(
       <Quote 
-        text={text}
-        authorName="Author"
-        authorUrl="/"
-        authorAvatarUrl='/'
-        dated="vor 2 Tagen"
+        quote={{
+          id: '1',
+          text: text,
+          url: '/',
+          dated: '2 days ago'
+        }}
+        author={{
+          name: 'Author',
+          avatarUrl: '/',
+          url: '/'
+        }}
       />
     );
     expect(getByText(text, {exact:false})).toBeInTheDocument();
@@ -31,11 +43,17 @@ describe("Quote", () => {
     const author = "Author";
     const { getByText } = render(
       <Quote 
-        text={`**Test:** "test"`}
-        authorName={author}
-        authorUrl="/"
-        authorAvatarUrl='/'
-        dated="vor 2 Tagen"
+        quote={{
+          id: '1',
+          text: `**Test**`,
+          url: '/',
+          dated: '2 days ago'
+        }}
+        author={{
+          name: author,
+          avatarUrl: '/',
+          url: '/'
+        }}
       />
     );
     expect(getByText(author, {exact:false})).toBeInTheDocument();
@@ -44,11 +62,17 @@ describe("Quote", () => {
     const dated = "vor 2 Tagen";
     const { getByText } = render(
       <Quote 
-        text={`**Test:** "test"`}
-        authorName="Author"
-        authorUrl="/"
-        authorAvatarUrl='/'
-        dated={dated}
+      quote={{
+        id: '1',
+        text: `**Test**`,
+        url: '/',
+        dated: dated
+      }}
+      author={{
+        name: 'Author',
+        avatarUrl: '/',
+        url: '/'
+      }}
       />
     );
     expect(getByText(dated, {exact:false})).toBeInTheDocument();

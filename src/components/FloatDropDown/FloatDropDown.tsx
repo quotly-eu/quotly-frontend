@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
-import { DropDownItem } from './FloatDropDown.type';
+import { DropDownItem, DropDownItemType } from './FloatDropDown.type';
 import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
 import { placeOrientation } from 'utils/placeOrientation';
+import { Link } from 'react-router-dom';
 
 interface FloatDropDownProps extends PlaceOrientationProps {
   $active?: boolean
@@ -40,7 +41,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
   backdrop-filter: brightness(1.075) blur(25px);
 `;
 
-const FloatDropDownItem = styled.a`
+const FloatDropDownItem = css`
   display:flex;
 
   ${({ theme }) => `
@@ -64,6 +65,14 @@ const FloatDropDownItem = styled.a`
     width: 1.5em;
     text-align: center;
   }
+`;
+
+const FloatDropDownAnchorItem = styled.a`
+  ${FloatDropDownItem}
+`;
+
+const FloatDropDownLinkItem = styled(Link)`
+  ${FloatDropDownItem}
 `;
 
 /**
@@ -111,11 +120,21 @@ const FloatDropDown = ({
     <FloatDropDownContainer ref={dropDownRef}>
       {cloneTriggerElement}
         <FloatDropDownMenu $placeOrientation={place} $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
-          {dropDownItems.map((dropDownItem, index) => (
-            <FloatDropDownItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>
-              {dropDownItem.label}
-            </FloatDropDownItem>
-          ))}
+          {dropDownItems.map((dropDownItem, index) => {
+            if(dropDownItem.type && dropDownItem.type === DropDownItemType.LINK) {
+              return (
+                <FloatDropDownLinkItem to={dropDownItem.href || ""} onClick={dropDownItem.onClick} key={index}>
+                  {dropDownItem.label}
+                </FloatDropDownLinkItem>
+              );
+            }
+
+            return (
+              <FloatDropDownAnchorItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>
+                {dropDownItem.label}
+              </FloatDropDownAnchorItem>
+            );
+          })}
         </FloatDropDownMenu>
     </FloatDropDownContainer>
   );

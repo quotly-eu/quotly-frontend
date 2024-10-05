@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import Button from 'components/Button/Button';
@@ -37,6 +37,7 @@ const QuoteContainer = styled.div`
     }
   `}
 
+  text-decoration: none;
   text-align: center;
 `;
 
@@ -105,38 +106,46 @@ const quoteOptions: DropDownItem[] = [
   }
 ];
 
-const buttonOptions: ReactElement<typeof Button>[] = [
-  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Style_Icon icon="fluent-emoji:red-heart" />} />,
-  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Style_Icon icon="fluent-emoji:thumbs-up" />} />,
-  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Style_Icon icon="fluent-emoji:face-with-tears-of-joy" />} />,
-  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Style_Icon icon="fluent-emoji:melting-face" />} />,
-  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Style_Icon icon="fluent-emoji:skull" />} />,
-];
-
 /**
  * Quote Component, the main component for the Quotly page
  * 
  */
-const Quote = ({text, authorAvatarUrl, authorName, authorUrl, dated}:{
-  text: string;
-  authorAvatarUrl: string;
-  authorName: string;
-  authorUrl: string;
-  dated: string;
+const Quote = ({quote, author, reactions}:{
+  quote: {
+    id: string;
+    text: string;
+    url: string;
+    dated: string;
+  }
+  author: {
+    name: string;
+    avatarUrl: string;
+    url: string;
+  },
+  reactions?: {
+    current?: {
+      activeIcon?: string;
+      totalCount?: number;
+    },
+    icons: {
+      icon: string;
+      count?: number;
+    }[]
+  }
 }) => {
   const theme = useTheme();
 
   const renderText = () => {
     return (
-      <Style_Markdown children={text} />
+      <Style_Markdown children={quote.text} />
     );
   };
 
   const renderAuthor = () => {
     return (
-      <Author href={authorUrl}>
-        <Avatar src={authorAvatarUrl} />
-        {authorName} • {dated}
+      <Author href={author.url}>
+        <Avatar src={author.avatarUrl} />
+        {author.name} • {quote.dated}
       </Author>
     );
   };
@@ -160,10 +169,16 @@ const Quote = ({text, authorAvatarUrl, authorName, authorUrl, dated}:{
             <ButtonPalette 
               triggerElement={
                 <Button isIconButton={true} style={ButtonStyles.default}>
-                  <Style_Icon icon="fluent-emoji:thumbs-up" />
+                  <Style_Icon icon={"fluent-emoji:" + reactions?.current?.activeIcon} />
                 </Button>
               } 
-              buttons={buttonOptions}
+              buttons={
+                reactions?.icons.map((reaction, index) => (
+                  <Button key={index} isIconButton={true} style={ButtonStyles.transparent}>
+                    <Style_Icon icon={"fluent-emoji:" + reaction.icon} />
+                  </Button>
+                )) || []
+              }
               place={PlaceOrientation.InsetRight}
               startMargin={theme.spacing.xs.rem}
             />
@@ -172,10 +187,16 @@ const Quote = ({text, authorAvatarUrl, authorName, authorUrl, dated}:{
             <ButtonPalette 
               triggerElement={
                 <Button isIconButton={true} style={ButtonStyles.default}>
-                  <Icon icon="fluent-emoji:thumbs-up" />
+                  <Style_Icon icon={"fluent-emoji:" + reactions?.current?.activeIcon} />
                 </Button>
               } 
-              buttons={buttonOptions}
+              buttons={
+                reactions?.icons.map((reaction, index) => (
+                  <Button key={index} isIconButton={true} style={ButtonStyles.transparent}>
+                    <Style_Icon icon={"fluent-emoji:" + reaction.icon} />
+                  </Button>
+                )) || []
+              }
               place={PlaceOrientation.InsetTopRight}
             />
           }
