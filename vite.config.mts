@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
       tsconfigPaths(),
     ],
     server: {
+      open: true,
       port: Number(env.VITE_PORT),
     }
   };

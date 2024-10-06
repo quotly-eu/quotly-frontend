@@ -30,10 +30,7 @@ export type QuoteType = {
     url: string;
   },
   reactions?: {
-    current?: {
-      activeIcon?: string;
-      totalCount?: number;
-    },
+    reactedIcon?: 'red-heart' | 'thumbs-up' | 'face-with-tears-of-joy' | 'melting-face' | 'skull';
     icons: {
       icon: string;
       count?: number;

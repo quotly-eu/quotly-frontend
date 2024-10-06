@@ -27,7 +27,7 @@ const defaultIcons = [
   },
   {
     icon: 'skull',
-    count: 1
+    count: 259001
   }
 ];
 
@@ -42,7 +42,7 @@ const Main = () => {
           id: '1',
           text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
           url: '/',
-          dated: 'vor 2 Tagen'
+          dated: '07/04/2024'
         }}
         author={{
           name: 'Daniel',
@@ -50,58 +50,48 @@ const Main = () => {
           url: '/'
         }}
         reactions={{
-          current: {
-            activeIcon: 'red-heart',
-            totalCount: 300000
-          },
           icons: defaultIcons
         }}
       />
       <Quote 
         quote={{
           id: '1',
-          text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
+          text: `**Domi:** "Das ist der einzige Weg, Geld zu verkaufen!"`,
           url: '/',
-          dated: 'vor 2 Tagen'
+          dated: '05/24/2024'
         }}
         author={{
-          name: 'Daniel',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
+          name: 'Jordan',
+          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
           url: '/'
         }}
         reactions={{
-          current: {
-            totalCount: 12000
-          },
+          reactedIcon: 'face-with-tears-of-joy',
           icons: defaultIcons
         }}
       />
       <Quote 
         quote={{
           id: '1',
-          text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
+          text: `**Dominic:** "Wie viel hat deine Grafikkarte geteuert?"`,
           url: '/',
-          dated: 'vor 2 Tagen'
+          dated: '01/26/2024'
         }}
         author={{
-          name: 'Daniel',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
+          name: 'Rubinschwein47',
+          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=2',
           url: '/'
         }}
         reactions={{
-          current: {
-            activeIcon: 'thumbs-up',
-            totalCount: 5
-          },
           icons: defaultIcons
         }}
       />
       <Quote 
         quote={{
           id: '1',
-          text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
+          text: `**Daniel:** "Du könntest das Kabel vom Geld reinstecken"`,
           url: '/',
-          dated: 'vor 2 Tagen'
+          dated: '01/15/2024'
         }}
         author={{
           name: 'Daniel',
@@ -109,10 +99,6 @@ const Main = () => {
           url: '/'
         }}
         reactions={{
-          current: {
-            activeIcon: 'skull',
-            totalCount: 55000
-          },
           icons: defaultIcons
         }}
       />

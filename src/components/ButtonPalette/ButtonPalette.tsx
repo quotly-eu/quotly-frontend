@@ -1,8 +1,8 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Button from 'components/Button/Button';
 import { placeOrientation } from 'utils/placeOrientation';
 import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
+import { ButtonPaletteType } from './ButtonPalette.type';
 
 interface ButtonPaletteProps extends PlaceOrientationProps {
   $active: boolean;
@@ -22,7 +22,6 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
   transition: all 0.3s ease-in-out;
   z-index: 1;
   ${({ theme, $active }) => `
-
     box-shadow: ${theme.shadows.default}, inset ${theme.shadows.default};
     backdrop-filter: brightness(1.075) blur(10px);
     ${$active ? `
@@ -33,16 +32,6 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
       pointer-events: none;
       scale: 0.9 1;
     `}
-    /* &::before {
-      content: "";
-      position: absolute;
-      width: calc(100% - 12.5* ${theme.spacing.xxxs.rem});
-      height: ${theme.spacing.xxs.rem};
-      background-color: ${theme.colors.primary};
-      left: calc( 4* ${theme.spacing.xxxs.rem});
-      top: 100%;
-      transform: translateY(-50%);
-    } */
   `}
 `;
 
@@ -50,19 +39,14 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
  * ButtonPalette Component to display a list of buttons
  * @param {ReactElement<typeof Button>[]} buttons - Array of buttons to display
  * @example
- * <ButtonPalette buttons={[
- *  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:red-heart" height="100%" />} />,
- *  <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:thumbs-up" height="100%" />} />,
- * ]} />
+ * <ButtonPalette 
+ *  buttons={[
+ *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:red-heart" height="100%" />} />,
+ *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:thumbs-up" height="100%" />} />,
+ *  ]} 
+ * />
  */
-const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin="0rem", startMargin="0rem", alwaysOpen=false}:{
-  triggerElement: ReactElement;
-  place?: PlaceOrientation;
-  margin?: string;
-  startMargin?: string;
-  buttons: ReactElement<typeof Button>[];
-  alwaysOpen?: boolean;
-}) => {
+const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin="0rem", startMargin="0rem", alwaysOpen=false}:ButtonPaletteType) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 

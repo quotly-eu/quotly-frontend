@@ -2,27 +2,30 @@ const _accent_success_0 = '#008282';
 const _shadows_default = '-5px 5px 5px';
 const theme = {
   colors: {
-    black: '#000000',
     white: '#ffffff',
+    black: '#000000',
     primary: '#2663e9',
     secondary: '#7368e0',
     success: '#43bf79',
-    danger: '#ef5959',
-    warning: '#eaad24',
     info: '#1db0d8',
+    warning: '#eaad24',
+    danger: '#ef5959',
     accent_white_0: '#ebf3fa',
     accent_white_1: '#acd3eb',
     accent_primary_0: '#1f4fc4',
     accent_secondary_0: '#5f4fc4',
     accent_success_0: _accent_success_0,
+    accent_info_0: '#1686a4',
+    accent_warning_0: '#d89c1e',
+    accent_danger_0: '#d13f3f',
     transparency: {
       black: (opacity: number) => `rgba(0, 0, 0, ${opacity})`,
       white: (opacity: number) => `rgba(255, 255, 255, ${opacity})`,
     },
     text: {
-      dark: '#294551',
-      gray: '#6491a3',
       light: '#f5f5f5',
+      gray: '#6491a3',
+      dark: '#294551',
     }
   },
   spacing: {

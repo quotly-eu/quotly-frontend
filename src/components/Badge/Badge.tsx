@@ -6,22 +6,58 @@ import { BadgeStyles } from './Badge.type';
 import { CustomTheme } from 'types/styled-components';
 
 // TYPES
-interface BadgeProps {
+interface BadgeProps extends PlaceOrientationProps {
   $style?: string,
   $fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']],
 }
 
 // STYLES
-const BadgeContainer = styled.div<PlaceOrientationProps & BadgeProps>`
+const BadgeContainer = styled.div<BadgeProps>`
   ${({$placeOrientation}) => $placeOrientation && `position:absolute;`}
 
   ${placeOrientation}
 
   ${({$style, theme}) => {
     switch($style) {
-      case BadgeStyles.transparent:
+      case BadgeStyles.transparent: { 
+        const outlineWidth = '0px';
+        const outlineRadius = '1.25px';
+        const color = theme.colors.text.dark;
         return `
-          text-shadow: black 0px 0px 5px;
+          text-shadow: ${color} ${outlineWidth} ${outlineWidth} ${outlineRadius},
+                       ${color} -${outlineWidth} ${outlineWidth} ${outlineRadius},
+                       ${color} ${outlineWidth} -${outlineWidth} ${outlineRadius},
+                       ${color} -${outlineWidth} -${outlineWidth} ${outlineRadius},
+                       ${color} ${outlineWidth} ${outlineWidth} ${outlineRadius},
+                       ${color} -${outlineWidth} ${outlineWidth} ${outlineRadius},
+                       ${color} ${outlineWidth} -${outlineWidth} ${outlineRadius},
+                       ${color} -${outlineWidth} -${outlineWidth} ${outlineRadius}
+          ;
+        `; 
+      }
+      case BadgeStyles.primary:
+        return `
+          background-color: ${theme.colors.primary};
+        `;
+      case BadgeStyles.secondary:
+        return `
+          background-color: ${theme.colors.secondary};
+        `;
+      case BadgeStyles.success:
+        return `
+          background-color: ${theme.colors.success};
+        `;
+      case BadgeStyles.info:
+        return `
+          background-color: ${theme.colors.info};
+        `;
+      case BadgeStyles.warning:
+        return `
+          background-color: ${theme.colors.warning};
+        `;
+      case BadgeStyles.danger:
+        return `
+          background-color: ${theme.colors.danger};
         `;
       case BadgeStyles.default:
       default:

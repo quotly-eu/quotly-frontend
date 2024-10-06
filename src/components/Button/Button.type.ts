@@ -10,5 +10,9 @@ export enum ButtonStyles {
   default = 'default',
   primary = 'primary',
   secondary = 'secondary',
+  success = 'success',
+  info = 'info',
+  warning = 'warning',
+  danger = 'danger',
   transparent = 'transparent',
 }

@@ -41,6 +41,50 @@ const ButtonContainer = styled.a<ButtonProps>`
             border-color: ${theme.colors.accent_secondary_0};
           }
         `;
+      case ButtonStyles.success:
+        return `
+          color: ${theme.colors.text.light};
+          background-color: ${theme.colors.success};
+
+          box-shadow: ${theme.shadows.default};
+          &:active {
+            background-color: ${theme.colors.accent_success_0};
+            border-color: ${theme.colors.accent_success_0};
+          }
+        `;
+      case ButtonStyles.info:
+        return `
+          color: ${theme.colors.text.light};
+          background-color: ${theme.colors.info};
+
+          box-shadow: ${theme.shadows.default};
+          &:active {
+            background-color: ${theme.colors.accent_info_0};
+            border-color: ${theme.colors.accent_info_0};
+          }
+        `;
+      case ButtonStyles.warning:
+        return `
+          color: ${theme.colors.text.light};
+          background-color: ${theme.colors.warning};
+
+          box-shadow: ${theme.shadows.default};
+          &:active {
+            background-color: ${theme.colors.accent_warning_0};
+            border-color: ${theme.colors.accent_warning_0};
+          }
+        `;
+      case ButtonStyles.danger:
+        return `
+          color: ${theme.colors.text.light};
+          background-color: ${theme.colors.danger};
+
+          box-shadow: ${theme.shadows.default};
+          &:active {
+            background-color: ${theme.colors.accent_danger_0};
+            border-color: ${theme.colors.accent_danger_0};
+          }
+        `;
       case ButtonStyles.transparent:
         return `
           color: ${theme.colors.text.dark};

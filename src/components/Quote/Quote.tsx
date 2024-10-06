@@ -89,9 +89,17 @@ const Style_Icon = styled(Icon)`
   height: 80%;
 `;
 
-const Style_Button = styled(Button)`
+const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles}>`
   position:relative;
   
+  ${({$hasReacted, $style, theme}) => $style == ButtonStyles.default && ($hasReacted !== undefined && !$hasReacted ? `
+    backdrop-filter: brightness(0.925) blur(5px);
+
+    box-shadow: inset ${theme.shadows.default};
+  ` : `
+    
+  `)}
+
   @media (max-width: ${({ theme }) => theme.breakpoints.s}) {
     padding: ${({ theme }) => theme.spacing.xxxs.rem};
     width: ${({ theme }) => theme.spacing.xl.rem};
@@ -128,6 +136,10 @@ const quoteOptions: DropDownItem[] = [
 const Quote = ({quote, author, reactions}:QuoteType) => {
   const theme = useTheme();
 
+  const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
+
+  const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
+  
   const abbreviateNumber = (value: number) => {
     let newValue = value;
     let suffix = "";
@@ -189,10 +201,12 @@ const Quote = ({quote, author, reactions}:QuoteType) => {
       triggerElement={
         <Style_Button 
           isIconButton={true} 
+          $hasReacted={reactions?.reactedIcon ? true : false}
           children={renderReaction({
-            icon: reactions?.current?.activeIcon,
-            counter: reactions?.current?.totalCount
+            icon: reactions?.reactedIcon || greatestReactedIcon,
+            counter: sumOfReactions
           })}
+          $style={ButtonStyles.default}
         />
       } 
       buttons={
