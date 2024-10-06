@@ -7,19 +7,18 @@ import { Icon } from '@iconify/react';
 import Button from 'components/Button/Button';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 import ButtonPalette from 'components/ButtonPalette/ButtonPalette';
-import Switcher from 'components/Switcher/Switcher';
 import Badge from 'components/Badge/Badge';
 
 import { PlaceOrientation } from 'types/placeOrientation.type';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
 import { BadgeStyles } from 'components/Badge/Badge.type';
+import { QuoteType } from './Quote.type';
+import { Link } from 'react-router-dom';
 
 
 // Styles
-const Style_Badge = styled(Badge)`
-  transition: opacity 0.3s;
-`;
+const Style_Badge = styled(Badge)``;
 
 const QuoteContainer = styled.div`
   display:grid;
@@ -33,14 +32,14 @@ const QuoteContainer = styled.div`
   ${({ theme }) => `
     background-color: ${theme.colors.accent_white_0};
     color: ${theme.colors.text.dark};
-    font-size: ${theme.font.sizes.m};
+    font-size: ${theme.font.sizes.s};
     padding: ${theme.spacing.m.rem};
 
     border-radius: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.md}) {
       font-size: ${theme.font.sizes.xs};
-      padding: ${theme.spacing.s.rem};
+      padding: ${theme.spacing.xs.rem};
     }
   `}
 
@@ -54,7 +53,7 @@ const Style_Markdown = styled(Markdown)`
   place-self: center;
 `;
 
-const Author = styled.a`
+const Author = styled(Link)`
   display: flex;
   grid-area: author;
 
@@ -93,10 +92,10 @@ const Style_Icon = styled(Icon)`
 const Style_Button = styled(Button)`
   position:relative;
   
-  &:hover {
-    ${Style_Badge} {
-      opacity: 1;
-    }
+  @media (max-width: ${({ theme }) => theme.breakpoints.s}) {
+    padding: ${({ theme }) => theme.spacing.xxxs.rem};
+    width: ${({ theme }) => theme.spacing.xl.rem};
+    height: ${({ theme }) => theme.spacing.xl.rem};
   }
 `;
 
@@ -126,29 +125,7 @@ const quoteOptions: DropDownItem[] = [
  * Quote Component, the main component for the Quotly page
  * 
  */
-const Quote = ({quote, author, reactions}:{
-  quote: {
-    id: string;
-    text: string;
-    url: string;
-    dated: string;
-  }
-  author: {
-    name: string;
-    avatarUrl: string;
-    url: string;
-  },
-  reactions?: {
-    current?: {
-      activeIcon?: string;
-      totalCount?: number;
-    },
-    icons: {
-      icon: string;
-      count?: number;
-    }[]
-  }
-}) => {
+const Quote = ({quote, author, reactions}:QuoteType) => {
   const theme = useTheme();
 
   const abbreviateNumber = (value: number) => {
@@ -181,7 +158,7 @@ const Quote = ({quote, author, reactions}:{
 
   const renderAuthor = () => {
     return (
-      <Author href={author.url}>
+      <Author to={author.url}>
         <Avatar src={author.avatarUrl} />
         {author.name} • {quote.dated}
       </Author>
@@ -212,7 +189,6 @@ const Quote = ({quote, author, reactions}:{
       triggerElement={
         <Style_Button 
           isIconButton={true} 
-          style={ButtonStyles.default}
           children={renderReaction({
             icon: reactions?.current?.activeIcon,
             counter: reactions?.current?.totalCount
@@ -243,19 +219,15 @@ const Quote = ({quote, author, reactions}:{
       <Actions>
         <FloatDropDown
           triggerElement={
-            <Button isIconButton={true} style={ButtonStyles.transparent}>
+            <Style_Button isIconButton={true} style={ButtonStyles.transparent}>
               <i className="fas fa-ellipsis"></i>
-            </Button>
+            </Style_Button>
           }
           dropDownItems={quoteOptions}
           place={PlaceOrientation.InsetTopRight}
           margin={"-"+theme.spacing.xxxs.rem}
         />
-        <Switcher 
-          breakpoint={theme.breakpoints.md}
-          desktop={renderButtonPalette(PlaceOrientation.InsetRight, theme.spacing.xs.rem)}
-          mobile={renderButtonPalette(PlaceOrientation.InsetTopRight)}
-        />
+        {renderButtonPalette(PlaceOrientation.InsetRight, theme.spacing.xs.rem)}
       </Actions>
     );
   };

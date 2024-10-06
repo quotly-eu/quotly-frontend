@@ -91,7 +91,7 @@ const theme = {
   },
   breakpoints: {
     xs: '320px',
-    s: '420px',
+    s: '375px',
     sm: '480px',
     md: '768px',
     lg: '992px',

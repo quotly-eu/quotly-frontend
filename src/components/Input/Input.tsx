@@ -13,17 +13,18 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
 
   border-radius: 100vmax;
 
-  font-size: ${props => props.theme.font.sizes.s};
-  font-weight: 500;
+  font-size: ${props => props.theme.font.sizes.xs};
 
   justify-content: center;
   align-items: center;
   box-shadow: ${props => props.theme.shadows.default};
+  overflow: hidden;
   label {
     position: absolute;
     display: flex;
     
-    left: ${props => props.theme.spacing.m.rem};
+    left: ${props => props.theme.spacing.s.rem};
+    font-size: 1.4em;
 
     border-radius: 100vmax;
     align-items: center;
@@ -34,9 +35,9 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
 
     width: 100%;
     padding: 
-      ${props => props.theme.spacing.xxs.rem} 
+      ${props => props.theme.spacing.xs.rem} 
       ${props => props.theme.spacing.s.rem};
-    ${({$hasIcon, theme}) => $hasIcon && `padding-left: ${theme.spacing.xxl.rem}`};
+    ${({$hasIcon, theme}) => $hasIcon && `padding-left: ${theme.spacing.xl.em}`};
 
     font-family: inherit;
     font-size: inherit;
