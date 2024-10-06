@@ -10,7 +10,7 @@
  * `;
  */
 export interface PlaceOrientationProps {
-  $placeOrientation: PlaceOrientation,
+  $placeOrientation?: PlaceOrientation,
   $margin: string,
 }
 

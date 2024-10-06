@@ -11,7 +11,7 @@ const MainContainer = styled.div`
 const defaultIcons = [
   {
     icon: 'red-heart',
-    count: 5
+    count: 259000
   },
   {
     icon: 'thumbs-up',
@@ -52,7 +52,7 @@ const Main = () => {
         reactions={{
           current: {
             activeIcon: 'red-heart',
-            totalCount: 5
+            totalCount: 300000
           },
           icons: defaultIcons
         }}
@@ -71,7 +71,7 @@ const Main = () => {
         }}
         reactions={{
           current: {
-            totalCount: 5
+            totalCount: 12000
           },
           icons: defaultIcons
         }}
@@ -111,7 +111,7 @@ const Main = () => {
         reactions={{
           current: {
             activeIcon: 'skull',
-            totalCount: 5
+            totalCount: 55000
           },
           icons: defaultIcons
         }}

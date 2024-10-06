@@ -7,6 +7,7 @@ import { ButtonStyles } from './Button.type';
 interface ButtonProps {
   $style?: ButtonStyles,
   $padding?: string,
+  $gap?: string,
   $width?: string,
   $isIconButton?: boolean,
 }
@@ -64,21 +65,26 @@ const ButtonContainer = styled.a<ButtonProps>`
   ${({$isIconButton, $padding, $width, theme}) => 
     $isIconButton ? 
       `
+        flex-direction: column;
+
         padding: ${$padding || theme.spacing.xs.rem};
         width: ${$width || theme.spacing.xxl.rem};
         height: ${$width || theme.spacing.xxl.rem};
+
       ` : `
         padding: ${$padding || `${theme.spacing.xxs.rem} ${theme.spacing.m.rem}`};
       `
   }
-  gap: ${props => props.theme.spacing.xxs.rem};
+  ${({$gap, theme}) => `
+    font-size: ${theme.font.sizes.s};
+    gap: ${$gap || theme.spacing.xxs.rem};
+    transition-duration: ${theme.transition.times.s};
+  `}
   border-radius: 100vmax;
 
-  font-size: ${props => props.theme.font.sizes.s};
   font-weight: 500;
 
   transition-property: background-color, border-color, color;
-  transition-duration: ${props => props.theme.transition.times.s};
   transition-timing-function: ease-in-out;
   text-decoration: none;
   justify-content: center;
@@ -89,18 +95,31 @@ const ButtonContainer = styled.a<ButtonProps>`
 /**
  * Button and Icon Button Component
  */
-const Button = ({children, href=undefined, isIconButton=false, style=ButtonStyles.default, padding, width, title, onClick}:{
+const Button = ({children, className, href=undefined, isIconButton=false, style=ButtonStyles.default, padding, gap, width, title, onClick}:{
   children?: React.ReactNode,
+  className?: string,
   href?: string,
   style?: ButtonStyles,
   padding?: string,
+  gap?: string,
   width?: string
   isIconButton?: boolean,
   title?: string,
   onClick?: () => void,
 }) => {
   return (
-    <ButtonContainer href={href} $style={style} $padding={padding} $width={width} $isIconButton={isIconButton} onClick={onClick} title={title}>{children}</ButtonContainer>
+    <ButtonContainer 
+      children={children}
+      href={href} 
+      className={className}
+      $style={style}
+      $padding={padding}
+      $gap={gap}
+      $width={width}
+      $isIconButton={isIconButton}
+      onClick={onClick}
+      title={title}
+    />
   );
 };
 

@@ -1,19 +1,26 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 
-import Button from 'components/Button/Button';
-import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 import Markdown from 'react-markdown';
 import { Icon } from '@iconify/react';
 
+import Button from 'components/Button/Button';
+import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
+import ButtonPalette from 'components/ButtonPalette/ButtonPalette';
+import Switcher from 'components/Switcher/Switcher';
+import Badge from 'components/Badge/Badge';
+
+import { PlaceOrientation } from 'types/placeOrientation.type';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
-import ButtonPalette from 'components/ButtonPalette/ButtonPalette';
-import { PlaceOrientation } from 'types/placeOrientation.type';
-import Switcher from 'components/Switcher/Switcher';
+import { BadgeStyles } from 'components/Badge/Badge.type';
 
 
 // Styles
+const Style_Badge = styled(Badge)`
+  transition: opacity 0.3s;
+`;
+
 const QuoteContainer = styled.div`
   display:grid;
   grid-template-areas:
@@ -78,10 +85,19 @@ const Actions = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xxs.rem};
 `;
-
 const Style_Icon = styled(Icon)`
   width: 80%;
   height: 80%;
+`;
+
+const Style_Button = styled(Button)`
+  position:relative;
+  
+  &:hover {
+    ${Style_Badge} {
+      opacity: 1;
+    }
+  }
 `;
 
 /* CONSTANTS */
@@ -135,6 +151,28 @@ const Quote = ({quote, author, reactions}:{
 }) => {
   const theme = useTheme();
 
+  const abbreviateNumber = (value: number) => {
+    let newValue = value;
+    let suffix = "";
+    if (value >= 1000) {
+      suffix = "K";
+      newValue = value / 1000;
+    } 
+    if (value >= 1000000) {
+      suffix = "M";
+      newValue = value / 1000000;
+    } 
+    if (value >= 1000000000) {
+      suffix = "B";
+      newValue = value / 1000000000;
+    } 
+    if (value >= 1000000000000) {
+      suffix = "T";
+      newValue = value / 1000000000000;
+    }
+    return newValue.toFixed(0) + suffix;
+  };
+
   const renderText = () => {
     return (
       <Style_Markdown children={quote.text} />
@@ -149,6 +187,56 @@ const Quote = ({quote, author, reactions}:{
       </Author>
     );
   };
+
+  const renderReaction = (reaction:{icon?:string, counter?:number}) => {
+    return (
+      <>
+        <Style_Icon icon={"fluent-emoji:" + reaction.icon} />
+        {reaction.counter && 
+          <Style_Badge 
+            children={abbreviateNumber(reaction.counter)} 
+            place={{
+              place: PlaceOrientation.Bottom,
+              margin: "-100%"
+            }} 
+            fontSize={theme.font.sizes.xxs}
+            style={BadgeStyles.transparent}
+          />
+        }
+      </>
+    );
+  };
+
+  const renderButtonPalette = (place?:PlaceOrientation, startMargin?:string) => {
+    return (<ButtonPalette 
+      triggerElement={
+        <Style_Button 
+          isIconButton={true} 
+          style={ButtonStyles.default}
+          children={renderReaction({
+            icon: reactions?.current?.activeIcon,
+            counter: reactions?.current?.totalCount
+          })}
+        />
+      } 
+      buttons={
+        reactions?.icons.map((reaction, index) => (
+          <Style_Button 
+            key={index} 
+            isIconButton={true} 
+            style={ButtonStyles.transparent}
+            children={renderReaction({
+              icon: reaction.icon,
+              counter: reaction.count
+            })}
+          />
+        )) || []
+      }
+      place={place}
+      startMargin={startMargin}
+    />);
+  };
+
 
   const renderActions = () => {
     return (
@@ -165,41 +253,8 @@ const Quote = ({quote, author, reactions}:{
         />
         <Switcher 
           breakpoint={theme.breakpoints.md}
-          desktop={
-            <ButtonPalette 
-              triggerElement={
-                <Button isIconButton={true} style={ButtonStyles.default}>
-                  <Style_Icon icon={"fluent-emoji:" + reactions?.current?.activeIcon} />
-                </Button>
-              } 
-              buttons={
-                reactions?.icons.map((reaction, index) => (
-                  <Button key={index} isIconButton={true} style={ButtonStyles.transparent}>
-                    <Style_Icon icon={"fluent-emoji:" + reaction.icon} />
-                  </Button>
-                )) || []
-              }
-              place={PlaceOrientation.InsetRight}
-              startMargin={theme.spacing.xs.rem}
-            />
-          }
-          mobile={
-            <ButtonPalette 
-              triggerElement={
-                <Button isIconButton={true} style={ButtonStyles.default}>
-                  <Style_Icon icon={"fluent-emoji:" + reactions?.current?.activeIcon} />
-                </Button>
-              } 
-              buttons={
-                reactions?.icons.map((reaction, index) => (
-                  <Button key={index} isIconButton={true} style={ButtonStyles.transparent}>
-                    <Style_Icon icon={"fluent-emoji:" + reaction.icon} />
-                  </Button>
-                )) || []
-              }
-              place={PlaceOrientation.InsetTopRight}
-            />
-          }
+          desktop={renderButtonPalette(PlaceOrientation.InsetRight, theme.spacing.xs.rem)}
+          mobile={renderButtonPalette(PlaceOrientation.InsetTopRight)}
         />
       </Actions>
     );

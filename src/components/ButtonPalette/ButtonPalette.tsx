@@ -31,8 +31,18 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
       ` : `
       opacity: 0;
       pointer-events: none;
-      scale: 0.95 1;
+      scale: 0.9 1;
     `}
+    /* &::before {
+      content: "";
+      position: absolute;
+      width: calc(100% - 12.5* ${theme.spacing.xxxs.rem});
+      height: ${theme.spacing.xxs.rem};
+      background-color: ${theme.colors.primary};
+      left: calc( 4* ${theme.spacing.xxxs.rem});
+      top: 100%;
+      transform: translateY(-50%);
+    } */
   `}
 `;
 
