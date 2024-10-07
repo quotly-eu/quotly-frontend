@@ -92,12 +92,10 @@ const Style_Icon = styled(Icon)`
 const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles}>`
   position:relative;
   
-  ${({$hasReacted, $style, theme}) => $style == ButtonStyles.default && ($hasReacted !== undefined && !$hasReacted ? `
+  ${({$hasReacted, $style, theme}) => $style == ButtonStyles.default && ($hasReacted !== undefined && !$hasReacted && `
     backdrop-filter: brightness(0.925) blur(5px);
 
     box-shadow: inset ${theme.shadows.default};
-  ` : `
-    
   `)}
 
   @media (max-width: ${({ theme }) => theme.breakpoints.s}) {
