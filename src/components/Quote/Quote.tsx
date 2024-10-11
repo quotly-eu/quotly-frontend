@@ -26,15 +26,16 @@ const QuoteContainer = styled.div`
     "text actions"
     "author actions";
   grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto;
+  grid-template-rows: 1fr auto;
 
-  gap: ${({ theme }) => theme.spacing.s.rem};
   ${({ theme }) => `
     background-color: ${theme.colors.accent_white_0};
     color: ${theme.colors.text.dark};
-    font-size: ${theme.font.sizes.s};
-    padding: ${theme.spacing.m.rem};
 
+    padding: ${theme.spacing.m.rem};
+    gap: ${theme.spacing.s.rem};
+    
+    font-size: ${theme.font.sizes.s};
     border-radius: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.md}) {
@@ -47,11 +48,22 @@ const QuoteContainer = styled.div`
   text-align: center;
 `;
 
-const Style_Markdown = styled(Markdown)`
+const Style_Markdown = styled(Link)`
+  display: flex;
   grid-area: text;
+  
+  ${({ theme }) => `
+    color: ${theme.colors.text.dark};
+
+    padding: ${theme.spacing.s.rem};
+    border-radius: ${theme.spacing.xxs.rem};
+  `}
+
   text-wrap: balance;
-  place-self: center;
-`;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  `;
 
 const Author = styled(Link)`
   display: flex;
@@ -59,7 +71,10 @@ const Author = styled(Link)`
 
   ${({ theme }) => `
     color: ${theme.colors.text.gray};
+
+    padding: ${theme.spacing.xxs.rem} ${theme.spacing.xs.rem};
     gap: ${theme.spacing.xxxs.rem};
+
     font-size: ${theme.font.sizes.xxs};
 
     @media (max-width: ${theme.breakpoints.md}) {
@@ -68,7 +83,7 @@ const Author = styled(Link)`
   `}
 
   text-decoration: none;
-  place-self: center;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -81,8 +96,18 @@ const Avatar = styled.img`
 const Actions = styled.div`
   grid-area: actions;
   display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xxs.rem};
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  justify-content: flex-end;
+
+  ${({ theme }) => `
+    @media (max-width: ${theme.breakpoints.md}) {
+      flex-direction: column;
+      gap: ${theme.spacing.xxs.rem};
+      justify-content: flex-start;
+    }
+  `}
 `;
 const Style_Icon = styled(Icon)`
   width: 80%;
@@ -98,11 +123,13 @@ const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles
     box-shadow: inset ${theme.shadows.default};
   `)}
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.s}) {
-    padding: ${({ theme }) => theme.spacing.xxxs.rem};
-    width: ${({ theme }) => theme.spacing.xl.rem};
-    height: ${({ theme }) => theme.spacing.xl.rem};
-  }
+  ${({ theme }) => `
+    @media (max-width: ${theme.breakpoints.md}) {
+      padding: ${theme.spacing.xxxs.rem};
+      width: ${theme.spacing.xl.rem};
+      height: ${theme.spacing.xl.rem};
+    }
+  `}
 `;
 
 /* CONSTANTS */
@@ -133,9 +160,7 @@ const quoteOptions: DropDownItem[] = [
  */
 const Quote = ({quote, author, reactions}:QuoteType) => {
   const theme = useTheme();
-
   const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
-
   const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
   
   const abbreviateNumber = (value: number) => {
@@ -162,7 +187,7 @@ const Quote = ({quote, author, reactions}:QuoteType) => {
 
   const renderText = () => {
     return (
-      <Style_Markdown children={quote.text} />
+      <Style_Markdown to={quote.url} children={<Markdown children={quote.text} />} />
     );
   };
 
@@ -237,7 +262,12 @@ const Quote = ({quote, author, reactions}:QuoteType) => {
           }
           dropDownItems={quoteOptions}
           place={PlaceOrientation.InsetTopRight}
-          margin={"-"+theme.spacing.xxxs.rem}
+          margin={"0px"}
+        />
+        <Style_Button 
+          isIconButton={true} 
+          style={ButtonStyles.transparent}
+          children={<i className="fa-solid fa-share"></i>}
         />
         {renderButtonPalette(PlaceOrientation.InsetRight, theme.spacing.xs.rem)}
       </Actions>

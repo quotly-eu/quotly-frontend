@@ -61,7 +61,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AppContainer>
-        
         <BrowserRouter>
           <GlobalStyle />
           <NavbarTop />

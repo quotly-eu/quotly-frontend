@@ -30,49 +30,58 @@ const theme = {
   },
   spacing: {
     xxxs: {
-      rem: '0.25rem',
-      em: '0.25em',
-      px: '4px',
+      value: 0.25,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
     xxs: {
-      rem: '0.5rem',
-      em: '0.5em',
-      px: '8px',
+      value: 0.5,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
     xs: {
-      rem: '0.75rem',
-      em: '0.75em',
-      px: '12px',
+      value: 0.75,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
     s: {
-      rem: '1rem',
-      em: '1em',
-      px: '16px',
+      value: 1,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
     m: {
-      rem: '1.5rem',
-      em: '1.5em',
-      px: '24px',
+      value: 1.5,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
     l: {
-      rem: '2rem',
-      em: '2em',
-      px: '32px',
+      value: 2,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
     xl: {
-      rem: '3rem',
-      em: '3em',
-      px: '48px',
+      value: 3,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
     xxl: {
-      rem: '4rem',
-      em: '4em',
-      px: '64px',
+      value: 4,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
     xxxl: {
-      rem: '5rem',
-      em: '5em',
-      px: '80px',
+      value: 5,
+      get rem() {return `${this.value}rem`;},
+      get em() {return `${this.value}em`;},
+      get px() {return `${this.value * 16}px`;}
     },
   },
   font: {
@@ -101,8 +110,8 @@ const theme = {
     xl: '1200px',
   },
   shadows: {
-    default: `${_shadows_default} ${_accent_success_0}2c`,
     accent_default: (color: string) => `${_shadows_default} ${color}`,
+    get default() {return this.accent_default(_accent_success_0+'2c');},
   },
   transition: {
     times: {

@@ -41,7 +41,7 @@ const Main = () => {
         quote={{
           id: '1',
           text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
-          url: '/',
+          url: '/test',
           dated: '07/04/2024'
         }}
         author={{
@@ -57,7 +57,7 @@ const Main = () => {
         quote={{
           id: '1',
           text: `**Domi:** "Das ist der einzige Weg, Geld zu verkaufen!"`,
-          url: '/',
+          url: '/test',
           dated: '05/24/2024'
         }}
         author={{
@@ -74,7 +74,7 @@ const Main = () => {
         quote={{
           id: '1',
           text: `**Dominic:** "Wie viel hat deine Grafikkarte geteuert?"`,
-          url: '/',
+          url: '/test',
           dated: '01/26/2024'
         }}
         author={{
@@ -90,7 +90,7 @@ const Main = () => {
         quote={{
           id: '1',
           text: `**Daniel:** "Du könntest das Kabel vom Geld reinstecken"`,
-          url: '/',
+          url: '/test',
           dated: '01/15/2024'
         }}
         author={{

@@ -18,11 +18,14 @@ All notable changes to this project will be documented in this file.
 - setupTests file
 - serviceWorker file
 - theme file
+- Types of component are inside the component folder
+- Types of other files are inside the types folder
 
 ### Fixes
 - Button Component
 - FloatDropDown Component
 - Fonts and colors
+- spacing theme vars are now get values
 
 ## [0.1.0] - 2024-09-06
 ### Additions

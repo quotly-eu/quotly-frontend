@@ -15,7 +15,7 @@ export type DropDownItem = {
   label: React.ReactNode,
   href?: string
   type?: DropDownItemType,
-  onClick?: () => void
+  onClick?: (event?: React.MouseEvent) => void
 };
 
 /**

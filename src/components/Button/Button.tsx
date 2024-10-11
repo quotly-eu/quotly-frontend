@@ -149,8 +149,12 @@ const Button = ({children, className, href=undefined, isIconButton=false, style=
   width?: string
   isIconButton?: boolean,
   title?: string,
-  onClick?: () => void,
+  onClick?: (event?: React.MouseEvent) => void,
 }) => {
+  const propagateClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    if(onClick) onClick(event);
+  };
   return (
     <ButtonContainer 
       children={children}
@@ -161,7 +165,7 @@ const Button = ({children, className, href=undefined, isIconButton=false, style=
       $gap={gap}
       $width={width}
       $isIconButton={isIconButton}
-      onClick={onClick}
+      onClick={propagateClick}
       title={title}
     />
   );

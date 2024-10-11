@@ -48,5 +48,3 @@ jobs:
         with:
           name: dist-artifact
           path: /var/www/quotly/build
-        
-        

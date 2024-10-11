@@ -108,8 +108,9 @@ const FloatDropDown = ({
   useEffect(() => {
     const toggleOutside = (event: MouseEvent) => {
       const dropDownTarget = dropDownRef.current;
-      if(dropDownTarget && !dropDownTarget.contains(event.target as Node)) 
+      if(isOpen && dropDownTarget && !dropDownTarget.contains(event.target as Node)) {
         setIsOpen(false);
+      }
     };
     document.addEventListener('click', toggleOutside);
 
@@ -121,16 +122,22 @@ const FloatDropDown = ({
       {cloneTriggerElement}
         <FloatDropDownMenu $placeOrientation={place} $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
           {dropDownItems.map((dropDownItem, index) => {
+            const propagateClick = (event: React.MouseEvent) => {
+              event.stopPropagation();
+              if(dropDownItem.onClick) dropDownItem.onClick(event);
+              toggleDropDownMenu();
+            };
+
             if(dropDownItem.type && dropDownItem.type === DropDownItemType.LINK) {
               return (
-                <FloatDropDownLinkItem to={dropDownItem.href || ""} onClick={dropDownItem.onClick} key={index}>
+                <FloatDropDownLinkItem to={dropDownItem.href || ""} onClick={propagateClick} key={index}>
                   {dropDownItem.label}
                 </FloatDropDownLinkItem>
               );
             }
 
             return (
-              <FloatDropDownAnchorItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>
+              <FloatDropDownAnchorItem href={dropDownItem.href} onClick={propagateClick} key={index}>
                 {dropDownItem.label}
               </FloatDropDownAnchorItem>
             );
