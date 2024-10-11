@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixes
 - Adjusted mobile responsiveness
+- Added -webkit-tap-highlight-color: transparent; to links
 
 ## [0.2.0] - 2024-10-10
 ### Additions

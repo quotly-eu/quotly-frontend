@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 
 // Styles
 const Style_Badge = styled(Badge)`
+  -webkit-tap-highlight-color: transparent;
   font-size: ${({theme}) => theme.font.sizes.xxs.rem};
   @media (max-width: ${({theme}) => theme.breakpoints.md}) {
     font-size: ${({theme}) => theme.font.sizes.xxxs.rem};
@@ -76,6 +77,7 @@ const Style_Markdown = styled(Link)`
 const Author = styled(Link)`
   display: flex;
   grid-area: author;
+  -webkit-tap-highlight-color: transparent;
 
   ${({ theme }) => `
     color: ${theme.colors.text.gray};

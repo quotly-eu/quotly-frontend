@@ -43,6 +43,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
 
 const FloatDropDownItem = css`
   display:flex;
+  -webkit-tap-highlight-color: transparent;
 
   ${({ theme }) => `
     color: ${theme.colors.text.dark};
