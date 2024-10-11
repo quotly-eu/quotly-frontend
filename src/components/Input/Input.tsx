@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 // Styles
@@ -13,17 +13,18 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
 
   border-radius: 100vmax;
 
-  font-size: ${props => props.theme.font.sizes.s};
-  font-weight: 500;
+  font-size: ${props => props.theme.font.sizes.xs};
 
   justify-content: center;
   align-items: center;
   box-shadow: ${props => props.theme.shadows.default};
+  overflow: hidden;
   label {
     position: absolute;
     display: flex;
     
-    left: ${props => props.theme.spacing.m.rem};
+    left: ${props => props.theme.spacing.s.rem};
+    font-size: 1.4em;
 
     border-radius: 100vmax;
     align-items: center;
@@ -34,10 +35,9 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
 
     width: 100%;
     padding: 
-      ${props => props.theme.spacing.xxs.rem} 
-      ${props => props.theme.spacing.s.rem} 
-      ${props => props.theme.spacing.xs.rem};
-    ${({$hasIcon, theme}) => $hasIcon && `padding-left: ${theme.spacing.xxl.rem}`};
+      ${props => props.theme.spacing.xs.rem} 
+      ${props => props.theme.spacing.s.rem};
+    ${({$hasIcon, theme}) => $hasIcon && `padding-left: ${theme.spacing.xl.em}`};
 
     font-family: inherit;
     font-size: inherit;
@@ -53,18 +53,19 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
 /**
  * Input Component with Icon
  */
-const Input = ({ id, name, placeholder, iconClass }:{
+const Input = ({ id, name, placeholder, iconClass, testing }:{
   id?: string,
   name?: string
   placeholder?: string
-  iconClass?: string
+  iconClass?: string,
+  testing?: boolean
 }) => {
   return (
     <InputContainer $hasIcon={iconClass !== undefined}>
-      {iconClass && <label htmlFor={id}><i className={iconClass}></i></label>}
+      {iconClass && <label htmlFor={id} data-testid={testing && "label"}><i className={iconClass} data-testid={testing && "icon"}></i></label>}
       <input id={id} name={name} placeholder={placeholder}  />
     </InputContainer>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;

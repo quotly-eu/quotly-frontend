@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 /**
  * Catch-All Page that weren't found ( 404 )
@@ -6,7 +6,7 @@ import React from 'react'
 const NotFound = () => {
   return (
     <div>NotFound</div>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;

@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
-import Button, { ButtonStyles } from '../Button/Button';
-import Input from '../Input/Input';
+
+import Button from 'components/Button/Button';
+import Input from 'components/Input/Input';
+
+import { ButtonStyles } from 'components/Button/Button.type';
 
 // Styles
 const NavbarTopContainer = styled.div`
@@ -44,13 +47,13 @@ const NavbarTop = () => {
   return (
     <NavbarTopContainer>
       <Center>
-        <Input id='search-input' iconClass='fa-solid fa-search'/>
+        <Input id='search-input' iconClass='fa-solid fa-search' />
       </Center>
       <Right>
         <Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bell"></i></Button>
       </Right>
     </NavbarTopContainer>
-  )
-}
+  );
+};
 
 export default NavbarTop;

@@ -19,28 +19,22 @@
 */
 import { precacheAndRoute } from 'workbox-precaching/precacheAndRoute';
 
-// Declare the __WB_MANIFEST property on the self object
-declare const self: ServiceWorkerGlobalScope & {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  __WB_MANIFEST: any;
-};
-
 precacheAndRoute(self.__WB_MANIFEST);
 
 const HOSTNAME_WHITELIST = [
     self.location.hostname,
-]
+];
 
 // The Util Function to hack URLs of intercepted requests
-const getFixedUrl = (req: { url: string | URL }) => {
-    const now = Date.now()
-    const url = new URL(req.url)
+const getFixedUrl = (req) => {
+    const now = Date.now();
+    const url = new URL(req.url);
 
     // 1. fixed http URL
     // Just keep syncing with location.protocol
     // fetch(httpURL) belongs to active mixed content.
     // And fetch(httpRequest) is not supported yet.
-    url.protocol = self.location.protocol
+    url.protocol = self.location.protocol;
 
     // 2. add query for caching-busting.
     // Github Pages served with Cache-Control: max-age=600
@@ -48,10 +42,10 @@ const getFixedUrl = (req: { url: string | URL }) => {
     // Until cache mode of Fetch API landed, we have to workaround cache-busting with query string.
     // Cache-Control-Bug: https://bugs.chromium.org/p/chromium/issues/detail?id=453190
     if (url.hostname === self.location.hostname) {
-        url.search += (url.search ? '&' : '?') + 'cache-bust=' + now
+        url.search += (url.search ? '&' : '?') + 'cache-bust=' + now;
     }
-    return url.href
-}
+    return url.href;
+};
 
 /**
  *  @Lifecycle Activate
@@ -59,8 +53,8 @@ const getFixedUrl = (req: { url: string | URL }) => {
  *
  *  waitUntil(): activating ====> activated
  */
-(self as unknown as ServiceWorkerGlobalScope).addEventListener('activate', (event: ExtendableEvent) => {
-  event.waitUntil((self as unknown as ServiceWorkerGlobalScope).clients.claim())
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
 });
 
 /**
@@ -69,16 +63,16 @@ const getFixedUrl = (req: { url: string | URL }) => {
  *
  *  void respondWith(Promise<Response> r)
  */
-(self as unknown as ServiceWorkerGlobalScope).addEventListener('fetch', (event: FetchEvent) => {
+self.addEventListener('fetch', (event) => {
 // Skip some of cross-origin requests, like those for Google Analytics.
 if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
     // Stale-while-revalidate
     // similar to HTTP's stale-while-revalidate: https://www.mnot.net/blog/2007/12/12/stale
     // Upgrade from Jake's to Surma's: https://gist.github.com/surma/eb441223daaedf880801ad80006389f1
-    const cached = caches.match(event.request)
-    const fixedUrl = getFixedUrl(event.request)
-    const fetched = fetch(fixedUrl, { cache: 'no-store' })
-    const fetchedCopy = fetched.then(resp => resp.clone())
+    const cached = caches.match(event.request);
+    const fixedUrl = getFixedUrl(event.request);
+    const fetched = fetch(fixedUrl, { cache: 'no-store' });
+    const fetchedCopy = fetched.then(resp => resp.clone());
 
     // Call respondWith() with whatever we get first.
     // If the fetch fails (e.g disconnected), wait for the cache.
@@ -87,7 +81,7 @@ if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
     event.respondWith(
     Promise.race([fetched.catch(() => cached), cached])
         .then(resp => resp || fetched)
-    )
+    );
 
     // Update the cache with the version we fetched (only for ok status)
     event.waitUntil(
@@ -97,6 +91,5 @@ if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
                 return cache.put(event.request, response);
             }
         })
-    )
-}
-})
+    );
+}});

@@ -5,14 +5,8 @@ name: Quotly Frontend Pipeline
 
 on:
   workflow_dispatch:
-
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
-
-  schedule:
-    - cron: '0 12 * * 1'
 
 jobs:
   build:
@@ -26,31 +20,31 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: 'npm'
-    - name: Install NPM Packages
-      run: npm i
-      
+        cache: 'yarn'
+    - name: Install Packages
+      run: yarn install
+
     - name: Run Tests
-      run: npm test
+      run: yarn test
     - name: Run Lint
-      run: npm run lint:check
+      run: yarn lint:check
 
     - name: Build Project
-      run: npm run build
+      run: yarn build
     - uses: actions/upload-artifact@v4
+      if: github.ref_name == 'main'
       with:
-        name: build-artifact
-        path: build
+        name: dist-artifact
+        path: dist
 
   deploy:
     runs-on: self-hosted
     needs: build
+    if: github.ref_name == 'main'
     steps:
       - name: Delete old build if it exists
         run: rm -rf /var/www/quotly/build/*
       - uses: actions/download-artifact@v4
         with:
-          name: build-artifact
+          name: dist-artifact
           path: /var/www/quotly/build
-        
-        

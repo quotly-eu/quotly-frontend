@@ -1,10 +1,16 @@
-import React from 'react'
+import React from 'react';
 import styled, { useTheme } from 'styled-components';
-import Logo from '../../assets/img/quotly.svg';
-import Button, { ButtonStyles } from '../Button/Button';
-import ProfileButton from '../ProfileButton/ProfileButton';
-import Switcher from '../Switcher/Switcher';
-import FloatDropDown, { DropDownItem, PlaceOrientation } from '../FloatDropDown/FloatDropDown';
+import { ReactComponent as Logo } from 'assets/img/quotly.svg';
+
+import Button from 'components/Button/Button';
+import ProfileButton from 'components/ProfileButton/ProfileButton';
+import Switcher from 'components/Switcher/Switcher';
+import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
+
+import { ButtonStyles } from 'components/Button/Button.type';
+import { DropDownItem, DropDownItemType } from 'components/FloatDropDown/FloatDropDown.type';
+import { PlaceOrientation } from 'types/placeOrientation.type';
+
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -32,7 +38,6 @@ const NavbarLeftContainer = styled.div`
 
 const LogoBrand = styled.a`
   grid-area: top;
-  background-image: url(${Logo});
   width: ${props => props.theme.spacing.xxxl.rem};
   height: ${props => props.theme.spacing.xxxl.rem};
 
@@ -76,6 +81,7 @@ const DropDownItems: DropDownItem[] = [
   {
     label: (<><i className="fa-solid fa-home"></i> Home</>),
     href: '/',
+    type: DropDownItemType.LINK,
   },
   {
     label: (<><i className="fa-solid fa-fire"></i> Trends</>)
@@ -86,14 +92,17 @@ const ProfileDropDownItems: DropDownItem[] = [
   {
     label: (<><i className="fa-solid fa-user"></i> Profile</>),
     href: '/profile',
+    type: DropDownItemType.LINK,
   },
   {
     label: (<><i className="fa-solid fa-cog"></i> Settings</>),
     href: '/settings',
+    type: DropDownItemType.LINK,
   },
   {
     label: (<><i className="fa-solid fa-sign-out"></i> Logout</>),
     href: '/logout',
+    type: DropDownItemType.LINK,
   }
 ];
 
@@ -105,12 +114,15 @@ const NavbarLeft = () => {
 
   return (
     <NavbarLeftContainer>
-      <LogoBrand href='/' title='Quotly' />
+      <LogoBrand href='/' title='Quotly'>
+        <Logo />
+      </LogoBrand>
       <Top $type='mobile'>
         <FloatDropDown
           place={PlaceOrientation.TopLeft}
           triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
           dropDownItems={DropDownItems}
+          startMargin={theme.spacing.l.rem}
         />
       </Top>
       <Center>
@@ -122,6 +134,7 @@ const NavbarLeft = () => {
               place={PlaceOrientation.Right}
               triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
               dropDownItems={DropDownItems}
+              startMargin={theme.spacing.l.rem}
             />
           }
         />
@@ -138,20 +151,22 @@ const NavbarLeft = () => {
           mobile={
             <FloatDropDown
               place={PlaceOrientation.TopRight}
-              triggerElement={<ProfileButton />}
+              triggerElement={<ProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
+              startMargin={theme.spacing.l.rem}
             />
           }
           desktop={
             <FloatDropDown
               place={PlaceOrientation.RightInlineBottom}
-              triggerElement={<ProfileButton />}
+              triggerElement={<ProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
+              startMargin={theme.spacing.l.rem}
             />
           } />
       </Bottom>
     </NavbarLeftContainer>
-  )
-}
+  );
+};
 
-export default NavbarLeft
+export default NavbarLeft;
