@@ -80,10 +80,11 @@ const BadgeContainer = styled.div<BadgeProps>`
   `}
 
   font-weight: 800;
-  border-radius:  100vmax;
+  border-radius: 100vmax;
 
   align-items:center;
   justify-content:center;
+  user-select:none;
 `;
 
 /**
