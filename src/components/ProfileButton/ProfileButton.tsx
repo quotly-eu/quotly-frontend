@@ -22,10 +22,15 @@ const ProfileImage = styled.img`
 const ProfileButton = ({src, alt, onClick}:{
   src: string,
   alt?: string,
-  onClick?: () => void
+  onClick?: (event?:React.MouseEvent) => void
 }) => {
+  const propagateClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    navigator.vibrate(20);
+    if(onClick) onClick(event);
+  };
   return (
-    <ProfileContainer onClick={onClick}>
+    <ProfileContainer onClick={propagateClick}>
       <ProfileImage src={src} alt={alt} />
     </ProfileContainer>
   );

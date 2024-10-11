@@ -128,6 +128,7 @@ const FloatDropDown = ({
           {dropDownItems.map((dropDownItem, index) => {
             const propagateClick = (event: React.MouseEvent) => {
               event.stopPropagation();
+              navigator.vibrate(20);
               if(dropDownItem.onClick) dropDownItem.onClick(event);
               toggleDropDownMenu();
             };

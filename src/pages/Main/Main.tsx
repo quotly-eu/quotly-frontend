@@ -38,7 +38,7 @@ const quotes: QuoteType[] = [
       id: '1',
       text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
       url: '/test',
-      dated: '07/04/2024'
+      dated: new Date(2024,4,7)
     },
     author: {
       name: 'Daniel',
@@ -54,7 +54,7 @@ const quotes: QuoteType[] = [
       id: '1',
       text: `**Domi:** "Das ist der einzige Weg, Geld zu verkaufen!"`,
       url: '/test',
-      dated: '05/24/2024'
+      dated: new Date(2024,5,24)
     },
     author: {
       name: 'Jordan',
@@ -71,7 +71,7 @@ const quotes: QuoteType[] = [
       id: '1',
       text: `**Dominic:** "Wie viel hat deine Grafikkarte geteuert?"`,
       url: '/test',
-      dated: '01/26/2024'
+      dated: new Date(2024,1,26)
     },
     author: {
       name: 'Rubinschwein47',
@@ -87,7 +87,7 @@ const quotes: QuoteType[] = [
       id: '1',
       text: `**Daniel:** "Du könntest das Kabel vom Geld reinstecken"`,
       url: '/test',
-      dated: '01/15/2024'
+      dated: new Date(2024,1,15)
     },
     author: {
       name: 'Daniel',
@@ -107,7 +107,7 @@ const Main = () => {
   return (
     <MainContainer>
       {quotes.map((quote, index) => (
-        <Quote {...quote} key={`${console.log(index)}`} isLast={quotes.length == (index+1)} />
+        <Quote {...quote} key={index} isLast={quotes.length == (index+1)} />
       ))}
     </MainContainer>
   );

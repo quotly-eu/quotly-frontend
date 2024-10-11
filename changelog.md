@@ -1,9 +1,13 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
-## [0.2.1] - 2024-10-11
+## [0.2.1] - 2024-10-12
 ### Changes
 - theme file now has get values for font sizes
+- Switched from manual PWA to Vite-plugin-pwa
+- Button now vibrate shortly on click
+- Disabled ContextMenu
+- dated now uses date for locale formatting
 
 ### Fixes
 - Adjusted mobile responsiveness

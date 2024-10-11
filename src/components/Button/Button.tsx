@@ -153,6 +153,7 @@ const Button = ({children, className, href=undefined, isIconButton=false, style=
 }) => {
   const propagateClick = (event: React.MouseEvent) => {
     event.preventDefault();
+    navigator.vibrate(20);
     if(onClick) onClick(event);
   };
   return (

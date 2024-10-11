@@ -10,7 +10,7 @@ describe("Quote", () => {
         id: '1',
         text: `**Test**`,
         url: '/',
-        dated: '2 days ago'
+        dated: new Date(2024,4,7)
       }}
       author={{
         name: 'Author',
@@ -28,7 +28,7 @@ describe("Quote", () => {
           id: '1',
           text: text,
           url: '/',
-          dated: '2 days ago'
+          dated: new Date(2024,4,7)
         }}
         author={{
           name: 'Author',
@@ -47,7 +47,7 @@ describe("Quote", () => {
           id: '1',
           text: `**Test**`,
           url: '/',
-          dated: '2 days ago'
+          dated: new Date(2024,4,7)
         }}
         author={{
           name: author,
@@ -59,7 +59,7 @@ describe("Quote", () => {
     expect(getByText(author, {exact:false})).toBeInTheDocument();
   });
   it("renders dated", () => {
-    const dated = "vor 2 Tagen";
+    const dated = new Date(2024,4,7);
     const { getByText } = render(
       <Quote 
       quote={{
@@ -75,6 +75,6 @@ describe("Quote", () => {
       }}
       />
     );
-    expect(getByText(dated, {exact:false})).toBeInTheDocument();
+    expect(getByText(dated.toLocaleDateString(undefined, {dateStyle: 'long'}), {exact:false})).toBeInTheDocument();
   });
 });

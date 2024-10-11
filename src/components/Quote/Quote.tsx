@@ -213,7 +213,7 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
     return (
       <Author to={author.url}>
         <Avatar src={author.avatarUrl} />
-        {author.name} • {quote.dated}
+        {author.name} • {quote.dated.toLocaleDateString(undefined, {dateStyle: 'long'})}
       </Author>
     );
   };

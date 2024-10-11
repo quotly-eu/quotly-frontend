@@ -60,7 +60,7 @@ const RouteContainer = styled.div`
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AppContainer>
+      <AppContainer onContextMenu={(e) => e.preventDefault()}>
         <BrowserRouter>
           <GlobalStyle />
           <NavbarTop />

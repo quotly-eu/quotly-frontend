@@ -22,7 +22,7 @@ export type QuoteType = {
     id: string;
     text: string;
     url: string;
-    dated: string;
+    dated: Date;
   }
   author: {
     name: string;
