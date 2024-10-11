@@ -12,12 +12,12 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${props => props.theme.colors.accent_white_0};
     background-image: linear-gradient(to bottom left, ${props => props.theme.colors.accent_white_0}, ${props => props.theme.colors.accent_white_1});
 
-    min-height: 100dvh;
+    height: 100dvh;
 
     font-family: ${props => props.theme.font.family.default};
   }
   #root {
-    min-height: inherit;
+    height: inherit;
   }
 `;
 

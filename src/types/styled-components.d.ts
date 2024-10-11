@@ -11,5 +11,6 @@ declare module "styled-components" {
    *  padding: ${props => props.theme.spacing.m.rem};
    * `;
    */
-  export type DefaultTheme = CustomTheme
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  export interface DefaultTheme extends CustomTheme {}
 }

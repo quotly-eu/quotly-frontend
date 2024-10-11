@@ -1,52 +1,12 @@
-import React, { useEffect, useRef } from 'react'
-import styled, { useTheme } from 'styled-components'
+import React, { useEffect, useRef } from 'react';
+import styled, { css, useTheme } from 'styled-components';
 
-/**
- * DropDownItem type for FloatDropDown
- * @example
- * import FloatDropDown, { DropDownItem } from '../FloatDropDown/FloatDropDown';
- * 
- * const dropDownItems: DropDownItem[] = [
- *  {label: 'Item 1'},
- *  {label: 'Item 2'}
- * ];
- * 
- * <FloatDropDown dropDownItems={dropDownItems} />
- */
-export type DropDownItem = {
-  label: React.ReactNode,
-  href?: string
-  onClick?: () => void
-}
+import { DropDownItem, DropDownItemType } from './FloatDropDown.type';
+import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
+import { placeOrientation } from 'utils/placeOrientation';
+import { Link } from 'react-router-dom';
 
-/**
- * PlaceOrientation enum for FloatDropDown
- * @example
- * import FloatDropDown, { PlaceOrientation } from '../FloatDropDown/FloatDropDown';
- * 
- * <FloatDropDown place={PlaceOrientation.TopLeft} />
- */
-export enum PlaceOrientation {
-  TopLeft,
-  Top,
-  TopRight,
-
-  Left,
-  Center,
-  Right,
-  LeftInlineTop,
-  LeftInlineBottom,
-  RightInlineTop,
-  RightInlineBottom,
-
-  BottomLeft,
-  Bottom,
-  BottomRight,
-}
-
-interface FloatDropDownProps {
-  $placeOrientation?: PlaceOrientation,
-  $margin?: string,
+interface FloatDropDownProps extends PlaceOrientationProps {
   $active?: boolean
 }
 
@@ -56,91 +16,16 @@ const FloatDropDownContainer = styled.div`
 
 const FloatDropDownMenu = styled.div<FloatDropDownProps>`
   position:absolute;
-  background-color: ${props => props.theme.colors.accent_white_0};
 
   width: max-content;
 
-  ${({$placeOrientation, $margin}:FloatDropDownProps) => {
-    switch($placeOrientation) {
-      case PlaceOrientation.TopLeft: 
-        return `
-          bottom: calc(100% + ${$margin});
-          left: 0;
-        `;
-      case PlaceOrientation.Top: 
-        return `
-          bottom: calc(100% + ${$margin});
-          left: 50%;
-          translate: -50% 0;
-        `;
-      case PlaceOrientation.TopRight: 
-        return `
-          bottom: calc(100% + ${$margin});
-          right: 0;
-        `;
-      case PlaceOrientation.Left: 
-        return `
-          bottom: 50%;
-          right: calc(100% + ${$margin});
-          translate: 0 50%;
-        `;
-      case PlaceOrientation.Center:
-        return `
-          bottom: 50%;
-          left: calc(50% + ${$margin});
-          translate: -50% 50%;
-        `;
-      case PlaceOrientation.Right:
-        return `
-          bottom: 50%;
-          left: calc(100% + ${$margin});
-          translate: 0 50%;
-        `;
-      case PlaceOrientation.LeftInlineTop:
-        return `
-          top: 0;
-          right: calc(100% + ${$margin});
-        `;
-      case PlaceOrientation.LeftInlineBottom:
-        return `
-          bottom: 0;
-          right: calc(100% + ${$margin});
-        `;
-      case PlaceOrientation.RightInlineTop:
-        return `
-          top: 0;
-          left: calc(100% + ${$margin});
-        `;
-      case PlaceOrientation.RightInlineBottom:
-        return `
-          bottom: 0;
-          left: calc(100% + ${$margin});
-        `;
-      case PlaceOrientation.BottomLeft:
-        return `
-          top: calc(100% + ${$margin});
-          left:0;
-        `;
-      case PlaceOrientation.Bottom:
-        return `
-          top: calc(100% + ${$margin});
-          left: 50%;
-          translate: -50% 0;
-        `;
-      case PlaceOrientation.BottomRight:
-        return `
-          top: calc(100% + ${$margin});
-          right: 0;
-        `;
-      default:
-        return ``;
-    }
-  }}
+  ${({ theme }) => `
+    border-radius: ${theme.spacing.xs.rem};
+    box-shadow: ${theme.shadows.default};
+    transition: all ${theme.transition.times.m} ease-in-out;
+  `}
 
-  border-radius: ${props => props.theme.spacing.xs.em};
-
-  overflow:hidden;
-  box-shadow: ${props => props.theme.shadows.default};
+  ${placeOrientation}
   
   ${({$active}:FloatDropDownProps) => $active ? `
     opacity: 1;
@@ -148,24 +33,46 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
     ` : `
     opacity: 0;
     pointer-events: none;
+    scale: 1 0.9;
   `}
-  transition: all ${props => props.theme.transition.times.m} ease-in-out;
+
+  overflow:hidden;
+  z-index: 1;
+  backdrop-filter: brightness(1.075) blur(25px);
 `;
 
-const FloatDropDownItem = styled.a`
-  display:block;
-  color: ${props => props.theme.colors.text.dark};
+const FloatDropDownItem = css`
+  display:flex;
 
-  padding: ${props => props.theme.spacing.s.rem};
+  ${({ theme }) => `
+    color: ${theme.colors.text.dark};
 
-  font-size: ${props => props.theme.font.sizes.ss};
+    padding: ${theme.spacing.xs.rem};
+    gap: ${theme.spacing.xxs.rem};
+
+    font-size: ${theme.font.sizes.ss};
+    transition: background-color ${theme.transition.times.s} ease-in-out;
+
+    &:hover {
+      background-color: ${theme.colors.transparency.black(0.05)};
+    }
+  `}
 
   text-decoration: none;
+  align-items: center;
   cursor: pointer;
-  transition: background-color ${props => props.theme.transition.times.s} ease-in-out;
-  &:hover {
-    background-color: ${props => props.theme.colors.transparency.black(0.05)};
+  i {
+    width: 1.5em;
+    text-align: center;
   }
+`;
+
+const FloatDropDownAnchorItem = styled.a`
+  ${FloatDropDownItem}
+`;
+
+const FloatDropDownLinkItem = styled(Link)`
+  ${FloatDropDownItem}
 `;
 
 /**
@@ -175,13 +82,18 @@ const FloatDropDown = ({
   triggerElement,
   place=PlaceOrientation.TopLeft, 
   dropDownItems,
-  margin
+  margin,
+  startMargin,
+  "data-testid": dataTestId
 }:{
-  triggerElement: React.ReactNode,
+  triggerElement: React.ReactElement,
   place?: PlaceOrientation
   dropDownItems: DropDownItem[],
-  margin?: string
+  margin?: string,
+  startMargin?: string,
+  'data-testid'?: string
 }) => {
+  const theme = useTheme();
   const [isOpen, setIsOpen] = React.useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -189,33 +101,50 @@ const FloatDropDown = ({
     setIsOpen(!isOpen);
   };
 
+  const cloneTriggerElement = React.cloneElement(triggerElement, {
+    onClick: toggleDropDownMenu
+  });
+
   useEffect(() => {
     const toggleOutside = (event: MouseEvent) => {
       const dropDownTarget = dropDownRef.current;
-
-      if(dropDownTarget && !dropDownTarget.contains(event.target as Node)) 
+      if(isOpen && dropDownTarget && !dropDownTarget.contains(event.target as Node)) {
         setIsOpen(false);
-    }
+      }
+    };
     document.addEventListener('click', toggleOutside);
 
-    return () => {document.removeEventListener('click', toggleOutside)};
-  }, [])
-  const theme = useTheme();
+    return () => {document.removeEventListener('click', toggleOutside);};
+  });
 
   return (
     <FloatDropDownContainer ref={dropDownRef}>
-      <div onClick={toggleDropDownMenu}>
-        {triggerElement}
-      </div>
-      <FloatDropDownMenu $placeOrientation={place} $margin={margin || theme.spacing.xl.rem} $active={isOpen}>
-        {dropDownItems.map((dropDownItem, index) => (
-          <FloatDropDownItem href={dropDownItem.href} onClick={dropDownItem.onClick} key={index}>
-            {dropDownItem.label}
-          </FloatDropDownItem>
-        ))}
-      </FloatDropDownMenu>
+      {cloneTriggerElement}
+        <FloatDropDownMenu $placeOrientation={place} $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
+          {dropDownItems.map((dropDownItem, index) => {
+            const propagateClick = (event: React.MouseEvent) => {
+              event.stopPropagation();
+              if(dropDownItem.onClick) dropDownItem.onClick(event);
+              toggleDropDownMenu();
+            };
+
+            if(dropDownItem.type && dropDownItem.type === DropDownItemType.LINK) {
+              return (
+                <FloatDropDownLinkItem to={dropDownItem.href || ""} onClick={propagateClick} key={index}>
+                  {dropDownItem.label}
+                </FloatDropDownLinkItem>
+              );
+            }
+
+            return (
+              <FloatDropDownAnchorItem href={dropDownItem.href} onClick={propagateClick} key={index}>
+                {dropDownItem.label}
+              </FloatDropDownAnchorItem>
+            );
+          })}
+        </FloatDropDownMenu>
     </FloatDropDownContainer>
   );
-}
+};
 
-export default FloatDropDown
+export default FloatDropDown;

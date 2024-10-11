@@ -1,11 +1,13 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render } from "utils/quotly-testing";
 import NavbarTop from "../NavbarTop";
-import { ThemeProvider } from "styled-components";
-import theme from "../../../assets/themes/default";
 
 describe("NavbarTop", () => {
   it("renders", () => {
-    expect(render(<ThemeProvider theme={theme}><NavbarTop /></ThemeProvider>)).not.toBeNull();
+    expect(render(<NavbarTop />)).not.toBeNull();
+  });
+  it("renders search input", () => {
+    const { getByRole } = render(<NavbarTop />);
+    expect(getByRole("textbox")).toBeInTheDocument();
   });
 });
