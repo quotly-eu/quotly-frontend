@@ -18,7 +18,12 @@ import { Link } from 'react-router-dom';
 
 
 // Styles
-const Style_Badge = styled(Badge)``;
+const Style_Badge = styled(Badge)`
+  font-size: ${({theme}) => theme.font.sizes.xxs.rem};
+  @media (max-width: ${({theme}) => theme.breakpoints.md}) {
+    font-size: ${({theme}) => theme.font.sizes.xxxs.rem};
+  }
+`;
 
 const QuoteContainer = styled.div`
   display:grid;
@@ -35,11 +40,11 @@ const QuoteContainer = styled.div`
     padding: ${theme.spacing.m.rem};
     gap: ${theme.spacing.s.rem};
     
-    font-size: ${theme.font.sizes.s};
+    font-size: ${theme.font.sizes.s.rem};
     border-radius: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.md}) {
-      font-size: ${theme.font.sizes.xs};
+      font-size: ${theme.font.sizes.xs.rem};
       padding: ${theme.spacing.xs.rem};
     }
   `}
@@ -57,13 +62,16 @@ const Style_Markdown = styled(Link)`
 
     padding: ${theme.spacing.s.rem};
     border-radius: ${theme.spacing.xxs.rem};
+
+    &:hover {backdrop-filter: brightness(1.05);}
+    transition: backdrop-filter ${theme.transition.times.s} ease-in-out;
   `}
 
   text-wrap: balance;
   text-decoration: none;
   justify-content: center;
   align-items: center;
-  `;
+`;
 
 const Author = styled(Link)`
   display: flex;
@@ -74,11 +82,14 @@ const Author = styled(Link)`
 
     padding: ${theme.spacing.xxs.rem} ${theme.spacing.xs.rem};
     gap: ${theme.spacing.xxxs.rem};
+    border-radius: ${theme.spacing.xxs.rem};
+    font-size: ${theme.font.sizes.xxs.rem};
 
-    font-size: ${theme.font.sizes.xxs};
+    &:hover {backdrop-filter: brightness(1.05);}
+    transition: backdrop-filter ${theme.transition.times.s} ease-in-out;
 
     @media (max-width: ${theme.breakpoints.md}) {
-      font-size: ${theme.font.sizes.xxxs};
+      font-size: ${theme.font.sizes.xxxs.rem};
     }
   `}
 
@@ -218,7 +229,6 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
               place: PlaceOrientation.Bottom,
               margin: "-100%"
             }} 
-            fontSize={theme.font.sizes.xxs}
             style={BadgeStyles.transparent}
           />
         }

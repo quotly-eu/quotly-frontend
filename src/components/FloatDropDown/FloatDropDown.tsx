@@ -50,7 +50,7 @@ const FloatDropDownItem = css`
     padding: ${theme.spacing.xs.rem};
     gap: ${theme.spacing.xxs.rem};
 
-    font-size: ${theme.font.sizes.ss};
+    font-size: ${theme.font.sizes.ss.rem};
     transition: background-color ${theme.transition.times.s} ease-in-out;
 
     &:hover {

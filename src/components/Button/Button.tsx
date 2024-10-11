@@ -120,7 +120,7 @@ const ButtonContainer = styled.a<ButtonProps>`
       `
   }
   ${({$gap, theme}) => `
-    font-size: ${theme.font.sizes.s};
+    font-size: ${theme.font.sizes.s.rem};
     gap: ${$gap || theme.spacing.xxs.rem};
     transition-duration: ${theme.transition.times.s};
   `}

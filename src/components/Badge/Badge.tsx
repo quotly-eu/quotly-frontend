@@ -8,7 +8,9 @@ import { CustomTheme } from 'types/styled-components';
 // TYPES
 interface BadgeProps extends PlaceOrientationProps {
   $style?: string,
-  $fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']],
+  $fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']][
+    keyof CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
+  ],
 }
 
 // STYLES
@@ -69,7 +71,7 @@ const BadgeContainer = styled.div<BadgeProps>`
   ${({$fontSize, theme}) => `
     color: ${theme.colors.text.light};
 
-    font-size: ${$fontSize || theme.font.sizes.xxxs};
+    font-size: ${$fontSize || theme.font.sizes.xxxs.em};
     padding: ${theme.spacing.xxxs.rem} ${theme.spacing.xxs.rem};
     gap: ${theme.spacing.xxxs.rem};
 
@@ -97,7 +99,9 @@ const Badge = ({children, className, place, style=BadgeStyles.default, fontSize}
   }
   margin?: string
   style?: BadgeStyles
-  fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
+  fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']][
+    keyof CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
+  ]
 }) => {
   return (
     <BadgeContainer className={className} $placeOrientation={place?.place} $margin={place?.margin || "0px"} $style={style} $fontSize={fontSize}>

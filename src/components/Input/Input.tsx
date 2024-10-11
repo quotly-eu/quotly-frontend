@@ -13,7 +13,7 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
 
   border-radius: 100vmax;
 
-  font-size: ${props => props.theme.font.sizes.xs};
+  font-size: ${props => props.theme.font.sizes.xs.rem};
 
   justify-content: center;
   align-items: center;

@@ -1,6 +1,6 @@
 {
   "name": "quotly-frontend",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": true,
   "license": "MIT",
   "dependencies": {
@@ -32,7 +32,7 @@
     "start": "vite",
     "build": "tsc -b && vite build",
     "test": "react-scripts test",
-    "lint:check": "eslint ./src",
+    "lint": "eslint ./src",
     "lint:fix": "eslint ./src --quiet --fix",
     "preview": "vite preview",
     "eject": "react-scripts eject"

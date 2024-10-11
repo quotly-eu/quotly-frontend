@@ -1,7 +1,14 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
-## [0.2.0] - 2024-10-04
+## [0.2.1] - 2024-10-11
+### Changes
+- theme file now has get values for font sizes
+
+### Fixes
+- Adjusted mobile responsiveness
+
+## [0.2.0] - 2024-10-10
 ### Additions
 - Quote Component [#1](https://github.com/quotly-eu/quotly-frontend/issues/1)
 - ButtonPalette Component [#2](https://github.com/quotly-eu/quotly-frontend/issues/2)

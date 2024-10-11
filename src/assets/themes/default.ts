@@ -86,16 +86,66 @@ const theme = {
   },
   font: {
     sizes: {
-      xxxs: '0.75rem',
-      xxs: '1rem',
-      xs: '1.125rem',
-      ss: '1.25rem',
-      s: '1.5rem',
-      m: '2rem',
-      l: '3rem',
-      xl: '4rem',
-      xxl: '5rem',
-      xxxl: '6rem',
+      xxxs: {
+        value: 0.75,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;}
+      },
+      xxs: {
+        value: 1,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;},
+      },
+      xs: {
+        value: 1.125,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;},
+      },
+      ss: {
+        value: 1.25,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;},
+      },
+      s: {
+        value: 1.5,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;},
+      },
+      m: {
+        value: 2,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;},
+      },
+      l: {
+        value: 3,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;},
+      },
+      xl: {
+        value: 4,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;},
+      },
+      xxl: {
+        value: 5,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;},
+      },
+      xxxl: {
+        value: 6,
+        get rem() {return `${this.value}rem`;},
+        get em() {return `${this.value}em`;},
+        get px() {return `${this.value * 16}px`;}
+      }
     },
     family: {
       default: '"Nunito", Arial, sans-serif',
