@@ -229,7 +229,7 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
             children={abbreviateNumber(reaction.counter)} 
             place={{
               place: PlaceOrientation.Bottom,
-              margin: "-100%"
+              margin: "-75%"
             }} 
             style={BadgeStyles.transparent}
           />
