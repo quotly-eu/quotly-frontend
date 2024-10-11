@@ -12,7 +12,7 @@ const NavbarTopContainer = styled.div`
   display: grid;
   grid-area: navbar-top;
 
-  padding: ${props => props.theme.spacing.m.rem};
+  padding: ${props => props.theme.spacing.s.rem};
   gap: ${props => props.theme.spacing.s.rem};
   grid-template-areas: "center right";
   grid-template-columns: 1fr auto;

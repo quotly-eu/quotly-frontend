@@ -51,7 +51,7 @@ const QuoteContainer = styled.div`
 const Style_Markdown = styled(Link)`
   display: flex;
   grid-area: text;
-  
+
   ${({ theme }) => `
     color: ${theme.colors.text.dark};
 
@@ -100,6 +100,7 @@ const Actions = styled.div`
   flex-wrap: wrap;
 
   justify-content: flex-end;
+  align-items: flex-start;
 
   ${({ theme }) => `
     @media (max-width: ${theme.breakpoints.md}) {
@@ -141,6 +142,12 @@ const quoteOptions: DropDownItem[] = [
     }
   },
   {
+    label: (<><i className="fas fa-share"></i> Share</>),
+    onClick: () => {
+      console.log('Share');
+    }
+  },
+  {
     label: (<><i className="fas fa-pencil"></i> Edit</>),
     onClick: () => {
       console.log('Edit');
@@ -158,7 +165,7 @@ const quoteOptions: DropDownItem[] = [
  * Quote Component, the main component for the Quotly page
  * 
  */
-const Quote = ({quote, author, reactions}:QuoteType) => {
+const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   const theme = useTheme();
   const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
   const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
@@ -261,13 +268,8 @@ const Quote = ({quote, author, reactions}:QuoteType) => {
             </Style_Button>
           }
           dropDownItems={quoteOptions}
-          place={PlaceOrientation.InsetTopRight}
+          place={isLast ? PlaceOrientation.InsetBottomRight : PlaceOrientation.InsetTopRight}
           margin={"0px"}
-        />
-        <Style_Button 
-          isIconButton={true} 
-          style={ButtonStyles.transparent}
-          children={<i className="fa-solid fa-share"></i>}
         />
         {renderButtonPalette(PlaceOrientation.InsetRight, theme.spacing.xs.rem)}
       </Actions>

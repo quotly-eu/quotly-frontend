@@ -35,5 +35,6 @@ export type QuoteType = {
       icon: string;
       count?: number;
     }[]
-  }
+  },
+  isLast?: boolean;
 };

@@ -17,7 +17,7 @@ const NavbarLeftContainer = styled.div`
   display: grid;
   grid-area: navbar-left;
 
-  padding: ${props => props.theme.spacing.m.rem};
+  padding: ${props => props.theme.spacing.s.rem};
   gap: ${props => props.theme.spacing.s.rem};
   grid-template-areas: 
     "top"
@@ -122,7 +122,7 @@ const NavbarLeft = () => {
           place={PlaceOrientation.TopLeft}
           triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
           dropDownItems={DropDownItems}
-          startMargin={theme.spacing.l.rem}
+          startMargin={theme.spacing.m.rem}
         />
       </Top>
       <Center>
@@ -134,7 +134,7 @@ const NavbarLeft = () => {
               place={PlaceOrientation.Right}
               triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
               dropDownItems={DropDownItems}
-              startMargin={theme.spacing.l.rem}
+              startMargin={theme.spacing.m.rem}
             />
           }
         />
@@ -153,7 +153,7 @@ const NavbarLeft = () => {
               place={PlaceOrientation.TopRight}
               triggerElement={<ProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
-              startMargin={theme.spacing.l.rem}
+              startMargin={theme.spacing.m.rem}
             />
           }
           desktop={
@@ -161,7 +161,7 @@ const NavbarLeft = () => {
               place={PlaceOrientation.RightInlineBottom}
               triggerElement={<ProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
-              startMargin={theme.spacing.l.rem}
+              startMargin={theme.spacing.m.rem}
             />
           } />
       </Bottom>

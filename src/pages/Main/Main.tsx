@@ -1,6 +1,7 @@
 import React from 'react';
 import Quote from '../../components/Quote/Quote';
 import styled from 'styled-components';
+import { QuoteType } from 'components/Quote/Quote.type';
 
 const MainContainer = styled.div`
   display: grid;
@@ -31,77 +32,83 @@ const defaultIcons = [
   }
 ];
 
+const quotes: QuoteType[] = [
+  {
+    quote: {
+      id: '1',
+      text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
+      url: '/test',
+      dated: '07/04/2024'
+    },
+    author: {
+      name: 'Daniel',
+      avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
+      url: '/'
+    },
+    reactions: {
+      icons: defaultIcons
+    }
+  },
+  {
+    quote: {
+      id: '1',
+      text: `**Domi:** "Das ist der einzige Weg, Geld zu verkaufen!"`,
+      url: '/test',
+      dated: '05/24/2024'
+    },
+    author: {
+      name: 'Jordan',
+      avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
+      url: '/'
+    },
+    reactions: {
+      reactedIcon: 'face-with-tears-of-joy',
+      icons: defaultIcons
+    }
+  },
+  {
+    quote: {
+      id: '1',
+      text: `**Dominic:** "Wie viel hat deine Grafikkarte geteuert?"`,
+      url: '/test',
+      dated: '01/26/2024'
+    },
+    author: {
+      name: 'Rubinschwein47',
+      avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=2',
+      url: '/'
+    },
+    reactions: {
+      icons: defaultIcons
+    }
+  },
+  {
+    quote:{
+      id: '1',
+      text: `**Daniel:** "Du könntest das Kabel vom Geld reinstecken"`,
+      url: '/test',
+      dated: '01/15/2024'
+    },
+    author: {
+      name: 'Daniel',
+      avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
+      url: '/'
+    },
+    reactions: {
+      icons: defaultIcons
+    }
+  }
+];
+
 /**
  * Main Page for Quotly
  */
 const Main = () => {
   return (
     <MainContainer>
-      <Quote 
-        quote={{
-          id: '1',
-          text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
-          url: '/test',
-          dated: '07/04/2024'
-        }}
-        author={{
-          name: 'Daniel',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
-          url: '/'
-        }}
-        reactions={{
-          icons: defaultIcons
-        }}
-      />
-      <Quote 
-        quote={{
-          id: '1',
-          text: `**Domi:** "Das ist der einzige Weg, Geld zu verkaufen!"`,
-          url: '/test',
-          dated: '05/24/2024'
-        }}
-        author={{
-          name: 'Jordan',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
-          url: '/'
-        }}
-        reactions={{
-          reactedIcon: 'face-with-tears-of-joy',
-          icons: defaultIcons
-        }}
-      />
-      <Quote 
-        quote={{
-          id: '1',
-          text: `**Dominic:** "Wie viel hat deine Grafikkarte geteuert?"`,
-          url: '/test',
-          dated: '01/26/2024'
-        }}
-        author={{
-          name: 'Rubinschwein47',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=2',
-          url: '/'
-        }}
-        reactions={{
-          icons: defaultIcons
-        }}
-      />
-      <Quote 
-        quote={{
-          id: '1',
-          text: `**Daniel:** "Du könntest das Kabel vom Geld reinstecken"`,
-          url: '/test',
-          dated: '01/15/2024'
-        }}
-        author={{
-          name: 'Daniel',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
-          url: '/'
-        }}
-        reactions={{
-          icons: defaultIcons
-        }}
-      />
+      {quotes.map((quote, index) => (
+        <Quote {...quote} key={`${console.log(index)}`} isLast={quotes.length == (index+1)} />
+      ))}
     </MainContainer>
   );
 };

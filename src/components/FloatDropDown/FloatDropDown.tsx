@@ -120,7 +120,11 @@ const FloatDropDown = ({
   return (
     <FloatDropDownContainer ref={dropDownRef}>
       {cloneTriggerElement}
-        <FloatDropDownMenu $placeOrientation={place} $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
+        <FloatDropDownMenu 
+          $placeOrientation={place} 
+          $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.l.rem} 
+          $active={isOpen} 
+          data-testid={dataTestId}>
           {dropDownItems.map((dropDownItem, index) => {
             const propagateClick = (event: React.MouseEvent) => {
               event.stopPropagation();
