@@ -15,6 +15,7 @@ import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
 import { BadgeStyles } from 'components/Badge/Badge.type';
 import { QuoteType } from './Quote.type';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 
 // Styles
@@ -146,42 +147,42 @@ const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles
   `}
 `;
 
-/* CONSTANTS */
-const quoteOptions: DropDownItem[] = [
-  {
-    label: (<><i className='far fa-bookmark'></i> Save</>),
-    onClick: () => {
-      console.log('Save');
-    }
-  },
-  {
-    label: (<><i className="fas fa-share"></i> Share</>),
-    onClick: () => {
-      console.log('Share');
-    }
-  },
-  {
-    label: (<><i className="fas fa-pencil"></i> Edit</>),
-    onClick: () => {
-      console.log('Edit');
-    }
-  },
-  {
-    label: (<><i className="fas fa-trash"></i> Delete</>),
-    onClick: () => {
-      console.log('Delete');
-    }
-  }
-];
-
 /**
  * Quote Component, the main component for the Quotly page
  * 
  */
 const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
   const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
+  
+  const quoteOptions: DropDownItem[] = [
+    {
+      label: (<><i className='far fa-bookmark'></i> {t('quote.save')}</>),
+      onClick: () => {
+        console.log(t('quote.share'));
+      }
+    },
+    {
+      label: (<><i className="fas fa-share"></i> {t('quote.share')}</>),
+      onClick: () => {
+        console.log(t('quote.share'));
+      }
+    },
+    {
+      label: (<><i className="fas fa-pencil"></i> {t('quote.edit')}</>),
+      onClick: () => {
+        console.log(t('quote.edit'));
+      }
+    },
+    {
+      label: (<><i className="fas fa-trash"></i> {t('quote.delete')}</>),
+      onClick: () => {
+        console.log(t('quote.delete'));
+      }
+    }
+  ];
   
   const abbreviateNumber = (value: number) => {
     let newValue = value;

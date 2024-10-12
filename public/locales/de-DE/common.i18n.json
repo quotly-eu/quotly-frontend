@@ -1,8 +1,20 @@
 {
+  "quotly": "Quotly",
+  "home": "Startseite",
+  "trends": "Trends",
+  "profile": "Profil",
+  "settings": "Einstellungen",
+  "logout": "Abmelden",
   "page_not_found": {
     "404": "404",
     "title": "Seite nicht gefunden",
     "description": "Diese Seite existiert nicht. Bitte überprüfen Sie die URL oder klicken Sie auf die Schaltfläche unten, um auf die vorherige Seite zurückzukehren.",
     "return": "Zurück"
+  },
+  "quote": {
+    "save": "Speichern",
+    "share": "Teilen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen"
   }
 }

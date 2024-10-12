@@ -1,0 +1,20 @@
+{
+  "quotly": "Quotly",
+  "home": "Home",
+  "trends": "Trends",
+  "profile": "Profile",
+  "settings": "Settings",
+  "logout": "Logout",
+  "page_not_found": {
+    "404": "404",
+    "title": "Page not found",
+    "description": "This page does not exist. Please check the URL or click the button below to return to the previous page.",
+    "return": "Return"
+  },
+  "quote": {
+    "save": "Save",
+    "share": "Share",
+    "edit": "Edit",
+    "delete": "Delete"
+  }
+}

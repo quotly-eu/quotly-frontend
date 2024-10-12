@@ -21,7 +21,7 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     backend: {
-      loadPath: 'src/assets/locales/{{lng}}/{{ns}}.i18n.json',
+      loadPath: import.meta.env.PROD ? '/locales/{{lng}}/{{ns}}.i18n.json' : '/public/locales/{{lng}}/{{ns}}.i18n.json',
     },
     debug: !import.meta.env.PROD,
     defaultNS: 'common',

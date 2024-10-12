@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
+import { useTranslation } from 'react-i18next';
 
 import Button from 'components/Button/Button';
 import ProfileButton from 'components/ProfileButton/ProfileButton';
@@ -10,7 +11,6 @@ import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem, DropDownItemType } from 'components/FloatDropDown/FloatDropDown.type';
 import { PlaceOrientation } from 'types/placeOrientation.type';
-
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -77,44 +77,45 @@ const Bottom = styled.div`
   grid-area: bottom;
 `;
 
-const DropDownItems: DropDownItem[] = [
-  {
-    label: (<><i className="fa-solid fa-home"></i> Home</>),
-    href: '/',
-    type: DropDownItemType.LINK,
-  },
-  {
-    label: (<><i className="fa-solid fa-fire"></i> Trends</>)
-  }
-];
-
-const ProfileDropDownItems: DropDownItem[] = [
-  {
-    label: (<><i className="fa-solid fa-user"></i> Profile</>),
-    href: '/profile',
-    type: DropDownItemType.LINK,
-  },
-  {
-    label: (<><i className="fa-solid fa-cog"></i> Settings</>),
-    href: '/settings',
-    type: DropDownItemType.LINK,
-  },
-  {
-    label: (<><i className="fa-solid fa-sign-out"></i> Logout</>),
-    href: '/logout',
-    type: DropDownItemType.LINK,
-  }
-];
-
 /**
  * NavbarLeft Component
  */
 const NavbarLeft = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
+
+  const DropDownItems: DropDownItem[] = [
+    {
+      label: (<><i className="fa-solid fa-home"></i> {t('home')}</>),
+      href: '/',
+      type: DropDownItemType.LINK,
+    },
+    {
+      label: (<><i className="fa-solid fa-fire"></i> {t('trends')}</>)
+    }
+  ];
+  
+  const ProfileDropDownItems: DropDownItem[] = [
+    {
+      label: (<><i className="fa-solid fa-user"></i> {t('profile')}</>),
+      href: '/profile',
+      type: DropDownItemType.LINK,
+    },
+    {
+      label: (<><i className="fa-solid fa-cog"></i> {t('settings')}</>),
+      href: '/settings',
+      type: DropDownItemType.LINK,
+    },
+    {
+      label: (<><i className="fa-solid fa-sign-out"></i> {t('logout')}</>),
+      href: '/logout',
+      type: DropDownItemType.LINK,
+    }
+  ];
 
   return (
     <NavbarLeftContainer>
-      <LogoBrand href='/' title='Quotly'>
+      <LogoBrand href='/' title={t('quotly')}>
         <Logo />
       </LogoBrand>
       <Top $type='mobile'>
