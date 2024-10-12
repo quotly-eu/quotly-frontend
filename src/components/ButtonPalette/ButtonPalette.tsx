@@ -19,11 +19,11 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
 
   border-radius: 100vmax;
   justify-content: start;
-  transition: all 0.3s ease-in-out;
   z-index: 1;
   ${({ theme, $active }) => `
     box-shadow: ${theme.shadows.default}, inset ${theme.shadows.default};
     backdrop-filter: brightness(1.075) blur(10px);
+    transition: all ${theme.transition.times.m} ease-in-out;
     ${$active ? `
       opacity: 1;
       pointer-events: all;

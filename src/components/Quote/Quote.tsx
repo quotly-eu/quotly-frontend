@@ -116,9 +116,9 @@ const Actions = styled.div`
   align-items: flex-start;
 
   ${({ theme }) => `
+    gap: ${theme.spacing.xxs.rem};
     @media (max-width: ${theme.breakpoints.md}) {
       flex-direction: column;
-      gap: ${theme.spacing.xxs.rem};
       justify-content: flex-start;
     }
   `}
@@ -139,7 +139,7 @@ const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles
 
   ${({ theme }) => `
     @media (max-width: ${theme.breakpoints.md}) {
-      padding: ${theme.spacing.xxxs.rem};
+      padding: ${theme.spacing.xxs.rem};
       width: ${theme.spacing.xl.rem};
       height: ${theme.spacing.xl.rem};
     }

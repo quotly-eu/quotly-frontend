@@ -36,6 +36,8 @@ const AppContainer = styled.div`
   }
 `;
 const RouteContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   grid-area: route;
 
   ${({ theme }) => `
@@ -60,7 +62,7 @@ const RouteContainer = styled.div`
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AppContainer onContextMenu={(e) => e.preventDefault()}>
+      <AppContainer onContextMenu={(e) => import.meta.env.PROD && e.preventDefault()}>
         <BrowserRouter>
           <GlobalStyle />
           <NavbarTop />
