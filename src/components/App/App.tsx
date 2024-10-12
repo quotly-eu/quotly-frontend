@@ -62,7 +62,7 @@ const RouteContainer = styled.div`
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AppContainer onContextMenu={(e) => import.meta.env.PROD && e.preventDefault()}>
+      <AppContainer onContextMenu={() => false}>
         <BrowserRouter>
           <GlobalStyle />
           <NavbarTop />
