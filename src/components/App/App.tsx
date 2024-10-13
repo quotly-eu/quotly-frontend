@@ -10,8 +10,7 @@ import NavbarTop from '../NavbarTop/NavbarTop';
 import NavbarLeft from '../NavbarLeft/NavbarLeft';
 
 // Theme
-import theme from '../../assets/themes/default';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import GlobalStyle from '../../assets/themes/GlobalStyle';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -32,7 +31,7 @@ const AppContainer = styled.div`
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
 
-  @media (max-width: ${theme.breakpoints.md}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     grid-template-areas:
       'navbar-top'
       'route'
@@ -94,7 +93,7 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <AppContainer onContextMenu={() => false}>
         <BrowserRouter>
           <GlobalStyle />
@@ -110,7 +109,7 @@ function App() {
           <NavbarLeft />
         </BrowserRouter>
       </AppContainer>
-    </ThemeProvider>
+    </>
   );
 }
 

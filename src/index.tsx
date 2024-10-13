@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-
-import App from './components/App/App';
+import theme from 'assets/themes/default';
 
 import i18n from './i18n';
 import { I18nextProvider } from 'react-i18next';
+import { ThemeProvider } from 'styled-components';
+
+import App from 'components/App/App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <I18nextProvider i18n={i18n}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </I18nextProvider>
   </React.StrictMode>
 );
