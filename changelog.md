@@ -1,7 +1,7 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
-## [0.2.1] - 2024-10-12
+## [0.3.0] - 2024-10-13
 ### Additions
 - Added i18n for translations [#4](https://github.com/quotly-eu/quotly-frontend/issues/4)
 
@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Disabled ContextMenu
 - dated now uses date for locale formatting
 - 404 page has now been updated
+- Switched from fontawesome css to react-fontawesome
 
 ### Fixes
 - Adjusted mobile responsiveness

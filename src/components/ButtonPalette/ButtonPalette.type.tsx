@@ -1,6 +1,6 @@
-import Button from "components/Button/Button";
-import { ReactElement } from "react";
-import { PlaceOrientation } from "types/placeOrientation.type";
+import Button from 'components/Button/Button';
+import { ReactElement } from 'react';
+import { PlaceOrientation } from 'types/placeOrientation.type';
 
 /**
  * ButtonPaletteType for ButtonPalette

@@ -62,7 +62,7 @@ const FloatDropDownItem = css`
   text-decoration: none;
   align-items: center;
   cursor: pointer;
-  i {
+  .svg-inline--fa {
     width: 1.5em;
     text-align: center;
   }
@@ -85,7 +85,7 @@ const FloatDropDown = ({
   dropDownItems,
   margin,
   startMargin,
-  "data-testid": dataTestId
+  'data-testid': dataTestId
 }:{
   triggerElement: React.ReactElement,
   place?: PlaceOrientation
@@ -136,7 +136,7 @@ const FloatDropDown = ({
 
             if(dropDownItem.type && dropDownItem.type === DropDownItemType.LINK) {
               return (
-                <FloatDropDownLinkItem to={dropDownItem.href || ""} onClick={propagateClick} key={index}>
+                <FloatDropDownLinkItem to={dropDownItem.href || ''} onClick={propagateClick} key={index}>
                   {dropDownItem.label}
                 </FloatDropDownLinkItem>
               );

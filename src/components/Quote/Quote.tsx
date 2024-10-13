@@ -3,6 +3,7 @@ import styled, { useTheme } from 'styled-components';
 
 import Markdown from 'react-markdown';
 import { Icon } from '@iconify/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from 'components/Button/Button';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
@@ -29,8 +30,8 @@ const Style_Badge = styled(Badge)`
 const QuoteContainer = styled.div`
   display:grid;
   grid-template-areas:
-    "text actions"
-    "author actions";
+    'text actions'
+    'author actions';
   grid-template-columns: 1fr auto;
   grid-template-rows: 1fr auto;
 
@@ -159,25 +160,25 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   
   const quoteOptions: DropDownItem[] = [
     {
-      label: (<><i className='far fa-bookmark'></i> {t('quote.save')}</>),
+      label: (<><FontAwesomeIcon icon={['far', 'bookmark']} /> {t('quote.save')}</>),
       onClick: () => {
         console.log(t('quote.share'));
       }
     },
     {
-      label: (<><i className="fas fa-share"></i> {t('quote.share')}</>),
+      label: (<><FontAwesomeIcon icon='share' /> {t('quote.share')}</>),
       onClick: () => {
         console.log(t('quote.share'));
       }
     },
     {
-      label: (<><i className="fas fa-pencil"></i> {t('quote.edit')}</>),
+      label: (<><FontAwesomeIcon icon='pencil' /> {t('quote.edit')}</>),
       onClick: () => {
         console.log(t('quote.edit'));
       }
     },
     {
-      label: (<><i className="fas fa-trash"></i> {t('quote.delete')}</>),
+      label: (<><FontAwesomeIcon icon='trash' /> {t('quote.delete')}</>),
       onClick: () => {
         console.log(t('quote.delete'));
       }
@@ -186,21 +187,21 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   
   const abbreviateNumber = (value: number) => {
     let newValue = value;
-    let suffix = "";
+    let suffix = '';
     if (value >= 1000) {
-      suffix = "K";
+      suffix = 'K';
       newValue = value / 1000;
     } 
     if (value >= 1000000) {
-      suffix = "M";
+      suffix = 'M';
       newValue = value / 1000000;
     } 
     if (value >= 1000000000) {
-      suffix = "B";
+      suffix = 'B';
       newValue = value / 1000000000;
     } 
     if (value >= 1000000000000) {
-      suffix = "T";
+      suffix = 'T';
       newValue = value / 1000000000000;
     }
     return newValue.toFixed(0) + suffix;
@@ -215,7 +216,7 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   const renderAuthor = () => {
     return (
       <Author to={author.url}>
-        <Avatar src={author.avatarUrl} />
+        <Avatar src={author.avatarUrl} alt={author.name} />
         {author.name} • {quote.dated.toLocaleDateString(undefined, {dateStyle: 'long'})}
       </Author>
     );
@@ -224,13 +225,13 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   const renderReaction = (reaction:{icon?:string, counter?:number}) => {
     return (
       <>
-        <Style_Icon icon={"fluent-emoji:" + reaction.icon} />
+        <Style_Icon icon={'fluent-emoji:' + reaction.icon} />
         {reaction.counter && 
           <Style_Badge 
             children={abbreviateNumber(reaction.counter)} 
             place={{
               place: PlaceOrientation.Bottom,
-              margin: "-75%"
+              margin: '-75%'
             }} 
             style={BadgeStyles.transparent}
           />
@@ -277,12 +278,12 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
         <FloatDropDown
           triggerElement={
             <Style_Button isIconButton={true} style={ButtonStyles.transparent}>
-              <i className="fas fa-ellipsis"></i>
+              <FontAwesomeIcon icon='ellipsis' />
             </Style_Button>
           }
           dropDownItems={quoteOptions}
           place={isLast ? PlaceOrientation.InsetBottomRight : PlaceOrientation.InsetTopRight}
-          margin={"0px"}
+          margin={'0px'}
         />
         {renderButtonPalette(PlaceOrientation.InsetRight, theme.spacing.xs.rem)}
       </Actions>

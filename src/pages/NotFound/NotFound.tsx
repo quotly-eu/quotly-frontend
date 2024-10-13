@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import Button from 'components/Button/Button';
 
 import { ButtonStyles } from 'components/Button/Button.type';
@@ -76,7 +78,7 @@ const NotFound = () => {
         style={ButtonStyles.primary}
         gap={theme.spacing.xs.em}
       >
-        <i className='fas fa-arrow-left'></i> {t('page_not_found.return')}
+        <FontAwesomeIcon icon='arrow-left' /> {t('page_not_found.return')}
       </Style_Button>
     </NotFoundContainer>
   );

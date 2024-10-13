@@ -105,7 +105,7 @@ const Badge = ({children, className, place, style=BadgeStyles.default, fontSize}
   ]
 }) => {
   return (
-    <BadgeContainer className={className} $placeOrientation={place?.place} $margin={place?.margin || "0px"} $style={style} $fontSize={fontSize}>
+    <BadgeContainer className={className} $placeOrientation={place?.place} $margin={place?.margin || '0px'} $style={style} $fontSize={fontSize}>
       {children}
     </BadgeContainer>
   );

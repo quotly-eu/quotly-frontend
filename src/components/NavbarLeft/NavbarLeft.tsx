@@ -3,6 +3,8 @@ import styled, { useTheme } from 'styled-components';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { useTranslation } from 'react-i18next';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import Button from 'components/Button/Button';
 import ProfileButton from 'components/ProfileButton/ProfileButton';
 import Switcher from 'components/Switcher/Switcher';
@@ -20,9 +22,9 @@ const NavbarLeftContainer = styled.div`
   padding: ${props => props.theme.spacing.s.rem};
   gap: ${props => props.theme.spacing.s.rem};
   grid-template-areas: 
-    "top"
-    "center"
-    "bottom";
+    'top'
+    'center'
+    'bottom';
   grid-template-rows: auto 1fr auto;
 
   align-items: center;
@@ -30,7 +32,7 @@ const NavbarLeftContainer = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     grid-template-areas: 
-      "top center bottom";
+      'top center bottom';
     grid-template-columns: auto 1fr auto;
     grid-template-rows: none;
   }
@@ -44,7 +46,7 @@ const LogoBrand = styled.a`
   font-size: 1.5rem;
   font-weight: 700;
 
-  filter: drop-shadow(${props => props.theme.shadows.accent_default("#245d6059")});
+  filter: drop-shadow(${props => props.theme.shadows.accent_default('#245d6059')});
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: none;
@@ -86,28 +88,28 @@ const NavbarLeft = () => {
 
   const DropDownItems: DropDownItem[] = [
     {
-      label: (<><i className="fa-solid fa-home"></i> {t('home')}</>),
+      label: (<><FontAwesomeIcon icon='home' /> {t('home')}</>),
       href: '/',
       type: DropDownItemType.LINK,
     },
     {
-      label: (<><i className="fa-solid fa-fire"></i> {t('trends')}</>)
+      label: (<><FontAwesomeIcon icon='fire' /> {t('trends')}</>)
     }
   ];
   
   const ProfileDropDownItems: DropDownItem[] = [
     {
-      label: (<><i className="fa-solid fa-user"></i> {t('profile')}</>),
+      label: (<><FontAwesomeIcon icon='user' /> {t('profile')}</>),
       href: '/profile',
       type: DropDownItemType.LINK,
     },
     {
-      label: (<><i className="fa-solid fa-cog"></i> {t('settings')}</>),
+      label: (<><FontAwesomeIcon icon='cog' /> {t('settings')}</>),
       href: '/settings',
       type: DropDownItemType.LINK,
     },
     {
-      label: (<><i className="fa-solid fa-sign-out"></i> {t('logout')}</>),
+      label: (<><FontAwesomeIcon icon='sign-out' /> {t('logout')}</>),
       href: '/logout',
       type: DropDownItemType.LINK,
     }
@@ -121,7 +123,7 @@ const NavbarLeft = () => {
       <Top $type='mobile'>
         <FloatDropDown
           place={PlaceOrientation.TopLeft}
-          triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
+          triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='bars' /></Button>}
           dropDownItems={DropDownItems}
           startMargin={theme.spacing.m.rem}
         />
@@ -133,17 +135,17 @@ const NavbarLeft = () => {
           desktop={
             <FloatDropDown
               place={PlaceOrientation.Right}
-              triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-bars"></i></Button>}
+              triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='bars' /></Button>}
               dropDownItems={DropDownItems}
               startMargin={theme.spacing.m.rem}
             />
           }
         />
-        <Button style={ButtonStyles.primary} isIconButton={true}><i className="fa-solid fa-plus"></i></Button>
+        <Button style={ButtonStyles.primary} isIconButton={true}><FontAwesomeIcon icon='plus' /></Button>
         <Switcher
           breakpoint={theme.breakpoints.md}
           mobile={<></>}
-          desktop={<Button style={ButtonStyles.transparent} isIconButton={true}><i className="fa-solid fa-fire"></i></Button>}
+          desktop={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='fire' /></Button>}
         />
       </Center>
       <Bottom>

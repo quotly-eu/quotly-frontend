@@ -1,15 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 // Styles
-const InputContainer = styled.div<{$hasIcon:boolean}>`
-  position: relative;
+const Style_FontAwesomeIcon = styled(FontAwesomeIcon)`
+  ${({ theme }) => `
+    padding-left: ${theme.spacing.s.rem}; 
+  `}
+  font-size: 1.4em;
+`;
+
+const InputContainer = styled.label`
   display: flex;
   flex-direction: row;
   color: ${props => props.theme.colors.text.dark};
   background-color: ${props => props.theme.colors.accent_white_0};
-  
-  gap: ${props => props.theme.spacing.s.rem};
 
   border-radius: 100vmax;
 
@@ -19,16 +27,6 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
   align-items: center;
   box-shadow: ${props => props.theme.shadows.default};
   overflow: hidden;
-  label {
-    position: absolute;
-    display: flex;
-    
-    left: ${props => props.theme.spacing.s.rem};
-    font-size: 1.4em;
-
-    border-radius: 100vmax;
-    align-items: center;
-  }
   input {
     color: inherit;
     background-color: transparent;
@@ -37,7 +35,6 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
     padding: 
       ${props => props.theme.spacing.xs.rem} 
       ${props => props.theme.spacing.s.rem};
-    ${({$hasIcon, theme}) => $hasIcon && `padding-left: ${theme.spacing.xl.em}`};
 
     font-family: inherit;
     font-size: inherit;
@@ -53,16 +50,16 @@ const InputContainer = styled.div<{$hasIcon:boolean}>`
 /**
  * Input Component with Icon
  */
-const Input = ({ id, name, placeholder, iconClass, testing }:{
+const Input = ({ id, name, placeholder, icon, testing }:{
   id?: string,
   name?: string
   placeholder?: string
-  iconClass?: string,
+  icon?: IconProp,
   testing?: boolean
 }) => {
   return (
-    <InputContainer $hasIcon={iconClass !== undefined}>
-      {iconClass && <label htmlFor={id} data-testid={testing && "label"}><i className={iconClass} data-testid={testing && "icon"}></i></label>}
+    <InputContainer data-testid={testing && 'label'}>
+      {icon && <Style_FontAwesomeIcon icon={icon} />}
       <input id={id} name={name} placeholder={placeholder}  />
     </InputContainer>
   );

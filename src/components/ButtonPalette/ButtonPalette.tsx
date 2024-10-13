@@ -41,12 +41,12 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
  * @example
  * <ButtonPalette 
  *  buttons={[
- *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:red-heart" height="100%" />} />,
- *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:thumbs-up" height="100%" />} />,
+ *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon='fluent-emoji:red-heart' height='100%' />} />,
+ *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon='fluent-emoji:thumbs-up' height='100%' />} />,
  *  ]} 
  * />
  */
-const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin="0rem", startMargin="0rem", alwaysOpen=false}:ButtonPaletteType) => {
+const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin='0rem', startMargin='0rem', alwaysOpen=false}:ButtonPaletteType) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 

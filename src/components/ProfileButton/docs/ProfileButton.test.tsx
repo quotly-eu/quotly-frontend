@@ -1,42 +1,42 @@
-import React from "react";
-import { render } from "utils/quotly-testing";
-import ProfileButton from "../ProfileButton";
+import React from 'react';
+import { render } from 'utils/quotly-testing';
+import ProfileButton from '../ProfileButton';
 
-describe("ProfileButton", () => {
-  it("renders", () => {
+describe('ProfileButton', () => {
+  it('renders', () => {
     expect(render(
       <ProfileButton 
-        src="/"
+        src='/'
       />
     )).not.toBeNull();
   });
-  it("renders image", () => {
+  it('renders image', () => {
     const { getByRole } = render(
       <ProfileButton 
-        src="/"
+        src='/'
       />
     );
-    expect(getByRole("img")).toBeInTheDocument();
+    expect(getByRole('img')).toBeInTheDocument();
   });
-  it("appends alt text", () => {
-    const alt = "Test";
+  it('appends alt text', () => {
+    const alt = 'Test';
     const { getByAltText } = render(
       <ProfileButton 
-        src="/"
+        src='/'
         alt={alt}
       />
     );
     expect(getByAltText(alt)).toBeInTheDocument();
   });
-  it("triggers onClick", () => {
+  it('triggers onClick', () => {
     const onClick = jest.fn();
     const { container } = render(
       <ProfileButton 
-        src="/"
+        src='/'
         onClick={onClick}
       />
     );
-    container.firstChild?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    container.firstChild?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 });

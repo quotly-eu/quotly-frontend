@@ -1,9 +1,9 @@
-import React from "react";
-import { render } from "utils/quotly-testing";
-import Quote from "../Quote";
+import React from 'react';
+import { render } from 'utils/quotly-testing';
+import Quote from '../Quote';
 
-describe("Quote", () => {
-  it("renders", () => {
+describe('Quote', () => {
+  it('renders', () => {
     expect(render(
       <Quote 
       quote={{
@@ -20,8 +20,8 @@ describe("Quote", () => {
       />
     )).not.toBeNull();
   });
-  it("renders text", () => {
-    const text = `**Test:** "test"`;
+  it('renders text', () => {
+    const text = `**Test:** 'test'`;
     const { getByText } = render(
       <Quote 
         quote={{
@@ -39,8 +39,8 @@ describe("Quote", () => {
     );
     expect(getByText(text, {exact:false})).toBeInTheDocument();
   });
-  it("renders author", () => {
-    const author = "Author";
+  it('renders author', () => {
+    const author = 'Author';
     const { getByText } = render(
       <Quote 
         quote={{
@@ -58,7 +58,7 @@ describe("Quote", () => {
     );
     expect(getByText(author, {exact:false})).toBeInTheDocument();
   });
-  it("renders dated", () => {
+  it('renders dated', () => {
     const dated = new Date(2024,4,7);
     const { getByText } = render(
       <Quote 
