@@ -125,10 +125,8 @@ const Actions = styled.div`
     }
   `}
 `;
-const Style_Icon = styled(Icon)`
-  width: 80%;
-  height: 80%;
-`;
+
+const Style_Icon = styled(Icon).attrs({mode:'bg', width: '80%', height: '80%'})``;
 
 const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles}>`
   position:relative;
