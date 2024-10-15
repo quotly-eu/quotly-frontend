@@ -93,23 +93,21 @@ function App() {
   };
 
   return (
-    <>
-      <AppContainer onContextMenu={() => false}>
-        <BrowserRouter>
-          <GlobalStyle />
-          <RouteContainer onScroll={mobileScroll}>
-            <NavbarTop />
-            <PagesContainer>
-              <Routes>
-                <Route index element={<Main />} />
-                <Route path='*' element={<NotFound />} />
-              </Routes>
-            </PagesContainer>
-          </RouteContainer>
-          <NavbarLeft />
-        </BrowserRouter>
-      </AppContainer>
-    </>
+    <AppContainer onContextMenu={(e) => e.preventDefault()} onTouchMove={(e) => e.stopPropagation()}>
+      <BrowserRouter>
+        <GlobalStyle />
+        <RouteContainer onScroll={mobileScroll}>
+          <NavbarTop />
+          <PagesContainer>
+            <Routes>
+              <Route index element={<Main />} />
+              <Route path='*' element={<NotFound />} />
+            </Routes>
+          </PagesContainer>
+        </RouteContainer>
+        <NavbarLeft />
+      </BrowserRouter>
+    </AppContainer>
   );
 }
 
