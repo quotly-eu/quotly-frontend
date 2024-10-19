@@ -1,5 +1,5 @@
 /**
- * ButtonStyles
+ * ButtonStyles for the Button component.
  * @example
  * import Button from 'components/Button/Button';
  * import { ButtonStyles } from 'types/Button.type';
@@ -16,3 +16,23 @@ export enum ButtonStyles {
   danger = 'danger',
   transparent = 'transparent',
 }
+
+/**
+ * ButtonType for the Button component.
+ * @example
+ * import Button from 'components/Button/Button';
+ * 
+ * <Button>Click Me</Button>
+ */
+export type ButtonType = {
+  children?: React.ReactNode,
+  className?: string,
+  href?: string,
+  style?: ButtonStyles,
+  padding?: string,
+  gap?: string,
+  width?: string
+  isIconButton?: boolean,
+  title?: string,
+  onClick?: (event: React.MouseEvent) => void,
+};

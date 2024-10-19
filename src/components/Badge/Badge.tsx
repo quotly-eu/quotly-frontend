@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
+import { PlaceOrientationProps } from 'types/placeOrientation.type';
 import { placeOrientation } from 'utils/placeOrientation';
-import { BadgeStyles } from './Badge.type';
+import { BadgeStyles, BadgeType } from './Badge.type';
 import { CustomTheme } from 'types/styled-components';
 
 // TYPES
@@ -91,19 +91,7 @@ const BadgeContainer = styled.div<BadgeProps>`
  * 
  * @returns 
  */
-const Badge = ({children, className, place, style=BadgeStyles.default, fontSize}: {
-  children?: React.ReactNode
-  className?: string
-  place?: {
-    place: PlaceOrientation,
-    margin?: string
-  }
-  margin?: string
-  style?: BadgeStyles
-  fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']][
-    keyof CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
-  ]
-}) => {
+const Badge = ({children, className, place, style=BadgeStyles.default, fontSize}:BadgeType) => {
   return (
     <BadgeContainer className={className} $placeOrientation={place?.place} $margin={place?.margin || '0px'} $style={style} $fontSize={fontSize}>
       {children}

@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ProfileButtonType } from './ProfileButton.type';
 
 // Styles
-const ProfileContainer = styled.div``;
-
 const ProfileImage = styled.img`
   background-color: ${props => props.theme.colors.transparency.black(0.05)};
   -webkit-tap-highlight-color: transparent;
@@ -18,21 +17,17 @@ const ProfileImage = styled.img`
 
 /**
  * Profile Button Component
+ * @example
+ * <ProfileButton src={src} alt={alt} onClick={onClick} />
  */
-const ProfileButton = ({src, alt, onClick}:{
-  src: string,
-  alt?: string,
-  onClick?: (event?:React.MouseEvent) => void
-}) => {
+const ProfileButton = ({src, alt, onClick}:ProfileButtonType) => {
   const propagateClick = (event: React.MouseEvent) => {
     event.preventDefault();
     if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
     if(onClick) onClick(event);
   };
   return (
-    <ProfileContainer onClick={propagateClick}>
-      <ProfileImage src={src} alt={alt} />
-    </ProfileContainer>
+    <ProfileImage src={src} alt={alt} onClick={propagateClick} />
   );
 };
 

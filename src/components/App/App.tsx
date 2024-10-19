@@ -81,6 +81,14 @@ const RouteContainer = styled.div`
  */
 function App() {
   const [mobileCurrentTop, setMobileCurrentTop] = useState(0);
+
+  // Prevent right-click context menu on production for user experience
+  const onContextMenu = (e: BaseSyntheticEvent) => {
+    if(import.meta.env.PROD) e.preventDefault();
+  };
+
+  // Prevent touch move for iOS user experience
+  const onTouchMove = (e: BaseSyntheticEvent) => e.stopPropagation();
   
   const mobileScroll = (e:BaseSyntheticEvent) => {
     const target: HTMLDivElement = e.target;
@@ -93,7 +101,7 @@ function App() {
   };
 
   return (
-    <AppContainer onContextMenu={(e) => e.preventDefault()} onTouchMove={(e) => e.stopPropagation()}>
+    <AppContainer onContextMenu={onContextMenu} onTouchMove={onTouchMove}>
       <BrowserRouter>
         <GlobalStyle />
         <RouteContainer onScroll={mobileScroll}>

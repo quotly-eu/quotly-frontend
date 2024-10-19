@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ButtonStyles } from './Button.type';
+import { ButtonStyles, ButtonType } from './Button.type';
 
 // Types
 interface ButtonProps {
@@ -139,18 +139,7 @@ const ButtonContainer = styled.a<ButtonProps>`
 /**
  * Button and Icon Button Component
  */
-const Button = ({children, className, href=undefined, isIconButton=false, style=ButtonStyles.default, padding, gap, width, title, onClick}:{
-  children?: React.ReactNode,
-  className?: string,
-  href?: string,
-  style?: ButtonStyles,
-  padding?: string,
-  gap?: string,
-  width?: string
-  isIconButton?: boolean,
-  title?: string,
-  onClick?: (event?: React.MouseEvent) => void,
-}) => {
+const Button = ({children, className, href=undefined, isIconButton=false, style=ButtonStyles.default, padding, gap, width, title, onClick}:ButtonType) => {
   const propagateClick = (event: React.MouseEvent) => {
     event.preventDefault();
     if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
