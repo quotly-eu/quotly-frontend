@@ -84,7 +84,7 @@ function App() {
 
   // Prevent right-click context menu on production for user experience
   const onContextMenu = (e: BaseSyntheticEvent) => {
-    if(import.meta.env.PROD) e.preventDefault();
+    if(process.env.NODE_ENV === 'production') e.preventDefault();
   };
 
   // Prevent touch move for iOS user experience
