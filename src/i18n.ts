@@ -23,7 +23,6 @@ i18n
     backend: {
       loadPath: import.meta.env.PROD ? '/locales/{{lng}}/{{ns}}.i18n.json' : '/public/locales/{{lng}}/{{ns}}.i18n.json',
     },
-    debug: !import.meta.env.PROD,
     defaultNS: 'common',
     ns: [
       'common',

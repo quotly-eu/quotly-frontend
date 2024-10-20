@@ -6,6 +6,7 @@
  * <Switcher breakpoint='40rem' mobile={<MobileComponent />} desktop={<DesktopComponent />} />
  */
 export type SwitcherType = {
-  breakpoint:string, mobile: React.ReactNode, 
+  breakpoint: string, 
   desktop: React.ReactNode
+  mobile: React.ReactNode, 
 };

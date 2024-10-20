@@ -77,7 +77,11 @@ const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLef
         $margin={isOpen ? margin : startMargin} 
         $placeOrientation={place}
       >
-        {buttons}
+        {buttons.map((button, index) => (
+          <React.Fragment key={index}>
+            {button}
+          </React.Fragment>
+        ))}
       </ButtonPaletteMenu>
     </ButtonPaletteContainer>
   );

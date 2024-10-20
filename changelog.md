@@ -1,9 +1,11 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
-## [0.3.0] - 2024-10-13
+## [0.3.0] - 2024-10-20
 ### Additions
 - Added i18n for translations [#4](https://github.com/quotly-eu/quotly-frontend/issues/4)
+- Added Feeds Component for [#8](https://github.com/quotly-eu/quotly-frontend/issues/8) & [#9](https://github.com/quotly-eu/quotly-frontend/issues/9)
+- Added GuideLinks Component
 
 ### Changes
 - theme file now has get values for font sizes

@@ -17,6 +17,7 @@ export enum BadgeStyles {
   info = 'info',
   warning = 'warning',
   danger = 'danger',
+  custom = 'custom',
   transparent = 'transparent',
 }
 
@@ -36,6 +37,7 @@ export type BadgeType = {
   }
   margin?: string
   style?: BadgeStyles
+  color?: string
   fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']][
     keyof CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
   ]

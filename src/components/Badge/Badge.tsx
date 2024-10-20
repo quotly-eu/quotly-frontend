@@ -8,6 +8,7 @@ import { CustomTheme } from 'types/styled-components';
 // TYPES
 interface BadgeProps extends PlaceOrientationProps {
   $style?: string,
+  $color?: string,
   $fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']][
     keyof CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
   ],
@@ -19,7 +20,17 @@ const BadgeContainer = styled.div<BadgeProps>`
 
   ${placeOrientation}
 
-  ${({$style, theme}) => {
+  ${({$fontSize, theme}) => `
+    color: ${theme.colors.text.light};
+
+    font-size: ${$fontSize || theme.font.sizes.xxxs.em};
+    padding: ${theme.spacing.xxxs.rem} ${theme.spacing.xxs.rem};
+    gap: ${theme.spacing.xxxs.rem};
+
+    border-radius: 100vmax;
+
+  `}
+  ${({$style, $color, theme}) => {
     switch($style) {
       case BadgeStyles.transparent: { 
         const outlineWidth = '0px';
@@ -37,10 +48,6 @@ const BadgeContainer = styled.div<BadgeProps>`
           ;
         `; 
       }
-      case BadgeStyles.primary:
-        return `
-          background-color: ${theme.colors.primary};
-        `;
       case BadgeStyles.secondary:
         return `
           background-color: ${theme.colors.secondary};
@@ -61,6 +68,11 @@ const BadgeContainer = styled.div<BadgeProps>`
         return `
           background-color: ${theme.colors.danger};
         `;
+      case BadgeStyles.custom:
+        return $color && `
+          color: ${$color};
+        `;
+      case BadgeStyles.primary:
       case BadgeStyles.default:
       default:
         return `
@@ -68,16 +80,6 @@ const BadgeContainer = styled.div<BadgeProps>`
         `;
     }
   }}
-  ${({$fontSize, theme}) => `
-    color: ${theme.colors.text.light};
-
-    font-size: ${$fontSize || theme.font.sizes.xxxs.em};
-    padding: ${theme.spacing.xxxs.rem} ${theme.spacing.xxs.rem};
-    gap: ${theme.spacing.xxxs.rem};
-
-    border-radius: 100vmax;
-
-  `}
 
   font-weight: 800;
   border-radius: 100vmax;
@@ -91,9 +93,9 @@ const BadgeContainer = styled.div<BadgeProps>`
  * 
  * @returns 
  */
-const Badge = ({children, className, place, style=BadgeStyles.default, fontSize}:BadgeType) => {
+const Badge = ({children, className, place, style=BadgeStyles.default, color, fontSize}:BadgeType) => {
   return (
-    <BadgeContainer className={className} $placeOrientation={place?.place} $margin={place?.margin || '0px'} $style={style} $fontSize={fontSize}>
+    <BadgeContainer className={className} $placeOrientation={place?.place} $margin={place?.margin || '0px'} $style={style} $color={color} $fontSize={fontSize}>
       {children}
     </BadgeContainer>
   );
