@@ -86,9 +86,6 @@ function App() {
   const onContextMenu = (e: BaseSyntheticEvent) => {
     if(process.env.NODE_ENV === 'production') e.preventDefault();
   };
-
-  // Prevent touch move for iOS user experience
-  const onTouchMove = (e: BaseSyntheticEvent) => e.stopPropagation();
   
   const mobileScroll = (e:BaseSyntheticEvent) => {
     const target: HTMLDivElement = e.target;
@@ -101,7 +98,7 @@ function App() {
   };
 
   return (
-    <AppContainer onContextMenu={onContextMenu} onTouchMove={onTouchMove}>
+    <AppContainer onContextMenu={onContextMenu}>
       <BrowserRouter>
         <GlobalStyle />
         <RouteContainer onScroll={mobileScroll}>

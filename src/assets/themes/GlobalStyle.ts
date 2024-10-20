@@ -15,9 +15,11 @@ const GlobalStyle = createGlobalStyle`
     height: 100dvh;
 
     font-family: ${props => props.theme.font.family.default};
+    overscroll-behavior: none;
   }
   #root {
     height: inherit;
+    overscroll-behavior: none;
   }
 `;
 
