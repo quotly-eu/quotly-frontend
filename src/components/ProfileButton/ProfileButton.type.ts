@@ -6,7 +6,8 @@
  * <ProfileButton src='profile.jpg' alt='Profile' onClick={handleClick} />
  */
 export type ProfileButtonType = {
-  src: string,
-  alt?: string,
-  onClick?: (event?:React.MouseEvent) => void
+  src: string;
+  alt?: string;
+  size?: string;
+  onClick?: (event?:React.MouseEvent) => void;
 };

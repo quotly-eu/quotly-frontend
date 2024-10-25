@@ -26,7 +26,7 @@ const FeedItem = styled(Link)`
 
     transition: backdrop-filter ${theme.transition.times.m};
   `}
-  * {
+  > * {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

@@ -1,16 +1,20 @@
 import React from 'react';
-import Quote from '../../components/Quote/Quote';
-import styled, { css, useTheme } from 'styled-components';
-import { QuoteType } from 'components/Quote/Quote.type';
-import Feed from 'components/Feed/Feed';
 import { useTranslation } from 'react-i18next';
+import styled, { css, useTheme } from 'styled-components';
+
+import Markdown from 'react-markdown';
+
+import Quote from 'components/Quote/Quote';
+import Feed from 'components/Feed/Feed';
 import Switcher from 'components/Switcher/Switcher';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
-import Markdown from 'react-markdown';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Badge from 'components/Badge/Badge';
+import ProfileButton from 'components/ProfileButton/ProfileButton';
+
+import { QuoteType } from 'components/Quote/Quote.type';
 import { BadgeStyles } from 'components/Badge/Badge.type';
 
+// Styles
 const MainContainer = styled.div`
   display: grid;
   grid-template-areas: 
@@ -169,7 +173,7 @@ const Main = () => {
                         style={BadgeStyles.custom}
                         color={colors[index]}
                         fontSize={theme.font.sizes.xs.rem}
-                        children={<FontAwesomeIcon icon={(index + 1).toString() as '1' | '2' | '3'} />} 
+                        children={(index + 1).toString() as '1' | '2' | '3'} 
                       /> 
                       <Markdown children={quote.quote.text} />
                     </React.Fragment>
@@ -181,37 +185,37 @@ const Main = () => {
             <Feed title={t('feeds.suggested_profiles')} items={
               [
                 {
-                  item: 'Daniel',
+                  item: (<><ProfileButton src={quotes[0].author.avatarUrl} /> Daniel</>),
                   url: '/'
                 },
                 {
-                  item: 'Domi',
+                  item: (<><ProfileButton src={quotes[2].author.avatarUrl} /> Domi</>),
                   url: '/'
                 },
                 {
-                  item: 'Rubinschwein47',
+                  item: (<><ProfileButton src={quotes[2].author.avatarUrl} /> Rubinschwein47</>),
                   url: '/'
                 },
                 {
-                  item: 'Jordan',
+                  item: (<><ProfileButton src={quotes[1].author.avatarUrl} /> Jordan</>),
                   url: '/'
                 },
                 {
-                  item: 'Daniel',
+                  item: (<><ProfileButton src={quotes[0].author.avatarUrl} /> Daniel</>),
                   url: '/'
                 },
                 {
-                  item: 'Domi',
+                  item: (<><ProfileButton src={quotes[2].author.avatarUrl} /> Domi</>),
                   url: '/'
                 },
                 {
-                  item: 'Rubinschwein47',
+                  item: (<><ProfileButton src={quotes[2].author.avatarUrl} /> Rubinschwein47</>),
                   url: '/'
                 },
                 {
-                  item: 'Jordan',
+                  item: (<><ProfileButton src={quotes[1].author.avatarUrl} /> Jordan</>),
                   url: '/'
-                }
+                },
               ].slice(0, 5)
             } />
             <GuideLinks

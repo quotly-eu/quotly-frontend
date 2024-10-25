@@ -78,6 +78,9 @@ const Center = styled.div`
 const Bottom = styled.div`
   grid-area: bottom;
 `;
+const PreparedProfileButton = styled(ProfileButton).attrs(({theme}) => ({
+  size: theme.spacing.xxl.em
+}))``;
 
 /**
  * NavbarLeft Component
@@ -154,7 +157,7 @@ const NavbarLeft = () => {
           mobile={
             <FloatDropDown
               place={PlaceOrientation.TopRight}
-              triggerElement={<ProfileButton src='assets/img/test.jpg' />}
+              triggerElement={<PreparedProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />
@@ -162,7 +165,7 @@ const NavbarLeft = () => {
           desktop={
             <FloatDropDown
               place={PlaceOrientation.RightInlineBottom}
-              triggerElement={<ProfileButton src='assets/img/test.jpg' />}
+              triggerElement={<PreparedProfileButton src='assets/img/test.jpg' />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />

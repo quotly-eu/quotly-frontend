@@ -1,7 +1,7 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
-## [0.3.0] - 2024-10-20
+## [0.3.0] - 2024-10-25
 ### Additions
 - Added i18n for translations [#4](https://github.com/quotly-eu/quotly-frontend/issues/4)
 - Added Feeds Component for [#8](https://github.com/quotly-eu/quotly-frontend/issues/8) & [#9](https://github.com/quotly-eu/quotly-frontend/issues/9)
@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - dated now uses date for locale formatting
 - 404 page has now been updated
 - Switched from fontawesome css to react-fontawesome
+- Adjusted ProfileButton Component
 
 ### Fixes
 - Adjusted mobile responsiveness
