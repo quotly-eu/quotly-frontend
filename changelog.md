@@ -1,7 +1,7 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
-## [0.3.0] - 2024-10-25
+## [0.3.0] - 2024-10-29
 ### Additions
 - Added i18n for translations [#4](https://github.com/quotly-eu/quotly-frontend/issues/4)
 - Added Feeds Component for [#8](https://github.com/quotly-eu/quotly-frontend/issues/8) & [#9](https://github.com/quotly-eu/quotly-frontend/issues/9)
