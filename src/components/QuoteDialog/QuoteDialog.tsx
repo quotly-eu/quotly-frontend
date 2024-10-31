@@ -35,7 +35,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       const form = e.currentTarget;
       const formData = new FormData(form);
       const quote = formData.get('quote');
-
+      
       console.log(quote);
     };
     
@@ -45,8 +45,8 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
           <label htmlFor='quote'>Quote</label>
           <textarea id='quote' name='quote' required />
           <Style_ActionsContainer>
-            <Button type='button' style={ButtonStyles.transparent} onClick={toggleDialog}>Cancel</Button>
-            <Button type='submit' style={ButtonStyles.primary}>Submit</Button>
+            <Button style={ButtonStyles.transparent} onClick={toggleDialog}>Cancel</Button>
+            <Button style={ButtonStyles.primary} elementType='button' type='submit'>Submit</Button>
           </Style_ActionsContainer>
         </Style_Form>
       </Dialog>

@@ -28,6 +28,7 @@ export type ButtonType = {
   children?: React.ReactNode,
   className?: string,
   href?: string,
+  elementType?: 'a' | 'button',
   type?: 'button' | 'submit' | 'reset',
   style?: ButtonStyles,
   padding?: string,
