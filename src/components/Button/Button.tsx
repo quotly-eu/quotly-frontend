@@ -139,7 +139,20 @@ const ButtonContainer = styled.a<ButtonProps>`
 /**
  * Button and Icon Button Component
  */
-const Button = ({children, className, href=undefined, isIconButton=false, style=ButtonStyles.default, padding, gap, width, title, onClick}:ButtonType) => {
+const Button = ({
+  children, 
+  className, 
+  href=undefined,
+  type='button', 
+  isIconButton=false, 
+  style=ButtonStyles.default, 
+  padding, 
+  gap, 
+  width, 
+  title, 
+  onClick, 
+  ...rest
+}:ButtonType) => {
   const propagateClick = (event: React.MouseEvent) => {
     event.preventDefault();
     if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
@@ -149,6 +162,7 @@ const Button = ({children, className, href=undefined, isIconButton=false, style=
     <ButtonContainer 
       children={children}
       href={href} 
+      type={type}
       className={className}
       $style={style}
       $padding={padding}
@@ -157,6 +171,7 @@ const Button = ({children, className, href=undefined, isIconButton=false, style=
       $isIconButton={isIconButton}
       onClick={propagateClick}
       title={title}
+      {...rest}
     />
   );
 };

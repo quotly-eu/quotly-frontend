@@ -1,6 +1,14 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2024-10-31
+### Additions
+- Added Dialog & QuoteDialog Component for [#11](https://github.com/quotly-eu/quotly-frontend/issues/11)
+
+### Changes
+- Updated Button Component
+- Updated README.md
+
 ## [0.3.0] - 2024-10-29
 ### Additions
 - Added i18n for translations [#4](https://github.com/quotly-eu/quotly-frontend/issues/4)

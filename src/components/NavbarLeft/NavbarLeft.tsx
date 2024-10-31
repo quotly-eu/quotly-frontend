@@ -13,6 +13,7 @@ import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem, DropDownItemType } from 'components/FloatDropDown/FloatDropDown.type';
 import { PlaceOrientation } from 'types/placeOrientation.type';
+import { NavbarLeftType } from './NavbarLeft.type';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -85,7 +86,7 @@ const PreparedProfileButton = styled(ProfileButton).attrs(({theme}) => ({
 /**
  * NavbarLeft Component
  */
-const NavbarLeft = () => {
+const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
   const theme = useTheme();
   const { t } = useTranslation();
 
@@ -144,7 +145,7 @@ const NavbarLeft = () => {
             />
           }
         />
-        <Button style={ButtonStyles.primary} isIconButton={true}><FontAwesomeIcon icon='plus' /></Button>
+        <Button style={ButtonStyles.primary} isIconButton={true} onClick={toggleDialog}><FontAwesomeIcon icon='plus' /></Button>
         <Switcher
           breakpoint={theme.breakpoints.md}
           mobile={<></>}

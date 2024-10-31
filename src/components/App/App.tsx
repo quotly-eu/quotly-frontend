@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useState } from 'react';
+import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
 
 // Pages
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -16,6 +16,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import QuoteDialog from 'components/QuoteDialog/QuoteDialog';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -80,6 +81,7 @@ const RouteContainer = styled.div`
  * App Component with BrowserRouter and Routes
  */
 function App() {
+  const quoteDialogRef = useRef<HTMLDialogElement>(null);
   const [mobileCurrentTop, setMobileCurrentTop] = useState(0);
 
   // Prevent right-click context menu on production for user experience
@@ -97,10 +99,31 @@ function App() {
     navbarTop.style.translate = diff > 0 ? `0 -100%` : `0 0`;
   };
 
+  const toggleDialog = () => {
+    const dialog = quoteDialogRef.current;
+    if (!dialog) return;
+
+    if (dialog.open) {
+      dialog.close();
+    } else {
+      dialog.showModal();
+    }
+  };
+
+  useEffect(() => {
+    const dialog = quoteDialogRef.current;
+    if (!dialog) return;
+    if (dialog.open) {
+      console.log('Dialog opened');
+      dialog.close();
+    }
+  }, [quoteDialogRef]);
+
   return (
     <AppContainer onContextMenu={onContextMenu}>
       <BrowserRouter>
         <GlobalStyle />
+
         <RouteContainer onScroll={mobileScroll}>
           <NavbarTop />
           <PagesContainer>
@@ -110,7 +133,9 @@ function App() {
             </Routes>
           </PagesContainer>
         </RouteContainer>
-        <NavbarLeft />
+        <NavbarLeft toggleDialog={toggleDialog} />
+
+        <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} />
       </BrowserRouter>
     </AppContainer>
   );
