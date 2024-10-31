@@ -1,3 +1,5 @@
+import { WebTarget } from "styled-components";
+
 /**
  * ButtonStyles for the Button component.
  * @example
@@ -28,7 +30,7 @@ export type ButtonType = {
   children?: React.ReactNode,
   className?: string,
   href?: string,
-  elementType?: 'a' | 'button',
+  as?: void | WebTarget,
   type?: 'button' | 'submit' | 'reset',
   style?: ButtonStyles,
   padding?: string,

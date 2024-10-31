@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
-import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { useTranslation } from 'react-i18next';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,6 +13,8 @@ import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem, DropDownItemType } from 'components/FloatDropDown/FloatDropDown.type';
 import { PlaceOrientation } from 'types/placeOrientation.type';
 import { NavbarLeftType } from './NavbarLeft.type';
+
+import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 
 // Styles
 const NavbarLeftContainer = styled.div`

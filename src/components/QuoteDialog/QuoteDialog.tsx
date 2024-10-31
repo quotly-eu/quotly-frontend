@@ -4,13 +4,15 @@ import { QuoteDialogType } from './QuoteDialog.type';
 import Button from 'components/Button/Button';
 import { ButtonStyles } from 'components/Button/Button.type';
 import Dialog from 'components/Dialog/Dialog';
+import Input from 'components/Input/Input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Style_Form = styled.form`
   display: grid;
   grid-template-areas:
-    'label textarea'
-    'actions actions';
-    grid-template-columns: auto 1fr;
+    'textarea'
+    'actions';
+    grid-template-columns: 1fr;
   gap: 1rem;
 
   ${({ theme }) => `
@@ -21,7 +23,7 @@ const Style_Form = styled.form`
 const Style_ActionsContainer = styled.div`
   grid-area: actions;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 1rem;
 `;
 
@@ -35,18 +37,22 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       const form = e.currentTarget;
       const formData = new FormData(form);
       const quote = formData.get('quote');
-      
+      // TODO: POST form to create a new quote, then close the Dialog
       console.log(quote);
     };
     
     return (
       <Dialog ref={ref} toggleDialog={toggleDialog} open={open}>
         <Style_Form method='dialog' onSubmit={onSubmit}>
-          <label htmlFor='quote'>Quote</label>
-          <textarea id='quote' name='quote' required />
+          <Input 
+            id='quote' 
+            name='quote' 
+            as='textarea'
+            placeholder='Quote...' 
+            required 
+          />
           <Style_ActionsContainer>
-            <Button style={ButtonStyles.transparent} onClick={toggleDialog}>Cancel</Button>
-            <Button style={ButtonStyles.primary} elementType='button' type='submit'>Submit</Button>
+            <Button style={ButtonStyles.primary} as='button' type='submit'><FontAwesomeIcon icon='plus' /> Publish</Button>
           </Style_ActionsContainer>
         </Style_Form>
       </Dialog>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { ButtonStyles, ButtonType } from './Button.type';
 
@@ -13,7 +13,7 @@ interface ButtonProps {
 }
 
 // Styles
-const ButtonContainer = css<ButtonProps>`
+const ButtonContainer = styled.a<ButtonProps>`
   display:flex;
   -webkit-tap-highlight-color: transparent;
   ${({$style, theme}) => {
@@ -130,12 +130,6 @@ const ButtonContainer = css<ButtonProps>`
   align-items: center;
   cursor: pointer;
 `;
-const ButtonAnchorContainer = styled.a<ButtonProps>`
-  ${ButtonContainer}
-`;
-const ButtonBtnContainer = styled.button<ButtonProps>`
-  ${ButtonContainer}
-`;
 
 /**
  * Button and Icon Button Component
@@ -144,7 +138,7 @@ const Button = ({
   children, 
   className, 
   href=undefined,
-  elementType='a',
+  as='a',
   type='button',
   isIconButton=false, 
   style=ButtonStyles.default, 
@@ -159,24 +153,10 @@ const Button = ({
     if(onClick) onClick(event);
   };
   return (
-    elementType === 'a' ?
-    <ButtonAnchorContainer 
+    <ButtonContainer 
       children={children}
+      as={as}
       href={href} 
-      type={type}
-      className={className}
-      $style={style}
-      $padding={padding}
-      $gap={gap}
-      $width={width}
-      $isIconButton={isIconButton}
-      onClick={propagateClick}
-      title={title}
-    />
-    :
-    <ButtonBtnContainer 
-      as='button'
-      children={children}
       type={type}
       className={className}
       $style={style}

@@ -167,10 +167,14 @@ export default MyComponent;
 ### Directory Structure
 
 Example of the projects directory structure:
+
 #### src/
+
+The main source code directory of the project.
+
 ```bash
 src/
-├── assets/
+├── assets/ 
 │   ├── fonts/
 │   │   ├── *.ttf, ...
 │   ├── img/
@@ -183,6 +187,12 @@ src/
 │   │   │   ├── MyComponent.test.tsx
 │   │   ├── MyComponent.tsx
 │   │   ├── MyComponent.type.ts
+├── hooks/
+│   ├── docs/
+│   │   ├── useFetchQuotes.test.ts
+│   │   ├── ...
+│   ├── useFetchQuotes.ts
+│   ├── ...
 ├── pages/
 │   ├── MyPage/
 │   │   ├── docs/
@@ -192,13 +202,16 @@ src/
 ├── services/
 │   ├── api/
 │   │   ├── MyApi.ts
-├── types/
+├── types/ (global types that are not specific to a component, like API responses etc.)
 │   ├── *.ts, ...
-├── utils/
+├── utils/ (helper functions, etc.)
 │   ├── *.ts, ...
 ```
 
 #### public/
+
+This directory contains all the static files that should be served by the server.
+
 ```bash
 public/
 ├── assets/
