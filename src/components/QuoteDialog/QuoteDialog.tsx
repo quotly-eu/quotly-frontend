@@ -37,7 +37,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       const quote = formData.get('quote');
 
       console.log(quote);
-    }
+    };
     
     return (
       <Dialog ref={ref} toggleDialog={toggleDialog} open={open}>
