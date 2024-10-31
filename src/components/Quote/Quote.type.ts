@@ -22,7 +22,7 @@ export type QuoteType = {
     id: string;
     text: string;
     url: string;
-    dated: string;
+    dated: Date;
   }
   author: {
     name: string;
@@ -35,5 +35,6 @@ export type QuoteType = {
       icon: string;
       count?: number;
     }[]
-  }
+  },
+  isLast?: boolean;
 };

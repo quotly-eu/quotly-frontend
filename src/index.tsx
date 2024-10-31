@@ -1,32 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App/App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import theme from 'assets/themes/default';
+
+import i18n from './i18n';
+import { I18nextProvider } from 'react-i18next';
+import { ThemeProvider } from 'styled-components';
+
+import App from 'components/App/App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <I18nextProvider i18n={i18n}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </I18nextProvider>
   </React.StrictMode>
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register({
-  onSuccess: (registration) => {
-    console.log("Registered!");
-    console.log(registration);
-  },
-  onUpdate: (registration) => {
-    console.log("Updated!");
-    console.log(registration);
-  }
-});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

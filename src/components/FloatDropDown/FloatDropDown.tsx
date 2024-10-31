@@ -43,6 +43,7 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
 
 const FloatDropDownItem = css`
   display:flex;
+  -webkit-tap-highlight-color: transparent;
 
   ${({ theme }) => `
     color: ${theme.colors.text.dark};
@@ -50,7 +51,7 @@ const FloatDropDownItem = css`
     padding: ${theme.spacing.xs.rem};
     gap: ${theme.spacing.xxs.rem};
 
-    font-size: ${theme.font.sizes.ss};
+    font-size: ${theme.font.sizes.ss.rem};
     transition: background-color ${theme.transition.times.s} ease-in-out;
 
     &:hover {
@@ -61,7 +62,7 @@ const FloatDropDownItem = css`
   text-decoration: none;
   align-items: center;
   cursor: pointer;
-  i {
+  .svg-inline--fa {
     width: 1.5em;
     text-align: center;
   }
@@ -84,7 +85,7 @@ const FloatDropDown = ({
   dropDownItems,
   margin,
   startMargin,
-  "data-testid": dataTestId
+  'data-testid': dataTestId
 }:{
   triggerElement: React.ReactElement,
   place?: PlaceOrientation
@@ -120,17 +121,22 @@ const FloatDropDown = ({
   return (
     <FloatDropDownContainer ref={dropDownRef}>
       {cloneTriggerElement}
-        <FloatDropDownMenu $placeOrientation={place} $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.xl.rem} $active={isOpen} data-testid={dataTestId}>
+        <FloatDropDownMenu 
+          $placeOrientation={place} 
+          $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.l.rem} 
+          $active={isOpen} 
+          data-testid={dataTestId}>
           {dropDownItems.map((dropDownItem, index) => {
             const propagateClick = (event: React.MouseEvent) => {
               event.stopPropagation();
+              if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
               if(dropDownItem.onClick) dropDownItem.onClick(event);
               toggleDropDownMenu();
             };
 
             if(dropDownItem.type && dropDownItem.type === DropDownItemType.LINK) {
               return (
-                <FloatDropDownLinkItem to={dropDownItem.href || ""} onClick={propagateClick} key={index}>
+                <FloatDropDownLinkItem to={dropDownItem.href || ''} onClick={propagateClick} key={index}>
                   {dropDownItem.label}
                 </FloatDropDownLinkItem>
               );

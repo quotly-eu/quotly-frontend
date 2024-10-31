@@ -1,15 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
+import { ProfileButtonType } from './ProfileButton.type';
+
+// Types
+interface ProfileImageProps {
+  $size: string;
+}
 
 // Styles
-const ProfileContainer = styled.div``;
+const ProfileImage = styled.img<ProfileImageProps>`
+-webkit-tap-highlight-color: transparent;
 
-const ProfileImage = styled.img`
-  background-color: ${props => props.theme.colors.transparency.black(0.05)};
-  -webkit-tap-highlight-color: transparent;
-  
-  width: ${props => props.theme.spacing.xxl.rem};
-  height: ${props => props.theme.spacing.xxl.rem};
+  ${({ theme, $size }) => `
+    background-color: ${theme.colors.transparency.black(0.05)};
+    width: ${$size};
+    height: ${$size};
+  `}
 
   border-radius: 100vmax;
 
@@ -18,16 +24,18 @@ const ProfileImage = styled.img`
 
 /**
  * Profile Button Component
+ * @example
+ * <ProfileButton src={src} alt={alt} onClick={onClick} />
  */
-const ProfileButton = ({src, alt, onClick}:{
-  src: string,
-  alt?: string,
-  onClick?: () => void
-}) => {
+const ProfileButton = ({src, alt, size, onClick}:ProfileButtonType) => {
+  const theme = useTheme();
+  const propagateClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
+    if(onClick) onClick(event);
+  };
   return (
-    <ProfileContainer onClick={onClick}>
-      <ProfileImage src={src} alt={alt} />
-    </ProfileContainer>
+    <ProfileImage src={src} alt={alt} $size={size || theme.spacing.xl.em} onClick={propagateClick} />
   );
 };
 

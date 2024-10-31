@@ -1,16 +1,16 @@
-import React from "react";
-import { render } from "utils/quotly-testing";
-import Quote from "../Quote";
+import React from 'react';
+import { render } from 'utils/quotly-testing';
+import Quote from '../Quote';
 
-describe("Quote", () => {
-  it("renders", () => {
+describe('Quote', () => {
+  it('renders', () => {
     expect(render(
       <Quote 
       quote={{
         id: '1',
         text: `**Test**`,
         url: '/',
-        dated: '2 days ago'
+        dated: new Date(2024,4,7)
       }}
       author={{
         name: 'Author',
@@ -20,15 +20,15 @@ describe("Quote", () => {
       />
     )).not.toBeNull();
   });
-  it("renders text", () => {
-    const text = `**Test:** "test"`;
+  it('renders text', () => {
+    const text = `**Test:** 'test'`;
     const { getByText } = render(
       <Quote 
         quote={{
           id: '1',
           text: text,
           url: '/',
-          dated: '2 days ago'
+          dated: new Date(2024,4,7)
         }}
         author={{
           name: 'Author',
@@ -39,15 +39,15 @@ describe("Quote", () => {
     );
     expect(getByText(text, {exact:false})).toBeInTheDocument();
   });
-  it("renders author", () => {
-    const author = "Author";
+  it('renders author', () => {
+    const author = 'Author';
     const { getByText } = render(
       <Quote 
         quote={{
           id: '1',
           text: `**Test**`,
           url: '/',
-          dated: '2 days ago'
+          dated: new Date(2024,4,7)
         }}
         author={{
           name: author,
@@ -58,8 +58,8 @@ describe("Quote", () => {
     );
     expect(getByText(author, {exact:false})).toBeInTheDocument();
   });
-  it("renders dated", () => {
-    const dated = "vor 2 Tagen";
+  it('renders dated', () => {
+    const dated = new Date(2024,4,7);
     const { getByText } = render(
       <Quote 
       quote={{
@@ -75,6 +75,6 @@ describe("Quote", () => {
       }}
       />
     );
-    expect(getByText(dated, {exact:false})).toBeInTheDocument();
+    expect(getByText(dated.toLocaleDateString(undefined, {dateStyle: 'long'}), {exact:false})).toBeInTheDocument();
   });
 });

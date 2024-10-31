@@ -1,7 +1,27 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
-## [0.2.0] - 2024-10-04
+## [0.3.0] - 2024-10-29
+### Additions
+- Added i18n for translations [#4](https://github.com/quotly-eu/quotly-frontend/issues/4)
+- Added Feeds Component for [#8](https://github.com/quotly-eu/quotly-frontend/issues/8) & [#9](https://github.com/quotly-eu/quotly-frontend/issues/9)
+- Added GuideLinks Component
+
+### Changes
+- theme file now has get values for font sizes
+- Switched from manual PWA to Vite-plugin-pwa
+- Button now vibrate shortly on click
+- Disabled ContextMenu
+- dated now uses date for locale formatting
+- 404 page has now been updated
+- Switched from fontawesome css to react-fontawesome
+- Adjusted ProfileButton Component
+
+### Fixes
+- Adjusted mobile responsiveness
+- Added -webkit-tap-highlight-color: transparent; to links
+
+## [0.2.0] - 2024-10-10
 ### Additions
 - Quote Component [#1](https://github.com/quotly-eu/quotly-frontend/issues/1)
 - ButtonPalette Component [#2](https://github.com/quotly-eu/quotly-frontend/issues/2)

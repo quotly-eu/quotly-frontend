@@ -3,6 +3,7 @@ import styled, { useTheme } from 'styled-components';
 
 import Markdown from 'react-markdown';
 import { Icon } from '@iconify/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from 'components/Button/Button';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
@@ -15,16 +16,22 @@ import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
 import { BadgeStyles } from 'components/Badge/Badge.type';
 import { QuoteType } from './Quote.type';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 
 // Styles
-const Style_Badge = styled(Badge)``;
+const Style_Badge = styled(Badge)`
+  font-size: ${({theme}) => theme.font.sizes.xxs.rem};
+  @media (max-width: ${({theme}) => theme.breakpoints.md}) {
+    font-size: ${({theme}) => theme.font.sizes.xxxs.rem};
+  }
+`;
 
 const QuoteContainer = styled.div`
   display:grid;
   grid-template-areas:
-    "text actions"
-    "author actions";
+    'text actions'
+    'author actions';
   grid-template-columns: 1fr auto;
   grid-template-rows: 1fr auto;
 
@@ -35,11 +42,11 @@ const QuoteContainer = styled.div`
     padding: ${theme.spacing.m.rem};
     gap: ${theme.spacing.s.rem};
     
-    font-size: ${theme.font.sizes.s};
+    font-size: ${theme.font.sizes.s.rem};
     border-radius: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.md}) {
-      font-size: ${theme.font.sizes.xs};
+      font-size: ${theme.font.sizes.xs.rem};
       padding: ${theme.spacing.xs.rem};
     }
   `}
@@ -51,34 +58,42 @@ const QuoteContainer = styled.div`
 const Style_Markdown = styled(Link)`
   display: flex;
   grid-area: text;
-  
+  -webkit-tap-highlight-color: transparent;
+
   ${({ theme }) => `
     color: ${theme.colors.text.dark};
 
     padding: ${theme.spacing.s.rem};
     border-radius: ${theme.spacing.xxs.rem};
+
+    &:hover {backdrop-filter: brightness(1.05);}
+    transition: backdrop-filter ${theme.transition.times.s} ease-in-out;
   `}
 
   text-wrap: balance;
   text-decoration: none;
   justify-content: center;
   align-items: center;
-  `;
+`;
 
 const Author = styled(Link)`
   display: flex;
   grid-area: author;
+  -webkit-tap-highlight-color: transparent;
 
   ${({ theme }) => `
     color: ${theme.colors.text.gray};
 
     padding: ${theme.spacing.xxs.rem} ${theme.spacing.xs.rem};
     gap: ${theme.spacing.xxxs.rem};
+    border-radius: ${theme.spacing.xxs.rem};
+    font-size: ${theme.font.sizes.xxs.rem};
 
-    font-size: ${theme.font.sizes.xxs};
+    &:hover {backdrop-filter: brightness(1.05);}
+    transition: backdrop-filter ${theme.transition.times.s} ease-in-out;
 
     @media (max-width: ${theme.breakpoints.md}) {
-      font-size: ${theme.font.sizes.xxxs};
+      font-size: ${theme.font.sizes.xxxs.rem};
     }
   `}
 
@@ -100,19 +115,18 @@ const Actions = styled.div`
   flex-wrap: wrap;
 
   justify-content: flex-end;
+  align-items: flex-start;
 
   ${({ theme }) => `
+    gap: ${theme.spacing.xxs.rem};
     @media (max-width: ${theme.breakpoints.md}) {
       flex-direction: column;
-      gap: ${theme.spacing.xxs.rem};
       justify-content: flex-start;
     }
   `}
 `;
-const Style_Icon = styled(Icon)`
-  width: 80%;
-  height: 80%;
-`;
+
+const Style_Icon = styled(Icon).attrs({mode:'bg', width: '80%', height: '80%'})``;
 
 const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles}>`
   position:relative;
@@ -125,61 +139,67 @@ const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles
 
   ${({ theme }) => `
     @media (max-width: ${theme.breakpoints.md}) {
-      padding: ${theme.spacing.xxxs.rem};
+      padding: ${theme.spacing.xxs.rem};
       width: ${theme.spacing.xl.rem};
       height: ${theme.spacing.xl.rem};
     }
   `}
 `;
 
-/* CONSTANTS */
-const quoteOptions: DropDownItem[] = [
-  {
-    label: (<><i className='far fa-bookmark'></i> Save</>),
-    onClick: () => {
-      console.log('Save');
-    }
-  },
-  {
-    label: (<><i className="fas fa-pencil"></i> Edit</>),
-    onClick: () => {
-      console.log('Edit');
-    }
-  },
-  {
-    label: (<><i className="fas fa-trash"></i> Delete</>),
-    onClick: () => {
-      console.log('Delete');
-    }
-  }
-];
-
 /**
  * Quote Component, the main component for the Quotly page
  * 
  */
-const Quote = ({quote, author, reactions}:QuoteType) => {
+const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
   const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
   
+  const quoteOptions: DropDownItem[] = [
+    {
+      label: (<><FontAwesomeIcon icon={['far', 'bookmark']} /> {t('quote.save')}</>),
+      onClick: () => {
+        console.log(t('quote.share'));
+      }
+    },
+    {
+      label: (<><FontAwesomeIcon icon='share' /> {t('quote.share')}</>),
+      onClick: () => {
+        console.log(t('quote.share'));
+      }
+    },
+    {
+      label: (<><FontAwesomeIcon icon='pencil' /> {t('quote.edit')}</>),
+      onClick: () => {
+        console.log(t('quote.edit'));
+      }
+    },
+    {
+      label: (<><FontAwesomeIcon icon='trash' /> {t('quote.delete')}</>),
+      onClick: () => {
+        console.log(t('quote.delete'));
+      }
+    }
+  ];
+  
   const abbreviateNumber = (value: number) => {
     let newValue = value;
-    let suffix = "";
+    let suffix = '';
     if (value >= 1000) {
-      suffix = "K";
+      suffix = 'K';
       newValue = value / 1000;
     } 
     if (value >= 1000000) {
-      suffix = "M";
+      suffix = 'M';
       newValue = value / 1000000;
     } 
     if (value >= 1000000000) {
-      suffix = "B";
+      suffix = 'B';
       newValue = value / 1000000000;
     } 
     if (value >= 1000000000000) {
-      suffix = "T";
+      suffix = 'T';
       newValue = value / 1000000000000;
     }
     return newValue.toFixed(0) + suffix;
@@ -194,8 +214,8 @@ const Quote = ({quote, author, reactions}:QuoteType) => {
   const renderAuthor = () => {
     return (
       <Author to={author.url}>
-        <Avatar src={author.avatarUrl} />
-        {author.name} • {quote.dated}
+        <Avatar src={author.avatarUrl} alt={author.name} />
+        {author.name} • {quote.dated.toLocaleDateString(undefined, {dateStyle: 'long'})}
       </Author>
     );
   };
@@ -203,15 +223,14 @@ const Quote = ({quote, author, reactions}:QuoteType) => {
   const renderReaction = (reaction:{icon?:string, counter?:number}) => {
     return (
       <>
-        <Style_Icon icon={"fluent-emoji:" + reaction.icon} />
+        <Style_Icon icon={'fluent-emoji:' + reaction.icon} />
         {reaction.counter && 
           <Style_Badge 
             children={abbreviateNumber(reaction.counter)} 
             place={{
               place: PlaceOrientation.Bottom,
-              margin: "-100%"
+              margin: '-75%'
             }} 
-            fontSize={theme.font.sizes.xxs}
             style={BadgeStyles.transparent}
           />
         }
@@ -257,17 +276,12 @@ const Quote = ({quote, author, reactions}:QuoteType) => {
         <FloatDropDown
           triggerElement={
             <Style_Button isIconButton={true} style={ButtonStyles.transparent}>
-              <i className="fas fa-ellipsis"></i>
+              <FontAwesomeIcon icon='ellipsis' />
             </Style_Button>
           }
           dropDownItems={quoteOptions}
-          place={PlaceOrientation.InsetTopRight}
-          margin={"0px"}
-        />
-        <Style_Button 
-          isIconButton={true} 
-          style={ButtonStyles.transparent}
-          children={<i className="fa-solid fa-share"></i>}
+          place={isLast ? PlaceOrientation.InsetBottomRight : PlaceOrientation.InsetTopRight}
+          margin={'0px'}
         />
         {renderButtonPalette(PlaceOrientation.InsetRight, theme.spacing.xs.rem)}
       </Actions>
