@@ -6,10 +6,12 @@ import { ButtonStyles } from 'components/Button/Button.type';
 import Dialog from 'components/Dialog/Dialog';
 import Input from 'components/Input/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import GuideLinks from 'components/GuideLinks/GuideLinks';
 
 const Style_Form = styled.form`
   display: grid;
   grid-template-areas:
+    'links'
     'textarea'
     'actions';
     grid-template-columns: 1fr;
@@ -44,6 +46,14 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
     return (
       <Dialog ref={ref} toggleDialog={toggleDialog} open={open}>
         <Style_Form method='dialog' onSubmit={onSubmit}>
+          <GuideLinks 
+            links={[
+              {
+                label: (<><FontAwesomeIcon icon={['fab', 'markdown']} /> Markdown</>), 
+                url: 'https://www.markdownguide.org/basic-syntax/'
+              }
+            ]} 
+          />
           <Input 
             id='quote' 
             name='quote' 
@@ -52,7 +62,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
             required 
           />
           <Style_ActionsContainer>
-            <Button style={ButtonStyles.primary} as='button' type='submit'><FontAwesomeIcon icon='plus' /> Publish</Button>
+            <Button style={ButtonStyles.transparent} as='button' type='submit'><FontAwesomeIcon icon='quote-right' /> Publish</Button>
           </Style_ActionsContainer>
         </Style_Form>
       </Dialog>

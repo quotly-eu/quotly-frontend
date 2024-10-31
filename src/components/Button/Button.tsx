@@ -82,6 +82,7 @@ const ButtonContainer = styled.a<ButtonProps>`
       case ButtonStyles.transparent:
         return `
           color: ${theme.colors.text.dark};
+          background-color: transparent;
 
           &:active {
             background-color: ${theme.colors.transparency.black(0.1)};

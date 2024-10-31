@@ -146,7 +146,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
             />
           }
         />
-        <Button style={ButtonStyles.primary} isIconButton={true} onClick={toggleDialog}><FontAwesomeIcon icon='plus' /></Button>
+        <Button style={ButtonStyles.primary} isIconButton={true} onClick={toggleDialog}><FontAwesomeIcon icon='quote-right' /></Button>
         <Switcher
           breakpoint={theme.breakpoints.md}
           mobile={<></>}
