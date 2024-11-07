@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
-import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { useTranslation } from 'react-i18next';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +12,9 @@ import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem, DropDownItemType } from 'components/FloatDropDown/FloatDropDown.type';
 import { PlaceOrientation } from 'types/placeOrientation.type';
+import { NavbarLeftType } from './NavbarLeft.type';
+
+import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -65,7 +67,8 @@ const Center = styled.div`
   display: flex;
   flex-direction: column;
   grid-area: center;
-  gap: ${props => props.theme.spacing.xxl.rem};
+  justify-content:space-between;
+  height: min(20rem, 100%);
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     flex-direction: row;
@@ -85,7 +88,7 @@ const PreparedProfileButton = styled(ProfileButton).attrs(({theme}) => ({
 /**
  * NavbarLeft Component
  */
-const NavbarLeft = () => {
+const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
   const theme = useTheme();
   const { t } = useTranslation();
 
@@ -144,7 +147,7 @@ const NavbarLeft = () => {
             />
           }
         />
-        <Button style={ButtonStyles.primary} isIconButton={true}><FontAwesomeIcon icon='plus' /></Button>
+        <Button style={ButtonStyles.primary} isIconButton={true} onClick={toggleDialog}><FontAwesomeIcon icon='quote-right' /></Button>
         <Switcher
           breakpoint={theme.breakpoints.md}
           mobile={<></>}
@@ -157,7 +160,7 @@ const NavbarLeft = () => {
           mobile={
             <FloatDropDown
               place={PlaceOrientation.TopRight}
-              triggerElement={<PreparedProfileButton src='assets/img/test.jpg' />}
+              triggerElement={<PreparedProfileButton />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />
@@ -165,11 +168,12 @@ const NavbarLeft = () => {
           desktop={
             <FloatDropDown
               place={PlaceOrientation.RightInlineBottom}
-              triggerElement={<PreparedProfileButton src='assets/img/test.jpg' />}
+              triggerElement={<PreparedProfileButton />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />
-          } />
+          }
+        />
       </Bottom>
     </NavbarLeftContainer>
   );

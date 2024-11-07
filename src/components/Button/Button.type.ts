@@ -1,3 +1,5 @@
+import { WebTarget } from "styled-components";
+
 /**
  * ButtonStyles for the Button component.
  * @example
@@ -26,8 +28,9 @@ export enum ButtonStyles {
  */
 export type ButtonType = {
   children?: React.ReactNode,
-  className?: string,
   href?: string,
+  as?: void | WebTarget,
+  type?: 'button' | 'submit' | 'reset',
   style?: ButtonStyles,
   padding?: string,
   gap?: string,
@@ -35,4 +38,5 @@ export type ButtonType = {
   isIconButton?: boolean,
   title?: string,
   onClick?: (event: React.MouseEvent) => void,
+  [rest: string]: unknown
 };

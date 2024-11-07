@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { InputType } from './Input.type';
 
 // Styles
 const Style_FontAwesomeIcon = styled(FontAwesomeIcon)`
@@ -16,51 +16,62 @@ const Style_FontAwesomeIcon = styled(FontAwesomeIcon)`
 const InputContainer = styled.label`
   display: flex;
   flex-direction: row;
-  color: ${props => props.theme.colors.text.dark};
-  background-color: ${props => props.theme.colors.accent_white_0};
-
-  border-radius: 100vmax;
-
-  font-size: ${props => props.theme.font.sizes.xs.rem};
+  width: 100%;
+  
+  ${({ theme }) => `
+    background-color: ${theme.colors.transparency.white(0.5)};
+    color: ${theme.colors.text.dark};
+    font-size: ${theme.font.sizes.xs.rem};
+    border-radius: ${theme.spacing.m.rem};
+    box-shadow: ${theme.shadows.default};
+  `}
 
   justify-content: center;
   align-items: center;
-  box-shadow: ${props => props.theme.shadows.default};
   overflow: hidden;
-  input {
-    color: inherit;
-    background-color: transparent;
+  z-index: 999;
+`;
 
-    width: 100%;
+const Style_Input = styled.input`
+  color: inherit;
+  background-color: transparent;
+
+  width: 100%;
+  ${({ theme }) => `
     padding: 
-      ${props => props.theme.spacing.xs.rem} 
-      ${props => props.theme.spacing.s.rem};
+    ${theme.spacing.xs.rem} 
+    ${theme.spacing.s.rem};  
+  `}
 
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
 
-    border: 0;
-    &:focus {
-      outline: none;
-    }
+  resize: none;
+
+  border: 0;
+  &:focus {
+    outline: none;
   }
 `;
+
 
 /**
  * Input Component with Icon
  */
-const Input = ({ id, name, placeholder, icon, testing }:{
-  id?: string,
-  name?: string
-  placeholder?: string
-  icon?: IconProp,
-  testing?: boolean
-}) => {
+const Input = ({ id, name, placeholder, icon, as='input', required, testing, onChange, ...rest }:InputType) => {
   return (
     <InputContainer data-testid={testing && 'label'}>
       {icon && <Style_FontAwesomeIcon icon={icon} />}
-      <input id={id} name={name} placeholder={placeholder}  />
+      <Style_Input 
+        as={as}
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        required={required}
+        onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onChange && onChange(ev.target.value)}
+        {...rest} 
+      />
     </InputContainer>
   );
 };

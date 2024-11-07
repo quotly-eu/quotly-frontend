@@ -15,6 +15,10 @@ const GuideLinksContainer = styled.div`
 const GuideLink = styled(Link)`
   ${({theme}) => `
     color: ${theme.colors.text.gray};
+    transition: color ${theme.transition.times.m};
+    &:hover {
+      color: ${theme.colors.primary};
+    }
   `}
   text-decoration: none;
   cursor: pointer;

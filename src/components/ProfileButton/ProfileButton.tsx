@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { ProfileButtonType } from './ProfileButton.type';
+import ProfilePlaceholder from 'assets/img/profile-picture.jpg';
 
 // Types
 interface ProfileImageProps {
@@ -27,13 +28,14 @@ const ProfileImage = styled.img<ProfileImageProps>`
  * @example
  * <ProfileButton src={src} alt={alt} onClick={onClick} />
  */
-const ProfileButton = ({src, alt, size, onClick}:ProfileButtonType) => {
+const ProfileButton = ({src=ProfilePlaceholder, alt, size, onClick}:ProfileButtonType) => {
   const theme = useTheme();
   const propagateClick = (event: React.MouseEvent) => {
     event.preventDefault();
     if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
     if(onClick) onClick(event);
   };
+
   return (
     <ProfileImage src={src} alt={alt} $size={size || theme.spacing.xl.em} onClick={propagateClick} />
   );
