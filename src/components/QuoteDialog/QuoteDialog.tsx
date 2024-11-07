@@ -85,10 +85,9 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
               placeholder='Quote...' 
               onChange={setQuoteText}
               value={quoteText}
-              autofocus='true' // TODO: Fix Did you mean `autoFocus`
               required 
               rows={4}
-            />
+            /> // TODO: Add autofocus on Input
             : 
             <Style_Markdown children={<Markdown children={quoteText} />} />
           }
