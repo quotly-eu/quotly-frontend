@@ -172,7 +172,8 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />
-          } />
+          }
+        />
       </Bottom>
     </NavbarLeftContainer>
   );
