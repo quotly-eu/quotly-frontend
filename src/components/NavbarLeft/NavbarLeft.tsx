@@ -67,7 +67,8 @@ const Center = styled.div`
   display: flex;
   flex-direction: column;
   grid-area: center;
-  gap: ${props => props.theme.spacing.xxl.rem};
+  justify-content:space-between;
+  height: min(20rem, 100%);
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     flex-direction: row;
@@ -159,7 +160,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
           mobile={
             <FloatDropDown
               place={PlaceOrientation.TopRight}
-              triggerElement={<PreparedProfileButton src='assets/img/test.jpg' />}
+              triggerElement={<PreparedProfileButton />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />
@@ -167,7 +168,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
           desktop={
             <FloatDropDown
               place={PlaceOrientation.RightInlineBottom}
-              triggerElement={<PreparedProfileButton src='assets/img/test.jpg' />}
+              triggerElement={<PreparedProfileButton />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />

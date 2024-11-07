@@ -28,7 +28,6 @@ export enum ButtonStyles {
  */
 export type ButtonType = {
   children?: React.ReactNode,
-  className?: string,
   href?: string,
   as?: void | WebTarget,
   type?: 'button' | 'submit' | 'reset',
@@ -39,4 +38,5 @@ export type ButtonType = {
   isIconButton?: boolean,
   title?: string,
   onClick?: (event: React.MouseEvent) => void,
+  [rest: string]: unknown
 };

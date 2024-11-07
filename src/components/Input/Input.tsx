@@ -47,6 +47,8 @@ const Style_Input = styled.input`
   font-size: inherit;
   font-weight: inherit;
 
+  resize: none;
+
   border: 0;
   &:focus {
     outline: none;
@@ -57,11 +59,19 @@ const Style_Input = styled.input`
 /**
  * Input Component with Icon
  */
-const Input = ({ id, name, placeholder, icon, as='input', required, testing }:InputType) => {
+const Input = ({ id, name, placeholder, icon, as='input', required, testing, onChange, ...rest }:InputType) => {
   return (
     <InputContainer data-testid={testing && 'label'}>
       {icon && <Style_FontAwesomeIcon icon={icon} />}
-      <Style_Input as={as} id={id} name={name} placeholder={placeholder} required={required} />
+      <Style_Input 
+        as={as}
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        required={required}
+        onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onChange(ev.target.value)}
+        {...rest} 
+      />
     </InputContainer>
   );
 };

@@ -72,8 +72,7 @@ const Style_Markdown = styled(Link)`
 
   text-wrap: balance;
   text-decoration: none;
-  justify-content: center;
-  align-items: center;
+  place-content: center;
 `;
 
 const Author = styled(Link)`
@@ -214,7 +213,7 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   const renderAuthor = () => {
     return (
       <Author to={author.url}>
-        <Avatar src={author.avatarUrl} alt={author.name} />
+        {author.avatarUrl && <Avatar src={author.avatarUrl} alt={author.name} />}
         {author.name} • {quote.dated.toLocaleDateString(undefined, {dateStyle: 'long'})}
       </Author>
     );

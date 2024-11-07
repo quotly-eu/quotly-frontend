@@ -137,7 +137,6 @@ const ButtonContainer = styled.a<ButtonProps>`
  */
 const Button = ({
   children, 
-  className, 
   href=undefined,
   as='a',
   type='button',
@@ -147,7 +146,8 @@ const Button = ({
   gap, 
   width, 
   title, 
-  onClick
+  onClick,
+  ...rest
 }:ButtonType) => {
   const propagateClick = (event: React.MouseEvent) => {
     if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
@@ -159,7 +159,6 @@ const Button = ({
       as={as}
       href={href} 
       type={type}
-      className={className}
       $style={style}
       $padding={padding}
       $gap={gap}
@@ -167,6 +166,7 @@ const Button = ({
       $isIconButton={isIconButton}
       onClick={propagateClick}
       title={title}
+      {...rest}
     />
   );
 };

@@ -1,13 +1,17 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
-## [0.4.0] - 2024-10-31
+## [0.4.0] - 2024-11-07
 ### Additions
 - Added Dialog & QuoteDialog Component for [#11](https://github.com/quotly-eu/quotly-frontend/issues/11)
+- Added ability to route pages outside given app structure
 
 ### Changes
-- Updated Button Component
+- Updated Button & Input Components
 - Updated README.md
+- Updated profile placeholder
+- Changed from className prop inside component to catch-all rest property
+- Avatar URL on Quote is optional
 
 ## [0.3.0] - 2024-10-29
 ### Additions

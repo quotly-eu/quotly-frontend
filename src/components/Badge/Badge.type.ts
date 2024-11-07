@@ -30,7 +30,6 @@ export enum BadgeStyles {
  */
 export type BadgeType = {
   children?: React.ReactNode
-  className?: string
   place?: {
     place: PlaceOrientation,
     margin?: string
@@ -41,4 +40,5 @@ export type BadgeType = {
   fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']][
     keyof CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
   ]
+  [rest: string]: unknown;
 };

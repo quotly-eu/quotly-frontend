@@ -123,19 +123,26 @@ function App() {
     <AppContainer onContextMenu={onContextMenu}>
       <BrowserRouter>
         <GlobalStyle />
+        <Routes>
+          <Route path='*' element={
+            <>
+              <RouteContainer onScroll={mobileScroll}>
+                <NavbarTop />
+                <PagesContainer>
+                  <Routes>
+                    <Route index element={<Main />} />
+                    <Route path='*' element={<NotFound />} />
+                  </Routes>
+                </PagesContainer>
+              </RouteContainer>
 
-        <RouteContainer onScroll={mobileScroll}>
-          <NavbarTop />
-          <PagesContainer>
-            <Routes>
-              <Route index element={<Main />} />
-              <Route path='*' element={<NotFound />} />
-            </Routes>
-          </PagesContainer>
-        </RouteContainer>
-        <NavbarLeft toggleDialog={toggleDialog} />
+              <NavbarLeft toggleDialog={toggleDialog} />
 
-        <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} />
+              <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} />
+            </>
+          } 
+          />
+        </Routes>
       </BrowserRouter>
     </AppContainer>
   );

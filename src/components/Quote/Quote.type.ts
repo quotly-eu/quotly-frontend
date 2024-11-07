@@ -26,7 +26,7 @@ export type QuoteType = {
   }
   author: {
     name: string;
-    avatarUrl: string;
+    avatarUrl?: string;
     url: string;
   },
   reactions?: {

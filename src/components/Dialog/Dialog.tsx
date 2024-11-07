@@ -2,16 +2,17 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { DialogType } from './Dialog.type';
 
-const Style_QuoteDialog = styled.dialog`
+const Style_Dialog = styled.dialog`
   ${({ theme }) => `
     background-color: ${theme.colors.accent_white_0};
     gap: ${theme.spacing.s.rem};
+    inset-inline: ${theme.spacing.s.rem};
     
     border-radius: ${theme.spacing.s.rem};
     box-shadow: ${theme.shadows.default};
   `}
-  width: 100%;
-  max-width: 800px;
+  width: min(100%, 800px);
+
   
   border: none;
   place-self: center;
@@ -33,9 +34,9 @@ const Dialog = forwardRef<HTMLDialogElement, DialogType>(({
   };
 
   return (
-    <Style_QuoteDialog ref={ref} onClick={onClick} open={open}>
+    <Style_Dialog ref={ref} onClick={onClick} open={open}>
       {children}
-    </Style_QuoteDialog>
+    </Style_Dialog>
   );
 });
 
