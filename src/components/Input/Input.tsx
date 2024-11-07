@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -59,21 +59,24 @@ const Style_Input = styled.input`
 /**
  * Input Component with Icon
  */
-const Input = ({ id, name, placeholder, icon, as='input', required, testing, onChange, ...rest }:InputType) => {
-  return (
-    <InputContainer data-testid={testing && 'label'}>
-      {icon && <Style_FontAwesomeIcon icon={icon} />}
-      <Style_Input 
-        as={as}
-        id={id}
-        name={name}
-        placeholder={placeholder}
-        required={required}
-        onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onChange && onChange(ev.target.value)}
-        {...rest} 
-      />
-    </InputContainer>
-  );
-};
+const Input = forwardRef<HTMLInputElement, InputType & Partial<HTMLTextAreaElement | HTMLInputElement>>(
+  ({ id, name, placeholder, icon, as='input', required, testing, onChange, ...rest }, ref) => {
+    return (
+      <InputContainer data-testid={testing && 'label'}>
+        {icon && <Style_FontAwesomeIcon icon={icon} />}
+        <Style_Input 
+          as={as}
+          id={id}
+          name={name}
+          placeholder={placeholder}
+          required={required}
+          onChange={(ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => onChange && onChange(ev.target.value)}
+          ref={ref}
+          {...rest} 
+        />
+      </InputContainer>
+    );
+  }
+);
 
 export default Input;

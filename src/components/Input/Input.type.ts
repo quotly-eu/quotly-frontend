@@ -6,7 +6,7 @@ import { WebTarget } from "styled-components";
  * @example
  * <Input />
  */
-export type InputType = {
+export interface InputType {
   id?: string;
   name?: string;
   placeholder?: string;
@@ -15,5 +15,4 @@ export type InputType = {
   testing?: boolean;
   as?: void | WebTarget;
   onChange?: React.Dispatch<React.SetStateAction<string>>
-  [rest: string]: unknown;
 };

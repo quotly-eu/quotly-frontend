@@ -85,7 +85,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
               placeholder='Quote...' 
               onChange={setQuoteText}
               value={quoteText}
-              autoFocus
+              autofocus='true' // TODO: Fix Did you mean `autoFocus`
               required 
               rows={4}
             />

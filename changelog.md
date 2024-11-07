@@ -1,6 +1,15 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2024-11-07
+### Additions
+- Added ApiContext and useFetch Hook for [#12](https://github.com/quotly-eu/quotly-frontend/issues/12)
+- Added ApiResponse & User type declaration 
+
+### Changes
+- Updated Button & Input Components
+- Updated index file with ApiContextProvider
+
 ## [0.4.0] - 2024-11-07
 ### Additions
 - Added Dialog & QuoteDialog Component for [#11](https://github.com/quotly-eu/quotly-frontend/issues/11)

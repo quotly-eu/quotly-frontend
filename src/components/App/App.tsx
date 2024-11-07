@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 // Pages
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -80,17 +80,18 @@ const RouteContainer = styled.div`
 /**
  * App Component with BrowserRouter and Routes
  */
-function App() {
+const App = () => {
   const quoteDialogRef = useRef<HTMLDialogElement>(null);
   const [mobileCurrentTop, setMobileCurrentTop] = useState(0);
 
   // Prevent right-click context menu on production for user experience
-  const onContextMenu = (e: BaseSyntheticEvent) => {
+  const onContextMenu = (e: React.MouseEvent) => {
     if(process.env.NODE_ENV === 'production') e.preventDefault();
   };
   
-  const mobileScroll = (e:BaseSyntheticEvent) => {
-    const target: HTMLDivElement = e.target;
+  // On mobile devices, hide or show top navbar relatively.
+  const mobileScroll = (e: React.UIEvent) => {
+    const target = e.currentTarget;
     setMobileCurrentTop(target.scrollTop);
     const currentTop = target.scrollTop;
     const diff = currentTop - mobileCurrentTop;
@@ -99,6 +100,7 @@ function App() {
     navbarTop.style.translate = diff > 0 ? `0 -100%` : `0 0`;
   };
 
+  // Toggle the Quote Dialog (Modal)
   const toggleDialog = () => {
     const dialog = quoteDialogRef.current;
     if (!dialog) return;
@@ -109,15 +111,6 @@ function App() {
       dialog.showModal();
     }
   };
-
-  useEffect(() => {
-    const dialog = quoteDialogRef.current;
-    if (!dialog) return;
-    if (dialog.open) {
-      console.log('Dialog opened');
-      dialog.close();
-    }
-  }, [quoteDialogRef]);
 
   return (
     <AppContainer onContextMenu={onContextMenu}>
@@ -140,12 +133,11 @@ function App() {
 
               <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} />
             </>
-          } 
-          />
+          } />
         </Routes>
       </BrowserRouter>
     </AppContainer>
   );
-}
+};
 
 export default App;
