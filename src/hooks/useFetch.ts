@@ -8,7 +8,7 @@ import { ApiResponse } from 'types/ApiResponse.type';
  * 
  * @returns 
  */
-const useFetch = <T,>(route: string) => {
+const useFetch = <T,>(route: string, init?: RequestInit) => {
   const { baseUrl } = useContext(ApiContext);
   const [ response, setResponse ] = useState<ApiResponse<T>>({
     status: 'unknown'
@@ -16,7 +16,7 @@ const useFetch = <T,>(route: string) => {
   const endpoint = useMemo(() => new URL(route, baseUrl), [baseUrl, route]);
 
   useEffect(() => {
-    fetch(endpoint).then(async (res) => {
+    fetch(endpoint, init).then(async (res) => {
       setResponse(await res.json());
     });
   }, [endpoint]);
