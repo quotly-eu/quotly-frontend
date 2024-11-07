@@ -69,7 +69,7 @@ const Input = ({ id, name, placeholder, icon, as='input', required, testing, onC
         name={name}
         placeholder={placeholder}
         required={required}
-        onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onChange(ev.target.value)}
+        onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onChange && onChange(ev.target.value)}
         {...rest} 
       />
     </InputContainer>

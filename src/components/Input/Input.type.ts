@@ -14,6 +14,6 @@ export type InputType = {
   required?: boolean;
   testing?: boolean;
   as?: void | WebTarget;
-  onChange: React.Dispatch<React.SetStateAction<string>>
+  onChange?: React.Dispatch<React.SetStateAction<string>>
   [rest: string]: unknown;
 };
