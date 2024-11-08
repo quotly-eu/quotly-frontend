@@ -1,12 +1,14 @@
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
+
 import Button from 'components/Button/Button';
 import { ButtonStyles } from 'components/Button/Button.type';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
-import React, { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 
 const Style_PageContainer = styled.div`
 display: grid;
@@ -98,7 +100,7 @@ const Login = () => {
       </Style_LeftContainer>
       <Style_Separator />
       <Style_RightContainer>
-        <Style_Description>{import.meta.env.VITE_APP_DESCRIPTION}</Style_Description>
+        <Style_Description>A simple web app that allows you to create and share funny quotes.</Style_Description>
         <br />
         <Button href={discordAuth} style={ButtonStyles.default}>
           <FontAwesomeIcon icon={['fab', 'discord']} />
