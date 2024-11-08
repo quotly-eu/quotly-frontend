@@ -1,6 +1,13 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2024-11-08
+### Additions
+- Added Landing Page for [#15](https://github.com/quotly-eu/quotly-frontend/issues/15)
+
+### Changes
+- Updated useFetch Hook with RequestInit arg
+
 ## [0.5.0] - 2024-11-07
 ### Additions
 - Added ApiContext and useFetch Hook for [#12](https://github.com/quotly-eu/quotly-frontend/issues/12)

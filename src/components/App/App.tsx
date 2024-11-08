@@ -17,6 +17,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import QuoteDialog from 'components/QuoteDialog/QuoteDialog';
+import Login from 'pages/Login/Login';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -117,6 +118,7 @@ const App = () => {
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
+          <Route path='/login' element={<Login />} />
           <Route path='*' element={
             <>
               <RouteContainer onScroll={mobileScroll}>
