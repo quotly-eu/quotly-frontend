@@ -1,7 +1,6 @@
 import React from 'react';
 import { GuideLinksType } from './GuideLinks.type';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 const GuideLinksContainer = styled.div`
   display: flex;
@@ -12,16 +11,18 @@ const GuideLinksContainer = styled.div`
   `}
 `;
 
-const GuideLink = styled(Link)`
+const GuideLink = styled.a`
   ${({theme}) => `
     color: ${theme.colors.text.gray};
     transition: color ${theme.transition.times.m};
-    &:hover {
-      color: ${theme.colors.primary};
+    &[href] {
+      cursor: pointer;
+      &:hover {
+        color: ${theme.colors.primary};
+      }
     }
   `}
   text-decoration: none;
-  cursor: pointer;
 `;
 
 /**
@@ -32,8 +33,8 @@ const GuideLinks = ({links}:GuideLinksType) => {
   return (
     <GuideLinksContainer>
       {links.map((link, index) => (
-        <GuideLink key={index} to={link.url}>{link.label}</GuideLink>
-      ))}
+          <GuideLink key={index} href={link.url}>{link.label}</GuideLink>
+        ))}
     </GuideLinksContainer>
   );
 };

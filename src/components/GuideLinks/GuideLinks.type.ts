@@ -8,6 +8,6 @@
 export type GuideLinksType =  {
   links: {
     label: React.ReactNode;
-    url: string;
+    url?: string;
   }[];
 };

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +9,8 @@ import { ApiContext } from 'contexts/ApiContext/ApiContext';
 import Button from 'components/Button/Button';
 import { ButtonStyles } from 'components/Button/Button.type';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
+
+import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 
 const Style_PageContainer = styled.div`
 display: grid;
@@ -40,8 +42,8 @@ const Style_LinksContainer = styled.div`
 `;
 
 const Style_LeftContainer = styled.div`
-  max-width: 800px;
-  text-align:center;
+  max-width: 600px;
+  place-self:center;
 `;
 
 const Style_Separator = styled.div`
@@ -57,31 +59,31 @@ const Style_Separator = styled.div`
 `;
 
 const Style_RightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   max-width: 400px;
 
   ${({ theme }) => `
+    gap: ${theme.spacing.l.rem};
     // border-left: 2px solid ${theme.colors.transparency.black(0.1)};
     border-radius: ${theme.spacing.m.rem};
   `}
-  text-align:center;
   place-self: center;
 `;
 
-const Style_Title = styled.h1`
-  ${({ theme }) => `
-    font-size: ${theme.font.sizes.xxxl.rem};
-
-    @media (max-width: ${theme.breakpoints.lg}) {
-      font-size: ${theme.font.sizes.xl.rem};
-    }
-  `}
-  font-weight: 400;
-  letter-spacing: 1.5vw;
+const Style_Logo = styled(Logo)`
+  width: 100%;
 `;
 
 const Style_Description = styled.h2`
   text-wrap: pretty;
-  font-weight: 400;
+  font-weight: 900;
+`;
+
+const Style_AuthInfo = styled.small`
+  ${({ theme }) => `
+    color: ${theme.colors.text.gray};
+  `}
 `;
 
 /**
@@ -95,24 +97,38 @@ const Login = () => {
     <Style_PageContainer>
     <Style_LoginContainer>
       <Style_LeftContainer>
-        <Style_Title>Quotly</Style_Title>
-        <br />
+        <Style_Logo />
       </Style_LeftContainer>
       <Style_Separator />
       <Style_RightContainer>
-        <Style_Description>A simple web app that allows you to create and share funny quotes.</Style_Description>
-        <br />
+        <Style_Description>{t('description')}</Style_Description>
         <Button href={discordAuth} style={ButtonStyles.default}>
           <FontAwesomeIcon icon={['fab', 'discord']} />
           {t('login.discord_btn')}
         </Button>
+        <Style_AuthInfo>
+          <Trans i18nKey='login.auth_info'>
+            <a href='/tos'>TOS</a>
+            <a href='/privacy'>Privacy Policy</a>
+            <a href='/cookies'>Cookies</a>
+          </Trans>
+        </Style_AuthInfo>
       </Style_RightContainer>
     </Style_LoginContainer>
     <Style_LinksContainer>
-      <GuideLinks links={[{
-        label: 'Test',
-        url: ''
-      }]} />
+      <GuideLinks links={[
+        {
+          label: t('guides.privacy_policy'),
+          url: '/privacy'
+        },
+        {
+          label: t('guides.terms_of_service'),
+          url: '/tos'
+        },
+        {
+          label: '© 2024 Quotly'
+        }
+      ]} />
     </Style_LinksContainer>
     </Style_PageContainer>
   );
