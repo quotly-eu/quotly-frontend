@@ -69,6 +69,12 @@ const Style_RightContainer = styled.div`
   place-self: center;
 `;
 
+const Style_Footer = styled.footer`
+  ${({ theme }) => `
+    padding: ${theme.spacing.xs.rem};
+  `}
+`;
+
 const Style_Logo = styled(Logo)`
   width: 100%;
 `;
@@ -117,19 +123,25 @@ const Login = () => {
         </Style_AuthInfo>
       </Style_RightContainer>
     </Style_LoginContainer>
-    <GuideLinks textAlign='center' links={[
-      {
-        label: t('guides.privacy_policy'),
-        url: '/privacy'
-      },
-      {
-        label: t('guides.terms_of_service'),
-        url: '/tos'
-      },
-      {
-        label: '© 2024 Quotly'
-      }
-    ]} />
+    <Style_Footer>
+      <GuideLinks textAlign='center' links={[
+        {
+          label: t('guides.privacy_policy'),
+          url: '/privacy'
+        },
+        {
+          label: t('guides.terms_of_service'),
+          url: '/tos'
+        },
+        {
+          label: t('guides.cookies'),
+          url: '/cookies'
+        },
+        {
+          label: '© 2024 ' + t('quotly')
+        }
+      ]} />
+    </Style_Footer>
     </Style_PageContainer>
   );
 };
