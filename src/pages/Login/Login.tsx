@@ -10,6 +10,8 @@ import Button from 'components/Button/Button';
 import { ButtonStyles } from 'components/Button/Button.type';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
 
+import { Style_Link } from 'utils/stylingTemplates';
+
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 
 const Style_PageContainer = styled.div`
@@ -17,6 +19,7 @@ display: grid;
 grid-area: route;
 grid-template-rows: 1fr auto;
 `;
+
 const Style_LoginContainer = styled.div`
   display: grid;
   grid-auto-flow: column;
@@ -34,11 +37,6 @@ const Style_LoginContainer = styled.div`
   `}
 
   place-self: center;
-`;
-
-const Style_LinksContainer = styled.div`
-  text-align: center;
-  place-items: center;
 `;
 
 const Style_LeftContainer = styled.div`
@@ -64,7 +62,7 @@ const Style_RightContainer = styled.div`
   max-width: 400px;
 
   ${({ theme }) => `
-    gap: ${theme.spacing.l.rem};
+    gap: ${theme.spacing.m.rem};
     // border-left: 2px solid ${theme.colors.transparency.black(0.1)};
     border-radius: ${theme.spacing.m.rem};
   `}
@@ -84,6 +82,10 @@ const Style_AuthInfo = styled.small`
   ${({ theme }) => `
     color: ${theme.colors.text.gray};
   `}
+`;
+
+const Style_GuideLink = styled.a`
+  ${Style_Link}
 `;
 
 /**
@@ -108,28 +110,26 @@ const Login = () => {
         </Button>
         <Style_AuthInfo>
           <Trans i18nKey='login.auth_info'>
-            <a href='/tos'>TOS</a>
-            <a href='/privacy'>Privacy Policy</a>
-            <a href='/cookies'>Cookies</a>
+            <Style_GuideLink href='/tos'>TOS</Style_GuideLink>
+            <Style_GuideLink href='/privacy'>Privacy Policy</Style_GuideLink>
+            <Style_GuideLink href='/cookies'>Cookies</Style_GuideLink>
           </Trans>
         </Style_AuthInfo>
       </Style_RightContainer>
     </Style_LoginContainer>
-    <Style_LinksContainer>
-      <GuideLinks links={[
-        {
-          label: t('guides.privacy_policy'),
-          url: '/privacy'
-        },
-        {
-          label: t('guides.terms_of_service'),
-          url: '/tos'
-        },
-        {
-          label: '© 2024 Quotly'
-        }
-      ]} />
-    </Style_LinksContainer>
+    <GuideLinks textAlign='center' links={[
+      {
+        label: t('guides.privacy_policy'),
+        url: '/privacy'
+      },
+      {
+        label: t('guides.terms_of_service'),
+        url: '/tos'
+      },
+      {
+        label: '© 2024 Quotly'
+      }
+    ]} />
     </Style_PageContainer>
   );
 };

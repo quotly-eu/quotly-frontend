@@ -4,9 +4,12 @@ All notable changes to this project will be documented in this file.
 ## [0.6.0] - 2024-11-09
 ### Additions
 - Added Landing Page for [#15](https://github.com/quotly-eu/quotly-frontend/issues/15)
+- Added styling templates util for easy access for sharing css rulesets which are not worth to be directly a component.
 
 ### Changes
 - Updated useFetch Hook with RequestInit arg
+- Updated env App description
+- Updated GuideLinks to allow to center the items
 
 ## [0.5.0] - 2024-11-07
 ### Additions

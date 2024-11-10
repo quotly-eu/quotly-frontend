@@ -1,41 +1,37 @@
 import React from 'react';
 import { GuideLinksType } from './GuideLinks.type';
 import styled from 'styled-components';
+import { Style_Link } from 'utils/stylingTemplates';
 
-const GuideLinksContainer = styled.div`
+interface GuideLinksContainerProps {
+  $textAlign: 'left' | 'center' | 'right';
+}
+
+const Style_GuideLinksContainer = styled.div<GuideLinksContainerProps>`
   display: flex;
   flex-wrap: wrap;
-  ${({theme}) => `
-    gap: ${theme.spacing.xs.rem};
+  ${({theme, $textAlign}) => `
+    column-gap: ${theme.spacing.xs.rem};
     padding-inline: ${theme.spacing.xs.rem};
+    justify-content: ${$textAlign};
   `}
 `;
 
-const GuideLink = styled.a`
-  ${({theme}) => `
-    color: ${theme.colors.text.gray};
-    transition: color ${theme.transition.times.m};
-    &[href] {
-      cursor: pointer;
-      &:hover {
-        color: ${theme.colors.primary};
-      }
-    }
-  `}
-  text-decoration: none;
+const Style_GuideLink = styled.a`
+  ${Style_Link}
 `;
 
 /**
  * GuideLinks component for e.g. displaying custom links for privacy policy or terms of service.
  * 
  */
-const GuideLinks = ({links}:GuideLinksType) => {
+const GuideLinks = ({links, textAlign='left'}:GuideLinksType) => {
   return (
-    <GuideLinksContainer>
+    <Style_GuideLinksContainer $textAlign={textAlign}>
       {links.map((link, index) => (
-          <GuideLink key={index} href={link.url}>{link.label}</GuideLink>
+          <Style_GuideLink key={index} href={link.url}>{link.label}</Style_GuideLink>
         ))}
-    </GuideLinksContainer>
+    </Style_GuideLinksContainer>
   );
 };
 

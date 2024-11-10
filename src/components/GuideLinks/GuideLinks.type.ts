@@ -10,4 +10,5 @@ export type GuideLinksType =  {
     label: React.ReactNode;
     url?: string;
   }[];
+  textAlign?: 'left' | 'center' | 'right';
 };
