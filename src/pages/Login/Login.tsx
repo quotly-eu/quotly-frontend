@@ -15,9 +15,9 @@ import { Style_Link } from 'utils/stylingTemplates';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 
 const Style_PageContainer = styled.div`
-display: grid;
-grid-area: route;
-grid-template-rows: 1fr auto;
+  display: grid;
+  grid-area: route;
+  grid-template-rows: 1fr auto;
 `;
 
 const Style_LoginContainer = styled.div`
