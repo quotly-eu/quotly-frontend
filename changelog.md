@@ -1,6 +1,15 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.7.0] - 2024-11-12
+### Additions
+- Added OAuth Page for [#14](https://github.com/quotly-eu/quotly-frontend/issues/14)
+- Added useQuery custom hook for easy search parameter access
+
+### Changes
+- Removed useFetch Hook dependencies
+- Updated Login Landing Page with state token for auth
+
 ## [0.6.0] - 2024-11-09
 ### Additions
 - Added Landing Page for [#15](https://github.com/quotly-eu/quotly-frontend/issues/15)

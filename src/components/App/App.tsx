@@ -18,6 +18,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import QuoteDialog from 'components/QuoteDialog/QuoteDialog';
 import Login from 'pages/Login/Login';
+import OAuth from 'pages/OAuth/OAuth';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -119,6 +120,7 @@ const App = () => {
         <GlobalStyle />
         <Routes>
           <Route path='/login' element={<Login />} />
+          <Route path='/oauth' element={<OAuth />} />
           <Route path='*' element={
             <>
               <RouteContainer onScroll={mobileScroll}>

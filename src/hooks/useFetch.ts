@@ -19,7 +19,7 @@ const useFetch = <T,>(route: string, init?: RequestInit) => {
     fetch(endpoint, init).then(async (res) => {
       setResponse(await res.json());
     });
-  }, [endpoint, init]);
+  }, []);
 
   return response;
 };

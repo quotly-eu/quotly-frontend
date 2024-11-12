@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 
 import styled from 'styled-components';
@@ -13,6 +13,8 @@ import GuideLinks from 'components/GuideLinks/GuideLinks';
 import { Style_Link } from 'utils/stylingTemplates';
 
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
+import { generateToken } from 'utils/generateToken';
+import { useCookies } from 'react-cookie';
 
 const Style_PageContainer = styled.div`
   display: grid;
@@ -100,6 +102,17 @@ const Style_GuideLink = styled.a`
 const Login = () => {
   const { discordAuth } = useContext(ApiContext);
   const { t } = useTranslation();
+  const stateToken = generateToken(32);
+  const [ cookies, setCookie ] = useCookies(['state']);
+
+  useEffect(() => {
+    setCookie('state', stateToken, {
+      path: '/',
+      sameSite: 'strict',
+      secure: true
+    });
+    console.log(cookies.state);
+  }, []);
 
   return (
     <Style_PageContainer>
@@ -110,7 +123,7 @@ const Login = () => {
       <Style_Separator />
       <Style_RightContainer>
         <Style_Description>{t('description')}</Style_Description>
-        <Button href={discordAuth} style={ButtonStyles.default}>
+        <Button href={`${discordAuth}&state=${cookies.state}`} style={ButtonStyles.default}>
           <FontAwesomeIcon icon={['fab', 'discord']} />
           {t('login.discord_btn')}
         </Button>
