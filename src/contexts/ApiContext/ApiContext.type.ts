@@ -1,7 +1,7 @@
-type ApiRoute = {
-  path: string;
-  subPaths?: {
-    [path: string]: string;
+type ApiRoute<PathArgs extends unknown[] = [], Routes extends string = ''> = {
+  construct: (...args: PathArgs) => string;
+  sub?: {
+    [path in Routes]: ApiRoute<Required<PathArgs>>['construct'];
   };
 };
 
@@ -13,9 +13,9 @@ type ApiRoute = {
 export type ApiContextType = {
   baseUrl: string;
   routes: {
-    quotes: ApiRoute;
-    roles: ApiRoute;
-    users: ApiRoute;
+    quotes: ApiRoute<[id?: string], 'comments' | 'reactions'>;
+    roles: ApiRoute<[roleId?: string]>;
+    users: ApiRoute<[discordId?: string], 'reactions' | 'roles' | 'savedQuotes'>;
   }
   discordAuth: string;
 };
