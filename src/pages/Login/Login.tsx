@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 
 import styled from 'styled-components';
@@ -15,7 +15,6 @@ import { Style_Link } from 'utils/stylingTemplates';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { generateToken } from 'utils/generateToken';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 import PageTitle from 'components/PageTitle/PageTitle';
 
 const Style_PageContainer = styled.div`
