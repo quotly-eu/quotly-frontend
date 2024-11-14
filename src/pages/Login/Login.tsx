@@ -15,10 +15,12 @@ import { Style_Link } from 'utils/stylingTemplates';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { generateToken } from 'utils/generateToken';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import PageTitle from 'components/PageTitle/PageTitle';
 
 const Style_PageContainer = styled.div`
   display: grid;
-  grid-area: route;
+  min-height: inherit;
   grid-template-rows: 1fr auto;
 `;
 
@@ -102,59 +104,60 @@ const Style_GuideLink = styled.a`
 const Login = () => {
   const { discordAuth } = useContext(ApiContext);
   const { t } = useTranslation();
-  const stateToken = generateToken(32);
-  const [ cookies, setCookie ] = useCookies(['state']);
+  const [ , setCookie ] = useCookies(['state']);
 
-  useEffect(() => {
+  const onClick = () => {
+    const stateToken = generateToken(32);
     setCookie('state', stateToken, {
       path: '/',
       sameSite: 'strict',
       secure: true
     });
-    console.log(cookies.state);
-  }, []);
+    window.location.href = `${discordAuth}&state=${stateToken}`;
+  };
 
   return (
     <Style_PageContainer>
-    <Style_LoginContainer>
-      <Style_LeftContainer>
-        <Style_Logo />
-      </Style_LeftContainer>
-      <Style_Separator />
-      <Style_RightContainer>
-        <Style_Description>{t('description')}</Style_Description>
-        <Button href={`${discordAuth}&state=${cookies.state}`} style={ButtonStyles.default}>
-          <FontAwesomeIcon icon={['fab', 'discord']} />
-          {t('login.discord_btn')}
-        </Button>
-        <Style_AuthInfo>
-          <Trans i18nKey='login.auth_info'>
-            <Style_GuideLink href='/tos'>TOS</Style_GuideLink>
-            <Style_GuideLink href='/privacy'>Privacy Policy</Style_GuideLink>
-            <Style_GuideLink href='/cookies'>Cookies</Style_GuideLink>
-          </Trans>
-        </Style_AuthInfo>
-      </Style_RightContainer>
-    </Style_LoginContainer>
-    <Style_Footer>
-      <GuideLinks textAlign='center' links={[
-        {
-          label: t('guides.privacy_policy'),
-          url: '/privacy'
-        },
-        {
-          label: t('guides.terms_of_service'),
-          url: '/tos'
-        },
-        {
-          label: t('guides.cookies'),
-          url: '/cookies'
-        },
-        {
-          label: '© 2024 ' + t('quotly')
-        }
-      ]} />
-    </Style_Footer>
+      <PageTitle title='Login' />
+      <Style_LoginContainer>
+        <Style_LeftContainer>
+          <Style_Logo />
+        </Style_LeftContainer>
+        <Style_Separator />
+        <Style_RightContainer>
+          <Style_Description>{t('description')}</Style_Description>
+          <Button onClick={onClick} style={ButtonStyles.default}>
+            <FontAwesomeIcon icon={['fab', 'discord']} />
+            {t('login.discord_btn')}
+          </Button>
+          <Style_AuthInfo>
+            <Trans i18nKey='login.auth_info'>
+              <Style_GuideLink href='/tos'>TOS</Style_GuideLink>
+              <Style_GuideLink href='/privacy'>Privacy Policy</Style_GuideLink>
+              <Style_GuideLink href='/cookies'>Cookies</Style_GuideLink>
+            </Trans>
+          </Style_AuthInfo>
+        </Style_RightContainer>
+      </Style_LoginContainer>
+      <Style_Footer>
+        <GuideLinks textAlign='center' links={[
+          {
+            label: t('guides.privacy_policy'),
+            url: '/privacy'
+          },
+          {
+            label: t('guides.terms_of_service'),
+            url: '/tos'
+          },
+          {
+            label: t('guides.cookies'),
+            url: '/cookies'
+          },
+          {
+            label: '© 2024 ' + t('quotly')
+          }
+        ]} />
+      </Style_Footer>
     </Style_PageContainer>
   );
 };
