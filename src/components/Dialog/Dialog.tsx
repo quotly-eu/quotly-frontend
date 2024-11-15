@@ -12,7 +12,7 @@ const Style_Dialog = styled.dialog`
     box-shadow: ${theme.shadows.default};
   `}
   width: min(100%, 800px);
-
+  padding: 0;
   
   border: none;
   place-self: center;
