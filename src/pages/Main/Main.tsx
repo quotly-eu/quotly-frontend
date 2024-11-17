@@ -13,6 +13,7 @@ import ProfileButton from 'components/ProfileButton/ProfileButton';
 
 import { QuoteType } from 'components/Quote/Quote.type';
 import { BadgeStyles } from 'components/Badge/Badge.type';
+import PageTitle from 'components/PageTitle/PageTitle';
 
 // Styles
 const MainContainer = styled.div`
@@ -153,6 +154,7 @@ const Main = () => {
 
   return (
     <MainContainer>
+      <PageTitle />
       <QuotesContainer>
         {quotes.map((quote, index) => (
           <Quote {...quote} key={index} isLast={quotes.length == (index+1)} />

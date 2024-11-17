@@ -1,6 +1,17 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.8.0] - 2024-11-14
+### Additions
+- Added Privacy-Policy Page for [#20](https://github.com/quotly-eu/quotly-frontend/issues/20)
+- Added overall MarkdownPage
+
+### Changes
+- Adjusted useFetch to not use a baseUrl anymore
+- Adjusted ApiContext and its types to be more strict but helpful
+- Renamed Style_Link to CSS_Link
+- Added markdown type support
+
 ## [0.7.0] - 2024-11-12
 ### Additions
 - Added OAuth Page for [#14](https://github.com/quotly-eu/quotly-frontend/issues/14)

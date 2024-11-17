@@ -8,13 +8,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button/Button';
 
 import { ButtonStyles } from 'components/Button/Button.type';
+import PageTitle from 'components/PageTitle/PageTitle';
 
 // Styles
 const NotFoundContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  height: 100%;
+  min-height: inherit;
 
   ${({ theme }) => `
     gap: ${theme.spacing.m.rem};
@@ -67,6 +68,7 @@ const NotFound = () => {
 
   return (
     <NotFoundContainer>
+      <PageTitle title={t('page_not_found.title')} />
       <Title>
         <strong>{t('page_not_found.404')}</strong> - {t('page_not_found.title')}
       </Title>

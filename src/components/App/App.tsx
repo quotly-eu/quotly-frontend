@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 // Pages
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from '../../pages/Main/Main';
 import NotFound from '../../pages/NotFound/NotFound';
 
@@ -19,6 +19,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import QuoteDialog from 'components/QuoteDialog/QuoteDialog';
 import Login from 'pages/Login/Login';
 import OAuth from 'pages/OAuth/OAuth';
+import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -27,7 +28,7 @@ library.add(fas, far, fab);
 const AppContainer = styled.div`
   display: grid;
 
-  height: inherit;
+  height: 100dvh;
   grid-template-areas:
     'navbar-left navbar-top'
     'navbar-left route';
@@ -115,20 +116,21 @@ const App = () => {
   };
 
   return (
-    <AppContainer onContextMenu={onContextMenu}>
-      <BrowserRouter>
-        <GlobalStyle />
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/oauth' element={<OAuth />} />
-          <Route path='*' element={
+    <BrowserRouter>
+      <GlobalStyle />
+      <Routes>
+        <Route path='login' element={<Login />} />
+        <Route path='oauth' element={<OAuth />} />
+        <Route path='privacy' element={<PrivacyPolicy />} />
+        <Route path='*' element={
+          <AppContainer onContextMenu={onContextMenu}>
             <>
               <RouteContainer onScroll={mobileScroll}>
                 <NavbarTop />
                 <PagesContainer>
                   <Routes>
                     <Route index element={<Main />} />
-                    <Route path='*' element={<NotFound />} />
+                    <Route path='*' element={<Navigate replace to='/404' />} />
                   </Routes>
                 </PagesContainer>
               </RouteContainer>
@@ -137,10 +139,11 @@ const App = () => {
 
               <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} />
             </>
-          } />
-        </Routes>
-      </BrowserRouter>
-    </AppContainer>
+          </AppContainer>
+        } />
+        <Route path='404' element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

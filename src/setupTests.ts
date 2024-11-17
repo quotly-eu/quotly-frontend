@@ -6,6 +6,9 @@ import '@testing-library/jest-dom';
 import '__mocks__/window';
 import '__mocks__/iconify-react';
 
+import '__mocks__/remark-gfm';
+import '__mocks__/remark-toc';
+
 jest.mock('react-markdown');
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({

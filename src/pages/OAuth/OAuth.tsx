@@ -18,9 +18,13 @@ const OAuth = () => {
   useEffect(() => {
     if(cookies.state === query.get('state')) {
       removeCookie('state');
-      navigate('/');
+      navigate('/', {
+        replace: true
+      });
     } else {
-      navigate('/login?error');
+      navigate('/login?error', {
+        replace: true
+      });
     }
   }, [query]);
 

@@ -1,23 +1,23 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
-
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useEffect, useMemo, useState } from 'react';
 
 import { ApiResponse } from 'types/ApiResponse.type';
 
 /**
  * 
- * @returns 
  */
-const useFetch = <T,>(route: string, init?: RequestInit) => {
-  const { baseUrl } = useContext(ApiContext);
+const useFetch = <T,>(route: string, init?: RequestInit, isText = false) => {
   const [ response, setResponse ] = useState<ApiResponse<T>>({
     status: 'unknown'
   });
-  const endpoint = useMemo(() => new URL(route, baseUrl), [baseUrl, route]);
+  const endpoint = useMemo(() => new URL(route), [route]);
 
   useEffect(() => {
     fetch(endpoint, init).then(async (res) => {
-      setResponse(await res.json());
+      if(isText) setResponse({
+        status: 'success',
+        data: await res.text() as T
+      });
+      else setResponse(await res.json());
     });
   }, []);
 

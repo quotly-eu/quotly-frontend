@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-export const Style_Link = css`
+export const CSS_Link = css`
   ${({theme}) => `
     color: ${theme.colors.text.gray};
     transition: color ${theme.transition.times.m};
