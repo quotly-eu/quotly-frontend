@@ -72,7 +72,8 @@ const Style_Markdown = styled(Link)`
 
   text-wrap: balance;
   text-decoration: none;
-  place-content: center;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Author = styled(Link)`
@@ -151,7 +152,7 @@ const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles
  */
 const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
   const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
   
@@ -214,7 +215,7 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
     return (
       <Author to={author.url}>
         {author.avatarUrl && <Avatar src={author.avatarUrl} alt={author.name} />}
-        {author.name} • {quote.dated.toLocaleDateString(undefined, {dateStyle: 'long'})}
+        {author.name} • {quote.dated.toLocaleDateString(i18n.language, {dateStyle: 'long'})}
       </Author>
     );
   };

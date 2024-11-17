@@ -221,7 +221,8 @@ const Main = () => {
             <GuideLinks
               links={[
                 { label: t('guides.privacy_policy'), url: '/privacy' },
-                { label: t('guides.terms_of_service'), url: '/tos' }
+                { label: t('guides.terms_of_service'), url: '/tos' },
+                { label: t('guides.cookies'), url: '/cookies' }
               ]}
             />
           </FeedsContainer>
