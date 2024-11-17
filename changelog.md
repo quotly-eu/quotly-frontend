@@ -1,6 +1,15 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.9.0] - 2024-11-17
+### Additions
+- Added Usage of Cookies Page for [#22](https://github.com/quotly-eu/quotly-frontend/issues/22)
+
+### Changes
+- Extended useFetch to throw error status on errors >= 400
+- Extended Markdown Page with table design & customizable max depth for table of contents generation
+- Adjusted Privacy Policy Page to only accept markdown files
+
 ## [0.8.0] - 2024-11-14
 ### Additions
 - Added Privacy-Policy Page for [#20](https://github.com/quotly-eu/quotly-frontend/issues/20)

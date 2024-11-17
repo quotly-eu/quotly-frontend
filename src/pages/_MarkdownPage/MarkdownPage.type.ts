@@ -9,4 +9,5 @@ export type MarkdownPageType = Options & {
   childrenPre?: React.ReactNode;
   childrenSuf?: MarkdownPageType['childrenPre'];
   title?: string;
+  maxDepth?: number;
 };

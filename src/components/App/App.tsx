@@ -20,6 +20,7 @@ import QuoteDialog from 'components/QuoteDialog/QuoteDialog';
 import Login from 'pages/Login/Login';
 import OAuth from 'pages/OAuth/OAuth';
 import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
+import Cookies from 'pages/Cookies/Cookies';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -122,6 +123,7 @@ const App = () => {
         <Route path='login' element={<Login />} />
         <Route path='oauth' element={<OAuth />} />
         <Route path='privacy' element={<PrivacyPolicy />} />
+        <Route path='cookies' element={<Cookies />} />
         <Route path='*' element={
           <AppContainer onContextMenu={onContextMenu}>
             <>

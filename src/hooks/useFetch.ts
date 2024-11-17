@@ -12,12 +12,18 @@ const useFetch = <T,>(route: string, init?: RequestInit, isText = false) => {
   const endpoint = useMemo(() => new URL(route), [route]);
 
   useEffect(() => {
-    fetch(endpoint, init).then(async (res) => {
-      if(isText) setResponse({
-        status: 'success',
-        data: await res.text() as T
-      });
-      else setResponse(await res.json());
+    fetch(endpoint, init).then(async (resolved) => {
+      if(resolved.status >= 400) {
+        setResponse({
+          status: 'error',
+          errorCode: resolved.status
+        });
+      } else if(isText) {
+        setResponse({
+          status: 'success',
+          data: await resolved.text() as T
+        });
+      } else setResponse(await resolved.json());
     });
   }, []);
 
