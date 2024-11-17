@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,7 @@ import Button from 'components/Button/Button';
 import { MarkdownPageType } from './MarkdownPage.type';
 
 const Style_MarkdownPage = styled.div`
-  grid-area: route;
+  width: 100%;
   max-width: 1000px;
   ${({ theme }) => `
     padding: ${theme.spacing.xl.rem};
@@ -27,7 +27,7 @@ const Style_MarkdownPage = styled.div`
   place-self: center;
 `;
 
-const Style_HeadingFirst = styled.h1`
+const CSS_HeadingFirst = css`
   ${({ theme }) => `
     padding-bottom: ${theme.spacing.xxs.em};
     border-bottom: 1px solid ${theme.colors.transparency.black(0.1)};
@@ -38,12 +38,59 @@ const Style_HeadingFirst = styled.h1`
   `}
 `;
 
-const Style_HeadingSecond = styled(Style_HeadingFirst).attrs({as: 'h3'})`
+const CSS_HeadingSecond = css`
+  ${CSS_HeadingFirst}
   border-bottom: none;
   padding-bottom: 0;
 `;
 
-const Style_HeadingH4 = styled(Style_HeadingSecond).attrs({as: 'h4'})``;
+const Style_HeadingFirst = styled.h1`
+  ${CSS_HeadingFirst}
+`;
+
+const Style_HeadingSecond = styled.h3`
+  ${CSS_HeadingSecond}
+`;
+
+const Style_HeadingH4 = styled.h4`
+  ${CSS_HeadingSecond}
+`;
+
+const Style_TableContainer = styled.div`
+  width: 100%;
+  overflow-x: auto;
+`;
+
+const Style_Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+const CSS_TableCell = css`
+  ${({ theme }) => `
+    padding: ${theme.spacing.xxs.em};
+    border-left: 1px solid ${theme.colors.transparency.black(0.1)};
+    &:first-child {
+      border-left: none;
+    }
+  `}
+`;
+
+const Style_TableTH = styled.th`
+  ${CSS_TableCell}
+`;
+
+const Style_TableTD = styled.td`
+  ${CSS_TableCell}
+`;
+
+const Style_TableTBody = styled.tbody`
+  ${({ theme }) => `
+    tr {
+      border-top: 1px solid ${theme.colors.transparency.black(0.1)};
+    }
+  `}
+`;
 
 const Style_Link = styled(HashLink)`
   ${({ theme }) => `
@@ -75,7 +122,7 @@ const Style_HR = styled.hr`
 /**
  * Build a Page that only consists of Markdown.
  */
-const MarkdownPage = ({children, childrenPre, childrenSuf, title, ...rest}: MarkdownPageType) => {
+const MarkdownPage = ({children, childrenPre, childrenSuf, title, maxDepth= 3, ...rest}: MarkdownPageType) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -94,9 +141,20 @@ const MarkdownPage = ({children, childrenPre, childrenSuf, title, ...rest}: Mark
     return Heading;
   };
 
+  const TableRenderer = ({children}: JSX.IntrinsicElements['table'] & ExtraProps) => {
+    return (
+      <Style_TableContainer>
+        <Style_Table>
+          {children}
+        </Style_Table>
+      </Style_TableContainer>
+    );
+  };
+
   const AnchorRenderer = ({children, href}: JSX.IntrinsicElements['a'] & ExtraProps) => {
     const to = decodeURIComponent(href || '');
-    return <Style_Link children={children} to={to} replace />;
+    const replace = to.startsWith('#');
+    return <Style_Link children={children} to={to} replace={replace} />;
   };
 
   return (
@@ -111,6 +169,10 @@ const MarkdownPage = ({children, childrenPre, childrenSuf, title, ...rest}: Mark
           h2: HeadingRenderer,
           h3: HeadingRenderer,
           h4: Style_HeadingH4,
+          table: TableRenderer,
+          tbody: Style_TableTBody,
+          th: Style_TableTH,
+          td: Style_TableTD,
           p: Style_P,
           a: AnchorRenderer,
           ul: Style_UL,
@@ -122,7 +184,7 @@ const MarkdownPage = ({children, childrenPre, childrenSuf, title, ...rest}: Mark
             remarkToc, 
             {
               tight: true,
-              maxDepth: 3, 
+              maxDepth: maxDepth,
               heading: t('markdown.table_of_contents'),
             }
           ]
