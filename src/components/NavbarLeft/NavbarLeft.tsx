@@ -15,6 +15,7 @@ import { PlaceOrientation } from 'types/placeOrientation.type';
 import { NavbarLeftType } from './NavbarLeft.type';
 
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
+import { Link } from 'react-router-dom';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -40,7 +41,7 @@ const NavbarLeftContainer = styled.div`
   }
 `;
 
-const LogoBrand = styled.a`
+const LogoBrand = styled(Link)`
   grid-area: top;
   width: ${props => props.theme.spacing.xxxl.rem};
   height: ${props => props.theme.spacing.xxxl.rem};
@@ -123,7 +124,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
 
   return (
     <NavbarLeftContainer>
-      <LogoBrand href='/' title={t('quotly')}>
+      <LogoBrand to='/' title={t('quotly')}>
         <Logo />
       </LogoBrand>
       <Top $type='mobile'>

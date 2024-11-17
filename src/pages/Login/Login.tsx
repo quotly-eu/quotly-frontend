@@ -16,6 +16,7 @@ import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { generateToken } from 'utils/generateToken';
 import { useCookies } from 'react-cookie';
 import PageTitle from 'components/PageTitle/PageTitle';
+import { Link } from 'react-router-dom';
 
 const Style_PageContainer = styled.div`
   display: grid;
@@ -93,7 +94,7 @@ const Style_AuthInfo = styled.small`
   `}
 `;
 
-const Style_GuideLink = styled.a`
+const Style_GuideLink = styled(Link)`
   ${CSS_Link}
 `;
 
@@ -131,9 +132,9 @@ const Login = () => {
           </Button>
           <Style_AuthInfo>
             <Trans i18nKey='login.auth_info'>
-              <Style_GuideLink href='/tos'>TOS</Style_GuideLink>
-              <Style_GuideLink href='/privacy'>Privacy Policy</Style_GuideLink>
-              <Style_GuideLink href='/cookies'>Cookies</Style_GuideLink>
+              <Style_GuideLink to='/tos'>TOS</Style_GuideLink>
+              <Style_GuideLink to='/privacy'>Privacy Policy</Style_GuideLink>
+              <Style_GuideLink to='/cookies'>Cookies</Style_GuideLink>
             </Trans>
           </Style_AuthInfo>
         </Style_RightContainer>

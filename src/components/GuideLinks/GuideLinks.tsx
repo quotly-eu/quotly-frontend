@@ -2,6 +2,7 @@ import React from 'react';
 import { GuideLinksType } from './GuideLinks.type';
 import styled from 'styled-components';
 import { CSS_Link } from 'utils/stylingTemplates';
+import { Link } from 'react-router-dom';
 
 interface GuideLinksContainerProps {
   $textAlign: 'left' | 'center' | 'right';
@@ -17,7 +18,11 @@ const Style_GuideLinksContainer = styled.div<GuideLinksContainerProps>`
   `}
 `;
 
-const Style_GuideLink = styled.a`
+const Style_GuideLink = styled(Link)`
+  ${CSS_Link}
+`;
+
+const Style_GuideText = styled.p`
   ${CSS_Link}
 `;
 
@@ -28,9 +33,12 @@ const Style_GuideLink = styled.a`
 const GuideLinks = ({links, textAlign='left'}:GuideLinksType) => {
   return (
     <Style_GuideLinksContainer $textAlign={textAlign}>
-      {links.map((link, index) => (
-          <Style_GuideLink key={index} href={link.url}>{link.label}</Style_GuideLink>
-        ))}
+      {links.map((link, index) => {
+        const { url, label } = link;
+
+        if (url) return <Style_GuideLink key={index} to={url}>{label}</Style_GuideLink>;
+        else return <Style_GuideText key={index}>{label}</Style_GuideText>;
+      })}
     </Style_GuideLinksContainer>
   );
 };
