@@ -62,6 +62,7 @@ export default tseslint.config(
       "jsdoc/require-example": ["error"],
       "jsdoc/check-types": ["error"],
       "jsdoc/valid-types": ["error"],
+      "react-hooks/exhaustive-deps": ["off"]
     }
   },
 );
