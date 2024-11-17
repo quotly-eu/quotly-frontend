@@ -13,9 +13,7 @@ const PrivacyPolicy = () => {
   const markdown = useFetch<string>(url, undefined, true);
 
   return (
-    <>
-      <MarkdownPage children={markdown.data} title={t('guides.privacy_policy')} />
-    </>
+    <MarkdownPage children={markdown.data} title={t('guides.privacy_policy')} />
   );
 };
 

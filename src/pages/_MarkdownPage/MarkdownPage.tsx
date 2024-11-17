@@ -75,7 +75,7 @@ const Style_HR = styled.hr`
 /**
  * Build a Page that only consists of Markdown.
  */
-const MarkdownPage = ({children, title, ...rest}: MarkdownPageType) => {
+const MarkdownPage = ({children, childrenPre, childrenSuf, title, ...rest}: MarkdownPageType) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -103,6 +103,7 @@ const MarkdownPage = ({children, title, ...rest}: MarkdownPageType) => {
     <Style_MarkdownPage>
       <PageTitle title={title} />
       <Button isIconButton onClick={returnOnClick}><FontAwesomeIcon icon='arrow-left' /></Button>
+      {childrenPre}
       <Markdown 
         children={children} {...rest} 
         components={{
@@ -127,6 +128,7 @@ const MarkdownPage = ({children, title, ...rest}: MarkdownPageType) => {
           ]
         ]}
       />
+      {childrenSuf}
     </Style_MarkdownPage>
   );
 };
