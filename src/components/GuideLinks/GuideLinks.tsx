@@ -1,7 +1,7 @@
 import React from 'react';
 import { GuideLinksType } from './GuideLinks.type';
 import styled from 'styled-components';
-import { Style_Link } from 'utils/stylingTemplates';
+import { CSS_Link } from 'utils/stylingTemplates';
 
 interface GuideLinksContainerProps {
   $textAlign: 'left' | 'center' | 'right';
@@ -18,7 +18,7 @@ const Style_GuideLinksContainer = styled.div<GuideLinksContainerProps>`
 `;
 
 const Style_GuideLink = styled.a`
-  ${Style_Link}
+  ${CSS_Link}
 `;
 
 /**

@@ -10,7 +10,7 @@ import Button from 'components/Button/Button';
 import { ButtonStyles } from 'components/Button/Button.type';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
 
-import { Style_Link } from 'utils/stylingTemplates';
+import { CSS_Link } from 'utils/stylingTemplates';
 
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { generateToken } from 'utils/generateToken';
@@ -94,7 +94,7 @@ const Style_AuthInfo = styled.small`
 `;
 
 const Style_GuideLink = styled.a`
-  ${Style_Link}
+  ${CSS_Link}
 `;
 
 /**

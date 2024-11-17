@@ -26,6 +26,9 @@ export default defineConfig(({ mode }) => {
         }
       })
     ],
+    assetsInclude: [
+      '**/*.md'
+    ],
     server: {
       open: true,
       port: Number(env.VITE_PORT),
