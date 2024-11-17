@@ -1,12 +1,21 @@
 import React from 'react';
-import { MarkdownPageType } from './MarkdownPage.type';
-import Markdown, { ExtraProps } from 'react-markdown';
+
 import styled from 'styled-components';
-import PageTitle from 'components/PageTitle/PageTitle';
+
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 import remarkGfm from 'remark-gfm';
 import remarkToc from 'remark-toc';
-import { useTranslation } from 'react-i18next';
+import Markdown, { ExtraProps } from 'react-markdown';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PageTitle from 'components/PageTitle/PageTitle';
 import { HashLink } from 'react-router-hash-link';
+
+import Button from 'components/Button/Button';
+
+import { MarkdownPageType } from './MarkdownPage.type';
 
 const Style_MarkdownPage = styled.div`
   grid-area: route;
@@ -67,7 +76,10 @@ const Style_HR = styled.hr`
  * Build a Page that only consists of Markdown.
  */
 const MarkdownPage = ({children, title, ...rest}: MarkdownPageType) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const returnOnClick = () => navigate(-1);
 
   const HeadingRenderer = ({node, children}: JSX.IntrinsicElements['h1' | 'h2' | 'h3'] & ExtraProps) => {
     const id = children?.toString()
@@ -90,6 +102,7 @@ const MarkdownPage = ({children, title, ...rest}: MarkdownPageType) => {
   return (
     <Style_MarkdownPage>
       <PageTitle title={title} />
+      <Button isIconButton onClick={returnOnClick}><FontAwesomeIcon icon='arrow-left' /></Button>
       <Markdown 
         children={children} {...rest} 
         components={{
