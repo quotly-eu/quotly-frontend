@@ -1,8 +1,11 @@
 import React from 'react';
-import { GuideLinksType } from './GuideLinks.type';
+
 import styled from 'styled-components';
-import { CSS_Link } from 'utils/stylingTemplates';
+
 import { Link } from 'react-router-dom';
+import { CSS_Link } from 'utils/stylingTemplates';
+
+import { GuideLinksType } from './GuideLinks.type';
 
 interface GuideLinksContainerProps {
   $textAlign: 'left' | 'center' | 'right';
