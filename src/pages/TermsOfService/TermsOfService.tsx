@@ -16,7 +16,7 @@ const TermsOfService = () => {
   }, true);
 
   return (
-    <MarkdownPage children={markdown.data} title={t('guides.tos')} maxDepth={2} />
+    <MarkdownPage children={markdown.data} title={t('guides.tos')} maxDepth={3} />
   );
 };
 
