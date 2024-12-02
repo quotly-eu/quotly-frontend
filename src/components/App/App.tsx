@@ -21,6 +21,7 @@ import Login from 'pages/Login/Login';
 import OAuth from 'pages/OAuth/OAuth';
 import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
 import Cookies from 'pages/Cookies/Cookies';
+import TermsOfService from 'pages/TermsOfService/TermsOfService';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -124,6 +125,7 @@ const App = () => {
         <Route path='oauth' element={<OAuth />} />
         <Route path='privacy' element={<PrivacyPolicy />} />
         <Route path='cookies' element={<Cookies />} />
+        <Route path='tos' element={<TermsOfService />} />
         <Route path='*' element={
           <AppContainer onContextMenu={onContextMenu}>
             <>

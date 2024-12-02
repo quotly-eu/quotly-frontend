@@ -10,6 +10,10 @@ interface FloatDropDownProps extends PlaceOrientationProps {
   $active?: boolean
 }
 
+interface FloatDropDownItemProps {
+  $active?: boolean
+}
+
 const FloatDropDownContainer = styled.div`
   position:relative;
 `;
@@ -36,17 +40,23 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
     scale: 1 0.9;
   `}
 
-  overflow:hidden;
-  z-index: 1;
   backdrop-filter: brightness(1.075) blur(25px);
+  overflow:hidden;
+  z-index: 10000;
+}
 `;
 
-const FloatDropDownItem = css`
+const FloatDropDownItem = css<FloatDropDownItemProps>`
   display:flex;
   -webkit-tap-highlight-color: transparent;
 
-  ${({ theme }) => `
-    color: ${theme.colors.text.dark};
+  ${({ theme, $active }) => `
+    ${$active ? `
+      color: ${theme.colors.primary};
+      font-weight: bold;
+    ` : `
+      color: ${theme.colors.text.dark};
+    `}
 
     padding: ${theme.spacing.xs.rem};
     gap: ${theme.spacing.xxs.rem};
@@ -68,11 +78,11 @@ const FloatDropDownItem = css`
   }
 `;
 
-const FloatDropDownAnchorItem = styled.a`
+const FloatDropDownAnchorItem = styled.a<FloatDropDownItemProps>`
   ${FloatDropDownItem}
 `;
 
-const FloatDropDownLinkItem = styled(Link)`
+const FloatDropDownLinkItem = styled(Link)<FloatDropDownItemProps>`
   ${FloatDropDownItem}
 `;
 
@@ -136,14 +146,14 @@ const FloatDropDown = ({
 
             if(dropDownItem.type && dropDownItem.type === DropDownItemType.LINK) {
               return (
-                <FloatDropDownLinkItem to={dropDownItem.href || ''} onClick={propagateClick} key={index}>
+                <FloatDropDownLinkItem to={dropDownItem.href || ''} onClick={propagateClick} $active={dropDownItem.active} key={index}>
                   {dropDownItem.label}
                 </FloatDropDownLinkItem>
               );
             }
 
             return (
-              <FloatDropDownAnchorItem href={dropDownItem.href} onClick={propagateClick} key={index}>
+              <FloatDropDownAnchorItem href={dropDownItem.href} onClick={propagateClick} $active={dropDownItem.active} key={index}>
                 {dropDownItem.label}
               </FloatDropDownAnchorItem>
             );

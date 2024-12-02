@@ -30,7 +30,7 @@ i18n
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
-    fallbackLng: 'en-US',
+    fallbackLng: ['en-US', 'de-DE'],
     supportedLngs: ['en-US', 'de-DE'],
   });
 

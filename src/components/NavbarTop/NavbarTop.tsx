@@ -9,6 +9,9 @@ import Input from 'components/Input/Input';
 
 import { ButtonStyles } from 'components/Button/Button.type';
 import Switcher from 'components/Switcher/Switcher';
+import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
+import { PlaceOrientation } from 'types/placeOrientation.type';
+import { useTranslation } from 'react-i18next';
 
 // Styles
 const cssNavbarTop = css`
@@ -37,12 +40,12 @@ const MobileNavbarTopContainer = styled.div`
   top:0;
   
   ${({ theme }) => `
+    background: linear-gradient(to top, transparent, ${theme.colors.accent_white_0} 30%);
     border-radius: 0 0 ${theme.spacing.m.rem} ${theme.spacing.m.rem};
   `}
 
   ${cssNavbarTop}
 
-  backdrop-filter: blur(10px);
   transition: translate 0.3s;
   z-index: 1000;
 `;
@@ -67,6 +70,7 @@ const Right = styled.div`
  */
 const NavbarTop = ({...props}):React.ReactElement => {
   const theme = useTheme();
+  const { t, i18n: { language, languages, changeLanguage } } = useTranslation();
 
   const renderContent = () => (
     <>
@@ -74,7 +78,19 @@ const NavbarTop = ({...props}):React.ReactElement => {
         <Input id='search-input' icon='magnifying-glass' />
       </Center>
       <Right>
-        <Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='bell' /></Button>
+        <FloatDropDown
+          place={PlaceOrientation.BottomRight}
+          triggerElement={
+            <Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='globe' /></Button>
+          }
+          startMargin='0'
+          margin={theme.spacing.xs.rem}
+          dropDownItems={languages.map((key) => ({
+            label: t(`languages.${key}`),
+            active: language === key,
+            onClick: () => changeLanguage(key)
+          }))}
+        />
       </Right>
     </>
   );

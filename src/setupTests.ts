@@ -14,7 +14,9 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key, 
     i18n: {
-      language: undefined
+      language: undefined,
+      languages: [],
+      changeLanguage: jest.fn()
     } 
   }),
 }));

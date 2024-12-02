@@ -43,7 +43,7 @@
   "scripts": {
     "start": "vite",
     "build": "tsc -b && vite build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --verbose --coverage --coverageDirectory='coverage'",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --quiet --fix",
     "preview": "vite preview",
