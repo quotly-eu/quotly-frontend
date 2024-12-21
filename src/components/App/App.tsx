@@ -22,6 +22,7 @@ import OAuth from 'pages/OAuth/OAuth';
 import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
 import Cookies from 'pages/Cookies/Cookies';
 import TermsOfService from 'pages/TermsOfService/TermsOfService';
+import QuoteView from 'pages/QuoteView/QuoteView';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -134,6 +135,7 @@ const App = () => {
                 <PagesContainer>
                   <Routes>
                     <Route index element={<Main />} />
+                    <Route path='quote/:id' element={<QuoteView />} />
                     <Route path='*' element={<Navigate replace to='/404' />} />
                   </Routes>
                 </PagesContainer>

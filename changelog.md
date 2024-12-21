@@ -1,6 +1,10 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.10.0] - 2024-12-21
+### Additions
+- Added Quote page for [#34](https://github.com/quotly-eu/quotly-frontend/issues/34)
+
 ## [0.9.0] - 2024-11-17
 ### Additions
 - Added Usage of Cookies Page for [#22](https://github.com/quotly-eu/quotly-frontend/issues/22)
