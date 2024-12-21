@@ -52,7 +52,15 @@ const comments: CommentType[] = [
         author: 'Daniel',
         avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=1',
         dated: new Date(2024, 11, 21),
-        comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
+        comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
+        children: [
+          {
+            author: 'Daniel',
+            avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=1',
+            dated: new Date(2024, 11, 21),
+            comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
+          }
+        ]
       }
     ]
   },
@@ -72,7 +80,7 @@ const comments: CommentType[] = [
         author: 'Daniel',
         avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=1',
         dated: new Date(2024, 11, 21),
-        comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
+        comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
       }
     ]
   }
