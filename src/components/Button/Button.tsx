@@ -111,6 +111,7 @@ const ButtonContainer = styled.a<ButtonProps>`
         height: ${$width || theme.spacing.xxl.rem};
 
       ` : `
+        ${$width ? `width: ${$width};` : ``}
         padding: ${$padding || `${theme.spacing.xxs.rem} ${theme.spacing.m.rem}`};
       `
   }

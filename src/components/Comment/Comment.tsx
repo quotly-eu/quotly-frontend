@@ -3,8 +3,9 @@ import { CommentType } from './Comment.type';
 import styled, { useTheme } from 'styled-components';
 import ProfileButton from 'components/ProfileButton/ProfileButton';
 import { useTranslation } from 'react-i18next';
-
-
+import Button from 'components/Button/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ButtonStyles } from 'components/Button/Button.type';
 
 const Style_CommentContainer = styled.div`
   display: grid;
@@ -47,6 +48,18 @@ const Style_Comment = styled.div`
 const Style_SubComments = styled.div`
   position: relative;
   grid-area: sub;
+`;
+
+const Style_Actions = styled.div`
+  display: flex;
+  ${({ theme }) => `
+    gap: ${theme.spacing.xxs.rem};
+  `}
+  grid-area: actions;
+`;
+
+const Style_ActionButton = styled(Button).attrs({ style: ButtonStyles.transparent })`
+  font-size: 1.25rem;
 `;
 
 const Style_Guidance = styled.div`
@@ -100,6 +113,11 @@ const QuoteComment = ({author, avatarUrl, comment, dated, level, children}:Comme
       <Style_Comment>
         {comment}
       </Style_Comment>
+      <Style_Actions>
+        <Style_ActionButton width={theme.spacing.l.em} isIconButton><FontAwesomeIcon icon='thumbs-up' /></Style_ActionButton>
+        <Style_ActionButton width={theme.spacing.l.em} isIconButton><FontAwesomeIcon icon='thumbs-up' /></Style_ActionButton>
+        <Style_ActionButton width={theme.spacing.l.em} isIconButton><FontAwesomeIcon icon='thumbs-up' /></Style_ActionButton>
+      </Style_Actions>
       {children && 
         <>
         <Style_Guidance />
