@@ -8,7 +8,11 @@
  * }
  */
 export type User = {
+  userId: string;
   discordId: string;
   displayName: string;
-  creationTime: string;
+  emailAddress?: string;
+  avatarUrl: string;
+  createdAt: string;
+  deletedAt?: string
 };

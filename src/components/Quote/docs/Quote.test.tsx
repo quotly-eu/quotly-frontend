@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'utils/quotly-testing';
-import Quote from '../Quote';
+import QuoteType from '../Quote';
 
 describe('Quote', () => {
   it('renders', () => {

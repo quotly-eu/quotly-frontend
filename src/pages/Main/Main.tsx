@@ -1,19 +1,22 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import styled, { css, useTheme } from 'styled-components';
-
+import React, { useContext, useEffect } from 'react';
+// import { useTranslation } from 'react-i18next';
+import styled, { css } from 'styled-components';
+/*
 import Markdown from 'react-markdown';
 
-import Quote from 'components/Quote/Quote';
 import Feed from 'components/Feed/Feed';
 import Switcher from 'components/Switcher/Switcher';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
 import Badge from 'components/Badge/Badge';
-import ProfileButton from 'components/ProfileButton/ProfileButton';
-
-import { QuoteType } from 'components/Quote/Quote.type';
-import { BadgeStyles } from 'components/Badge/Badge.type';
+import ProfileButton from 'components/ProfileButton/ProfileButton'; */
 import PageTitle from 'components/PageTitle/PageTitle';
+import Quote from 'components/Quote/Quote';
+
+import { QuoteType } from 'types/Quote.type';
+// import { BadgeStyles } from 'components/Badge/Badge.type';
+
+import useFetch from 'hooks/useFetch';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
 
 // Styles
 const MainContainer = styled.div`
@@ -44,123 +47,40 @@ const QuotesContainer = styled.div`
   grid-area: quotes;
 `;
 
-const FeedsContainer = styled.div`
+/* const FeedsContainer = styled.div`
   position: sticky;
   max-width: 400px;
   ${Container}
   grid-area: feeds;
   top: 0;
   place-self: start;
-`;
-
-// TODO: Default Icons for the Quotes, replace it in the future
-const defaultIcons = [
-  {
-    icon: 'red-heart',
-    count: 259000
-  },
-  {
-    icon: 'thumbs-up',
-    count: 3
-  },
-  {
-    icon: 'face-with-tears-of-joy',
-    count: 2
-  },
-  {
-    icon: 'melting-face',
-    count: 1
-  },
-  {
-    icon: 'skull',
-    count: 259001
-  }
-];
-
-const quotes: QuoteType[] = [
-  {
-    quote: {
-      id: '1',
-      text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
-      url: '/test',
-      dated: new Date(2024,4,7)
-    },
-    author: {
-      name: 'Daniel',
-      avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
-      url: '/'
-    },
-    reactions: {
-      icons: defaultIcons
-    }
-  },
-  {
-    quote: {
-      id: '1',
-      text: `**Domi:** "Das ist der einzige Weg, Geld zu verkaufen!"`,
-      url: '/test',
-      dated: new Date(2024,5,24)
-    },
-    author: {
-      name: 'Jordan',
-      avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
-      url: '/'
-    },
-    reactions: {
-      reactedIcon: 'face-with-tears-of-joy',
-      icons: defaultIcons
-    }
-  },
-  {
-    quote: {
-      id: '1',
-      text: `**Dominic:** "Wie viel hat deine Grafikkarte geteuert?"`,
-      url: '/test',
-      dated: new Date(2024,1,26)
-    },
-    author: {
-      name: 'Rubinschwein47',
-      avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=2',
-      url: '/'
-    },
-    reactions: {
-      icons: defaultIcons
-    }
-  },
-  {
-    quote:{
-      id: '1',
-      text: `**Daniel:** "Du könntest das Kabel vom Geld reinstecken"`,
-      url: '/test',
-      dated: new Date(2024,1,15)
-    },
-    author: {
-      name: 'Daniel',
-      avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
-      url: '/'
-    },
-    reactions: {
-      icons: defaultIcons
-    }
-  }
-];
+`; */
 
 /**
  * Main Page for Quotly
  */
 const Main = () => {
-  const { t } = useTranslation();
-  const theme = useTheme();
+  // const theme = useTheme();
+  // const { t } = useTranslation();
+  const { routes } = useContext(ApiContext);
+  const { runFetch, response } = useFetch<QuoteType[]>(routes.quotes.construct());
+
+  useEffect(() => runFetch(), []);
 
   return (
     <MainContainer>
       <PageTitle />
       <QuotesContainer>
-        {quotes.map((quote, index) => (
-          <Quote {...quote} key={index} isLast={quotes.length == (index+1)} />
+        {response?.data && response.data.map((quote, index) => (
+          <Quote {...quote} key={quote.quoteId} isLast={response.data.length == (index+1)} />
         ))}
       </QuotesContainer>
-      <Switcher
+      
+    </MainContainer>
+  );
+
+  /*
+  <Switcher
         breakpoint={theme.breakpoints.lg}
         desktop={
           <FeedsContainer>
@@ -231,8 +151,7 @@ const Main = () => {
         }
         mobile={<></>}
       />
-    </MainContainer>
-  );
+      */
 };
 
 export default Main;

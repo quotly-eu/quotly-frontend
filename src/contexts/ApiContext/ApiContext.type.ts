@@ -13,9 +13,14 @@ type ApiRoute<PathArgs extends unknown[] = [], Routes extends string = ''> = {
 export type ApiContextType = {
   baseUrl: string;
   routes: {
-    quotes: ApiRoute<[id?: string], 'comments' | 'reactions'>;
+    quotes: 
+      ApiRoute<[id?: string], 'comments' | 'reactions'> &
+      ApiRoute<[], 'top' | 'create'>;
     roles: ApiRoute<[roleId?: string]>;
-    users: ApiRoute<[discordId?: string], 'reactions' | 'roles' | 'savedQuotes'>;
+    users: 
+      ApiRoute<[discordId?: string], 'reactions' | 'roles' | 'savedQuotes'> &
+      ApiRoute<[], 'me'>;
+    authorize: ApiRoute;
   }
   discordAuth: string;
 };

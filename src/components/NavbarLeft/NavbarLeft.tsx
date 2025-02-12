@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
@@ -15,7 +15,11 @@ import { PlaceOrientation } from 'types/placeOrientation.type';
 import { NavbarLeftType } from './NavbarLeft.type';
 
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useFetch from 'hooks/useFetch';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { User } from 'types/User.type';
+import { useCookies } from 'react-cookie';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -92,6 +96,29 @@ const PreparedProfileButton = styled(ProfileButton).attrs(({theme}) => ({
 const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { routes } = useContext(ApiContext);
+  const [ cookies ] = useCookies(['token']);
+  const { runFetch, response } = useFetch<User>(`${routes.users.sub?.me()}?token=${cookies.token}`);
+  const [avatarUrl, setAvatarUrl] = useState<string>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(cookies.token) {
+      runFetch();
+    } else {
+      navigate('/login');
+    }
+  }, [cookies.token]);
+
+  useEffect(() => {
+    if(!response) return;
+    if(response?.status === 200) {
+      const user = response.data;
+      setAvatarUrl(`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`);
+    } else {
+      navigate('/login');
+    }
+  }, [response]);
 
   const DropDownItems: DropDownItem[] = [
     {
@@ -161,7 +188,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
           mobile={
             <FloatDropDown
               place={PlaceOrientation.TopRight}
-              triggerElement={<PreparedProfileButton />}
+              triggerElement={<PreparedProfileButton src={avatarUrl} />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />
@@ -169,7 +196,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
           desktop={
             <FloatDropDown
               place={PlaceOrientation.RightInlineBottom}
-              triggerElement={<PreparedProfileButton />}
+              triggerElement={<PreparedProfileButton src={avatarUrl} />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />

@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
@@ -12,6 +12,9 @@ import GuideLinks from 'components/GuideLinks/GuideLinks';
 
 import { ButtonStyles } from 'components/Button/Button.type';
 import { QuoteDialogType } from './QuoteDialog.type';
+import useFetch from 'hooks/useFetch';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useCookies } from 'react-cookie';
 
 const Style_Form = styled.form`
   display: grid;
@@ -54,18 +57,29 @@ const Style_ActionsContainer = styled.div`
 const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
   ({open=false, toggleDialog}, ref) => {
     const { t } = useTranslation();
+    const { routes } = useContext(ApiContext);
     const [quoteText, setQuoteText] = useState<string>('');
     const [preview, setPreview] = useState<boolean>(false);
+    const [cookies] = useCookies(['token']);
+    const { runFetch, response } = useFetch(routes.quotes.sub?.create() || '', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        quote: quoteText,
+        token: cookies.token
+      })
+    });
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const quote = formData.get('quote');
-      // TODO: POST form to create a new quote, then close the Dialog
-      console.log(quote);
-      toggleDialog();
+      runFetch();
     };
     
+    useEffect(() => {
+      if(response) toggleDialog();
+    }, [response]);
+
     return (
       <Dialog ref={ref} toggleDialog={toggleDialog} open={open}>
         <Style_Form method='dialog' onSubmit={onSubmit}>
@@ -82,7 +96,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
               id='quote' 
               name='quote' 
               as='textarea'
-              placeholder='Quote...' 
+              placeholder={`${t('quote.quote')}...`}
               onChange={setQuoteText}
               value={quoteText}
               required 

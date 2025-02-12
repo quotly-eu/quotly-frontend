@@ -23,6 +23,7 @@ import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
 import Cookies from 'pages/Cookies/Cookies';
 import TermsOfService from 'pages/TermsOfService/TermsOfService';
 import QuoteView from 'pages/QuoteView/QuoteView';
+import Logout from 'pages/Logout/Logout';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -123,6 +124,7 @@ const App = () => {
       <GlobalStyle />
       <Routes>
         <Route path='login' element={<Login />} />
+        <Route path='logout' element={<Logout />} />
         <Route path='oauth' element={<OAuth />} />
         <Route path='privacy' element={<PrivacyPolicy />} />
         <Route path='cookies' element={<Cookies />} />

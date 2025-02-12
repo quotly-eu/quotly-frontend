@@ -1,6 +1,7 @@
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
 import useFetch from 'hooks/useFetch';
 import { useQuery } from 'hooks/useQuery';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -9,16 +10,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
  */
 const OAuth = () => {
   const { search } = useLocation();
+  const { routes } = useContext(ApiContext);
   const query = useQuery(search);
   const navigate = useNavigate();
-  const [ cookies, , removeCookie ] = useCookies(['state']);
-  const {runFetch, response} = useFetch('http://localhost:3510/v1/authorize', {
+  const [ cookies, setCookie, removeCookie ] = useCookies(['state', 'token']);
+  const {runFetch, response} = useFetch<string>(routes.authorize.construct(), {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: JSON.stringify({
-      code: query.get('code')
+    body: new URLSearchParams({
+      code: query.get('code')!
     })
   });
 
@@ -34,7 +36,16 @@ const OAuth = () => {
         replace: true
       });
     }
-  }, [query, response]);
+  }, []);
+
+  useEffect(() => {
+    if(response?.status === 200) {
+      setCookie('token', response.data);
+      navigate('/', {
+        replace: true
+      });
+    } 
+  }, [response]);
 
   return <></>;
 };

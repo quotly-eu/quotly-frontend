@@ -1,10 +1,12 @@
+import React, { useContext, useEffect } from 'react';
 import QuoteComment from 'components/Comment/Comment';
 import { CommentType } from 'components/Comment/Comment.type';
 import Quote from 'components/Quote/Quote';
-import { QuoteType } from 'components/Quote/Quote.type';
-import React from 'react';
+import { QuoteType } from 'types/Quote.type';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import useFetch from 'hooks/useFetch';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
 
 const Style_QuoteView = styled.div`
   display: flex;
@@ -20,20 +22,6 @@ const Style_Comments = styled.div`
     box-shadow: inset 0 10px 5px -5px ${theme.colors.accent_success_0}2c;
   `}
 `;
-
-const quote: QuoteType = {
-  quote: {
-    id: '1',
-    text: '**Hello World:** Test 123',
-    url: '/',
-    dated: new Date(2024, 11, 21)
-  },
-  author: {
-    name: 'Jordan',
-    avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
-    url: '/'
-  }
-};
 
 const comments: CommentType[] = [
   {
@@ -92,15 +80,19 @@ const comments: CommentType[] = [
 const QuoteView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { routes } = useContext(ApiContext);
+  const { runFetch, response } = useFetch<QuoteType>(routes.quotes.construct(id));
+
+  useEffect(() => runFetch(), []);
 
   if (!id) navigate('/');
 
   return (
     <Style_QuoteView>
-      <Quote {...quote} />
-      <Style_Comments>
+      {response?.data && <Quote {...response.data} key={response.data.quoteId} />}
+      {false && <Style_Comments>
         {comments.map(comment => <QuoteComment {...comment} />)}
-      </Style_Comments>
+      </Style_Comments>}
     </Style_QuoteView>
   );
 };
