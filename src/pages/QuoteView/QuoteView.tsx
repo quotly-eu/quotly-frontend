@@ -41,14 +41,6 @@ const comments: CommentType[] = [
         avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=1',
         dated: new Date(2024, 11, 21),
         comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-        children: [
-          {
-            author: 'Daniel',
-            avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=1',
-            dated: new Date(2024, 11, 21),
-            comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-          }
-        ]
       }
     ]
   },
@@ -90,9 +82,9 @@ const QuoteView = () => {
   return (
     <Style_QuoteView>
       {response?.data && <Quote {...response.data} key={response.data.quoteId} />}
-      {false && <Style_Comments>
+      <Style_Comments>
         {comments.map(comment => <QuoteComment {...comment} />)}
-      </Style_Comments>}
+      </Style_Comments>
     </Style_QuoteView>
   );
 };
