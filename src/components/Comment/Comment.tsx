@@ -50,18 +50,6 @@ const Style_SubComments = styled.div`
   grid-area: sub;
 `;
 
-const Style_Actions = styled.div`
-  display: flex;
-  ${({ theme }) => `
-    gap: ${theme.spacing.xxs.rem};
-  `}
-  grid-area: actions;
-`;
-
-const Style_ActionButton = styled(Button).attrs({ style: ButtonStyles.transparent })`
-  font-size: 1.25rem;
-`;
-
 const Style_Guidance = styled.div`
   ${({ theme }) => `
     border-left: 1px solid ${theme.colors.transparency.black(0.2)};
@@ -106,18 +94,15 @@ const QuoteComment = ({author, avatarUrl, comment, dated, level, children}:Comme
       </Style_Avatar>
       <Style_Author>
         <span>{author}</span>
-        <span>{dated.toLocaleDateString(language, {
-          dateStyle: 'long'
-        })}</span>
+        <span>
+          {dated.toLocaleDateString(language, {
+            dateStyle: 'long'
+          })}
+        </span>
       </Style_Author>
       <Style_Comment>
         {comment}
       </Style_Comment>
-      <Style_Actions>
-        <Style_ActionButton width={theme.spacing.l.em} isIconButton><FontAwesomeIcon icon='thumbs-up' /></Style_ActionButton>
-        <Style_ActionButton width={theme.spacing.l.em} isIconButton><FontAwesomeIcon icon='thumbs-up' /></Style_ActionButton>
-        <Style_ActionButton width={theme.spacing.l.em} isIconButton><FontAwesomeIcon icon='thumbs-up' /></Style_ActionButton>
-      </Style_Actions>
       {children && 
         <>
         <Style_Guidance />

@@ -7,6 +7,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useFetch from 'hooks/useFetch';
 import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { Comment } from 'types/Comment.type';
+import Button from 'components/Button/Button';
+import { ButtonStyles } from 'components/Button/Button.type';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Input from 'components/Input/Input';
 
 const Style_QuoteView = styled.div`
   display: flex;
@@ -23,46 +28,37 @@ const Style_Comments = styled.div`
   `}
 `;
 
-const comments: CommentType[] = [
+const Style_Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  ${({ theme }) => `
+    gap: ${theme.spacing.s.rem};
+    padding-bottom: ${theme.spacing.s.rem};
+    margin-bottom: ${theme.spacing.s.rem};
+    border-bottom: 1px solid ${theme.colors.transparency.black(0.1)};
+  `}
+`;
+
+const Style_Actions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  ${({ theme }) => `
+    gap: ${theme.spacing.s.rem};
+  `}
+`;
+
+const mockedComments: CommentType[] = [
   {
     author: 'Jordan',
     avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
     dated: new Date(2024, 11, 21),
     comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-    children: [
-      {
-        author: 'Jordan',
-        avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
-        dated: new Date(2024, 11, 21),
-        comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-      },
-      {
-        author: 'Daniel',
-        avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=1',
-        dated: new Date(2024, 11, 21),
-        comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-      }
-    ]
   },
   {
     author: 'Jordan',
     avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
     dated: new Date(2024, 11, 21),
     comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-    children: [
-      {
-        author: 'Jordan',
-        avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
-        dated: new Date(2024, 11, 21),
-        comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-      },
-      {
-        author: 'Daniel',
-        avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=1',
-        dated: new Date(2024, 11, 21),
-        comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-      }
-    ]
   }
 ];
 
@@ -73,17 +69,44 @@ const QuoteView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { routes } = useContext(ApiContext);
-  const { runFetch, response } = useFetch<QuoteType>(routes.quotes.construct(id));
-
-  useEffect(() => runFetch(), []);
+  const { runFetch: fetchQuote, response: quote } = useFetch<QuoteType>(routes.quotes.construct(id));
+  const { runFetch: fetchComments, response: comments } = useFetch<Comment[]>(`${routes.quotes.sub?.comments(id || '')}`);
 
   if (!id) navigate('/');
+  
+  useEffect(() => {
+    fetchQuote();
+    fetchComments();
+  }, []);
 
+  const formattedComments: CommentType[] = comments?.data.map(({comment, createdAt, user}) => {
+    const avatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
+
+    return {
+      author: user.displayName,
+      avatarUrl,
+      dated: new Date(createdAt),
+      comment
+    };
+  }) || [];
+  
   return (
     <Style_QuoteView>
-      {response?.data && <Quote {...response.data} key={response.data.quoteId} />}
+      {quote?.data && <Quote {...quote.data} key={quote.data.quoteId} />}
       <Style_Comments>
-        {comments.map(comment => <QuoteComment {...comment} />)}
+        <Style_Form>
+          <Input 
+            as='textarea'
+            placeholder='Comment...'
+            name='comment'
+            id='comment'
+            required
+          />
+          <Style_Actions>
+            <Button as='button' type='submit' style={ButtonStyles.primary}><FontAwesomeIcon icon='plus' /> Post</Button>
+          </Style_Actions>
+        </Style_Form>
+        {formattedComments.map(comment => <QuoteComment {...comment} />)}
       </Style_Comments>
     </Style_QuoteView>
   );

@@ -154,6 +154,7 @@ const Button = ({
     if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
     if(onClick) onClick(event);
   };
+
   return (
     <ButtonContainer 
       children={children}

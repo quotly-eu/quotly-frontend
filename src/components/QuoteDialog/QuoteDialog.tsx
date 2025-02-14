@@ -58,9 +58,11 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
   ({open=false, toggleDialog}, ref) => {
     const { t } = useTranslation();
     const { routes } = useContext(ApiContext);
+    const [cookies] = useCookies(['token']);
+    
     const [quoteText, setQuoteText] = useState<string>('');
     const [preview, setPreview] = useState<boolean>(false);
-    const [cookies] = useCookies(['token']);
+    const [isSubmitDisabled, setIsButtonDisabled] = useState(false);
     const { runFetch, response } = useFetch(routes.quotes.sub?.create() || '', {
       method: 'POST',
       headers: {
@@ -71,13 +73,18 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
         token: cookies.token
       })
     });
+
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       runFetch();
+      setIsButtonDisabled(true);
     };
     
     useEffect(() => {
-      if(response) toggleDialog();
+      if(!response) return;
+      toggleDialog();
+      setQuoteText('');
+      setIsButtonDisabled(false);
     }, [response]);
 
     return (
@@ -117,6 +124,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
               onClick={() => setPreview(false)}
               as='button'
               type='submit'
+              disabled={isSubmitDisabled}
             >
               <FontAwesomeIcon icon='quote-right' /> {t('quote.publish')}
             </Button>
