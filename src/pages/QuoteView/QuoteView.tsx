@@ -62,23 +62,6 @@ const Style_Button = styled(Button)`
   `}
 `;
 
-const mockedComments: CommentType[] = [
-  {
-    id: 1,
-    author: 'Jordan',
-    avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
-    dated: new Date(2024, 11, 21),
-    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-  },
-  {
-    id: 2,
-    author: 'Jordan',
-    avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
-    dated: new Date(2024, 11, 21),
-    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
-  }
-];
-
 /**
  * Page to view a specific Quote with their comments.
  */
