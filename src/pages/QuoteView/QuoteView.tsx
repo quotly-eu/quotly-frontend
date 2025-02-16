@@ -108,8 +108,8 @@ const QuoteView = () => {
   
   useEffect(() => {
     if(quote) return;
-    ret
-  }, [quote])
+    navigate('/');
+  }, [quote]);
 
   if (!id) navigate('/');
   
