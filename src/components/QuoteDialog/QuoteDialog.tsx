@@ -59,7 +59,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
     const { t } = useTranslation();
     const { routes } = useContext(ApiContext);
     const [cookies] = useCookies(['token']);
-    
+
     const [quoteText, setQuoteText] = useState<string>('');
     const [preview, setPreview] = useState<boolean>(false);
     const [isSubmitDisabled, setIsButtonDisabled] = useState(false);
@@ -85,6 +85,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       toggleDialog();
       setQuoteText('');
       setIsButtonDisabled(false);
+      window.location.reload();
     }, [response]);
 
     return (

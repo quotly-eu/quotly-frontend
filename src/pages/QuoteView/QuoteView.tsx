@@ -106,6 +106,10 @@ const QuoteView = () => {
     })
   });
   
+  useEffect(() => {
+    if(quote) return;
+    ret
+  }, [quote])
 
   if (!id) navigate('/');
   

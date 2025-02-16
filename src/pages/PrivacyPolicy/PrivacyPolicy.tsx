@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import useFetch from 'hooks/useFetch';
@@ -16,8 +16,10 @@ const PrivacyPolicy = () => {
     ]
   }, true);
 
+  useEffect(() => markdown.runFetch(), []);
+
   return (
-    <MarkdownPage children={markdown.data} title={t('guides.privacy_policy')} />
+    <MarkdownPage children={markdown.response?.data} title={t('guides.privacy_policy')} />
   );
 };
 
