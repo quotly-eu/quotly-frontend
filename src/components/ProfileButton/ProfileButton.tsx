@@ -30,14 +30,19 @@ const ProfileImage = styled.img<ProfileImageProps>`
  */
 const ProfileButton = ({src=ProfilePlaceholder, alt, size, onClick}:ProfileButtonType) => {
   const theme = useTheme();
-  const propagateClick = (event: React.MouseEvent) => {
+  const propagateClick = (event: React.SyntheticEvent) => {
     event.preventDefault();
     if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
     if(onClick) onClick(event);
   };
 
+  const onKeyUp = (event: React.KeyboardEvent<HTMLImageElement>) => {
+    if(event.key === 'Enter') propagateClick(event);
+  };
+
+
   return (
-    <ProfileImage src={src} alt={alt} $size={size || theme.spacing.xl.em} onClick={propagateClick} />
+    <ProfileImage src={src} alt={alt} $size={size || theme.spacing.xl.em} onClick={propagateClick} onKeyUp={onKeyUp} tabIndex={0} />
   );
 };
 

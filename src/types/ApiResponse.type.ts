@@ -7,7 +7,6 @@
  * }
  */
 export type ApiResponse <T,> = {
-  status: 'success' | 'error' | 'unknown';
-  errorCode?: number;
-  data?: T;
+  status: number;
+  data: T & { detail?: unknown; };
 };

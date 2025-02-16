@@ -6,7 +6,7 @@ import { WebTarget } from "styled-components";
  * import Button from 'components/Button/Button';
  * import { ButtonStyles } from 'types/Button.type';
  * 
- * <Button style={ButtonStyles.primary}>Primary</Button>
+ * <Button btnStyle={ButtonStyles.primary}>Primary</Button>
  */
 export enum ButtonStyles {
   default = 'default',
@@ -31,7 +31,7 @@ export type ButtonType = {
   href?: string,
   as?: void | WebTarget,
   type?: 'button' | 'submit' | 'reset',
-  style?: ButtonStyles,
+  btnStyle?: ButtonStyles,
   padding?: string,
   gap?: string,
   width?: string

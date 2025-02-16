@@ -77,7 +77,7 @@ const NotFound = () => {
       </p>
       <Style_Button 
         onClick={() => navigate(-1)}
-        style={ButtonStyles.primary}
+        btnStyle={ButtonStyles.primary}
         gap={theme.spacing.xs.em}
       >
         <FontAwesomeIcon icon='arrow-left' /> {t('page_not_found.return')}

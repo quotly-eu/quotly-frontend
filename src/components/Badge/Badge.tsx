@@ -93,9 +93,9 @@ const BadgeContainer = styled.div<BadgeProps>`
  * 
  * @returns 
  */
-const Badge = ({children, place, style=BadgeStyles.default, color, fontSize, ...rest}:BadgeType) => {
+const Badge = ({children, place, badgeStyle=BadgeStyles.default, color, fontSize, ...rest}:BadgeType) => {
   return (
-    <BadgeContainer $placeOrientation={place?.place} $margin={place?.margin || '0px'} $style={style} $color={color} $fontSize={fontSize} {...rest}>
+    <BadgeContainer $placeOrientation={place?.place} $margin={place?.margin || '0px'} $style={badgeStyle} $color={color} $fontSize={fontSize} {...rest}>
       {children}
     </BadgeContainer>
   );

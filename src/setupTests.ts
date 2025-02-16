@@ -19,5 +19,6 @@ jest.mock('react-i18next', () => ({
       changeLanguage: jest.fn()
     } 
   }),
+  Trans: ({ children }: { i18nKey: string; children: React.ReactNode }) => children
 }));
 jest.mock('@fortawesome/react-fontawesome');

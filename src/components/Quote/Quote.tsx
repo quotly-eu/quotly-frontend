@@ -1,31 +1,35 @@
-import React from 'react';
-import styled, { useTheme } from 'styled-components';
+import React, { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import Markdown from 'react-markdown';
-import { Icon } from '@iconify/react';
+// import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from 'components/Button/Button';
 import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
-import ButtonPalette from 'components/ButtonPalette/ButtonPalette';
-import Badge from 'components/Badge/Badge';
+// import ButtonPalette from 'components/ButtonPalette/ButtonPalette';
+// import Badge from 'components/Badge/Badge';
 
 import { PlaceOrientation } from 'types/placeOrientation.type';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
-import { BadgeStyles } from 'components/Badge/Badge.type';
-import { QuoteType } from './Quote.type';
+// import { BadgeStyles } from 'components/Badge/Badge.type';
+import { QuoteType } from 'types/Quote.type';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import useFetch from 'hooks/useFetch';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useCookies } from 'react-cookie';
+import { SavedQuote } from 'types/SavedQuote.type';
 
 
 // Styles
-const Style_Badge = styled(Badge)`
+/* const Style_Badge = styled(Badge)`
   font-size: ${({theme}) => theme.font.sizes.xxs.rem};
   @media (max-width: ${({theme}) => theme.breakpoints.md}) {
     font-size: ${({theme}) => theme.font.sizes.xxxs.rem};
   }
-`;
+`; */
 
 const QuoteContainer = styled.div`
   display:grid;
@@ -126,7 +130,7 @@ const Actions = styled.div`
   `}
 `;
 
-const Style_Icon = styled(Icon).attrs({mode:'bg', width: '80%', height: '80%'})``;
+// const Style_Icon = styled(Icon).attrs({mode:'bg', width: '80%', height: '80%'})``;
 
 const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles}>`
   position:relative;
@@ -150,17 +154,41 @@ const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles
  * Quote Component, the main component for the Quotly page
  * 
  */
-const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
-  const theme = useTheme();
+const Quote = ({
+  quote,
+  quoteId,
+  createdAt,
+  user,
+  // reactions,
+  isLast
+}: QuoteType & {isLast?: boolean}) => {
   const { t, i18n } = useTranslation();
-  const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
-  const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
+  const { routes } = useContext(ApiContext);
+  const [ cookies ] = useCookies(['token']);
+  const [ isSaved, setIsSaved ] = useState(false);
+  const { runFetch: fetchSave, response: saved } = useFetch<SavedQuote | null>(`${routes.quotes.sub?.saved(quoteId)}?token=${cookies.token}`);
+  const { runFetch: fetchPostSave, response: postSaved } = useFetch<boolean>(`${routes.quotes.sub?.toggleSave(quoteId)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({
+      token: cookies.token
+    })
+  });
+
+  const quoteUrl = `/quote/${quoteId}`;
+  const userUrl = `/user/${user.userId}`;
+  const userAvatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
+  //const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
+  //const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
   
   const quoteOptions: DropDownItem[] = [
     {
-      label: (<><FontAwesomeIcon icon={['far', 'bookmark']} /> {t('quote.save')}</>),
+      label: (<><FontAwesomeIcon icon={[isSaved ? 'fas' : 'far', 'bookmark']} /> {isSaved ? t('quote.saved') : t('quote.save')}</>),
       onClick: () => {
-        console.log(t('quote.share'));
+        console.log(t('quote.save'));
+        fetchPostSave();
       }
     },
     {
@@ -183,7 +211,7 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
     }
   ];
   
-  const abbreviateNumber = (value: number) => {
+  /* const abbreviateNumber = (value: number) => {
     let newValue = value;
     let suffix = '';
     if (value >= 1000) {
@@ -203,24 +231,37 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
       newValue = value / 1000000000000;
     }
     return newValue.toFixed(0) + suffix;
-  };
+  }; */
+
+  useEffect(() => {
+    fetchSave();
+  }, []);
+
+  useEffect(() => {
+    if(saved && saved.data !== null) setIsSaved(true);
+  }, [saved]);
+
+  useEffect(() => {
+    if(!postSaved) return;
+    setIsSaved(postSaved.data);
+  }, [postSaved]);
 
   const renderText = () => {
     return (
-      <Style_Markdown to={quote.url} children={<Markdown children={quote.text} />} />
+      <Style_Markdown to={quoteUrl} children={<Markdown children={quote} />} />
     );
   };
 
   const renderAuthor = () => {
     return (
-      <Author to={author.url}>
-        {author.avatarUrl && <Avatar src={author.avatarUrl} alt={author.name} />}
-        {author.name} • {quote.dated.toLocaleDateString(i18n.language, {dateStyle: 'long'})}
+      <Author to={userUrl}>
+        {user.avatarUrl && <Avatar src={userAvatarUrl} alt={user.displayName} />}
+        {user.displayName} • {new Date(createdAt).toLocaleDateString(i18n.language, {dateStyle: 'long'})}
       </Author>
     );
   };
 
-  const renderReaction = (reaction:{icon?:string, counter?:number}) => {
+  /* const renderReaction = (reaction:{icon?:string, counter?:number}) => {
     return (
       <>
         <Style_Icon icon={'fluent-emoji:' + reaction.icon} />
@@ -231,18 +272,18 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
               place: PlaceOrientation.Bottom,
               margin: '-75%'
             }} 
-            style={BadgeStyles.transparent}
+            badgeStyle={BadgeStyles.transparent}
           />
         }
       </>
     );
-  };
+  }; */
 
-  const renderButtonPalette = (place?:PlaceOrientation, startMargin?:string) => {
+  /* const renderButtonPalette = (place?:PlaceOrientation, startMargin?:string) => {
     return (<ButtonPalette 
       triggerElement={
         <Style_Button 
-          isIconButton={true} 
+          isIconButton 
           $hasReacted={reactions?.reactedIcon ? true : false}
           children={renderReaction({
             icon: reactions?.reactedIcon || greatestReactedIcon,
@@ -255,8 +296,8 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
         reactions?.icons.map((reaction, index) => (
           <Style_Button 
             key={index} 
-            isIconButton={true} 
-            style={ButtonStyles.transparent}
+            isIconButton 
+            btnStyle={ButtonStyles.transparent}
             children={renderReaction({
               icon: reaction.icon,
               counter: reaction.count
@@ -267,7 +308,7 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
       place={place}
       startMargin={startMargin}
     />);
-  };
+  }; */
 
 
   const renderActions = () => {
@@ -275,7 +316,7 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
       <Actions>
         <FloatDropDown
           triggerElement={
-            <Style_Button isIconButton={true} style={ButtonStyles.transparent}>
+            <Style_Button isIconButton btnStyle={ButtonStyles.transparent}>
               <FontAwesomeIcon icon='ellipsis' />
             </Style_Button>
           }
@@ -283,7 +324,6 @@ const Quote = ({quote, author, reactions, isLast=false}:QuoteType) => {
           place={isLast ? PlaceOrientation.InsetBottomRight : PlaceOrientation.InsetTopRight}
           margin={'0px'}
         />
-        {renderButtonPalette(PlaceOrientation.InsetRight, theme.spacing.xs.rem)}
       </Actions>
     );
   };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useFetch from 'hooks/useFetch';
 import MarkdownPage from 'pages/_MarkdownPage/MarkdownPage';
 import { useTranslation } from 'react-i18next';
@@ -15,8 +15,10 @@ const TermsOfService = () => {
     ]
   }, true);
 
+  useEffect(() => markdown.runFetch(), []);
+
   return (
-    <MarkdownPage children={markdown.data} title={t('guides.tos')} maxDepth={3} />
+    <MarkdownPage children={markdown.response?.data} title={t('guides.tos')} maxDepth={3} />
   );
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
@@ -15,7 +15,11 @@ import { PlaceOrientation } from 'types/placeOrientation.type';
 import { NavbarLeftType } from './NavbarLeft.type';
 
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useFetch from 'hooks/useFetch';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { User } from 'types/User.type';
+import { useCookies } from 'react-cookie';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -92,6 +96,29 @@ const PreparedProfileButton = styled(ProfileButton).attrs(({theme}) => ({
 const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { routes } = useContext(ApiContext);
+  const [ cookies ] = useCookies(['token']);
+  const { runFetch, response } = useFetch<User>(`${routes.users.sub?.me()}?token=${cookies.token}`);
+  const [avatarUrl, setAvatarUrl] = useState<string>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(cookies.token) {
+      runFetch();
+    } else {
+      navigate('/login');
+    }
+  }, [cookies.token]);
+
+  useEffect(() => {
+    if(!response) return;
+    if(response.status === 200) {
+      const user = response.data;
+      setAvatarUrl(`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`);
+    } else {
+      navigate('/logout');
+    }
+  }, [response]);
 
   const DropDownItems: DropDownItem[] = [
     {
@@ -130,7 +157,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
       <Top $type='mobile'>
         <FloatDropDown
           place={PlaceOrientation.TopLeft}
-          triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='bars' /></Button>}
+          triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
           dropDownItems={DropDownItems}
           startMargin={theme.spacing.m.rem}
         />
@@ -142,17 +169,17 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
           desktop={
             <FloatDropDown
               place={PlaceOrientation.Right}
-              triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='bars' /></Button>}
+              triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
               dropDownItems={DropDownItems}
               startMargin={theme.spacing.m.rem}
             />
           }
         />
-        <Button style={ButtonStyles.primary} isIconButton={true} onClick={toggleDialog}><FontAwesomeIcon icon='quote-right' /></Button>
+        <Button btnStyle={ButtonStyles.primary} isIconButton onClick={toggleDialog}><FontAwesomeIcon icon='quote-right' /></Button>
         <Switcher
           breakpoint={theme.breakpoints.md}
           mobile={<></>}
-          desktop={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='fire' /></Button>}
+          desktop={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='fire' /></Button>}
         />
       </Center>
       <Bottom>
@@ -161,7 +188,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
           mobile={
             <FloatDropDown
               place={PlaceOrientation.TopRight}
-              triggerElement={<PreparedProfileButton />}
+              triggerElement={<PreparedProfileButton src={avatarUrl} />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />
@@ -169,7 +196,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
           desktop={
             <FloatDropDown
               place={PlaceOrientation.RightInlineBottom}
-              triggerElement={<PreparedProfileButton />}
+              triggerElement={<PreparedProfileButton src={avatarUrl} />}
               dropDownItems={ProfileDropDownItems}
               startMargin={theme.spacing.m.rem}
             />

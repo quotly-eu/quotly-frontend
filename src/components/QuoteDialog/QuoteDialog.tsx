@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
@@ -12,6 +12,9 @@ import GuideLinks from 'components/GuideLinks/GuideLinks';
 
 import { ButtonStyles } from 'components/Button/Button.type';
 import { QuoteDialogType } from './QuoteDialog.type';
+import useFetch from 'hooks/useFetch';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useCookies } from 'react-cookie';
 
 const Style_Form = styled.form`
   display: grid;
@@ -52,57 +55,77 @@ const Style_ActionsContainer = styled.div`
  * QuoteDialog component
  */
 const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
-  ({open=false, toggleDialog}, ref) => {
+  ({open=false, isActive=false, toggleDialog}, ref) => {
     const { t } = useTranslation();
+    const { routes } = useContext(ApiContext);
+    const [cookies] = useCookies(['token']);
+
     const [quoteText, setQuoteText] = useState<string>('');
     const [preview, setPreview] = useState<boolean>(false);
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const [isSubmitDisabled, setIsButtonDisabled] = useState(false);
+    const { runFetch, response } = useFetch(routes.quotes.sub?.create() || '', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        quote: quoteText,
+        token: cookies.token
+      })
+    });
+
+    const onSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const quote = formData.get('quote');
-      // TODO: POST form to create a new quote, then close the Dialog
-      console.log(quote);
-      toggleDialog();
+      runFetch();
+      setIsButtonDisabled(true);
     };
-    
+  
+    // POST was successful
+    useEffect(() => {
+      if(!response) return;
+      toggleDialog();
+      setQuoteText('');
+      setIsButtonDisabled(false);
+      window.location.reload();
+    }, [response]);
+
     return (
       <Dialog ref={ref} toggleDialog={toggleDialog} open={open}>
         <Style_Form method='dialog' onSubmit={onSubmit}>
           <GuideLinks 
-            links={[
-              {
-                label: (<><FontAwesomeIcon icon={['fab', 'markdown']} /> Markdown</>), 
-                url: 'https://www.markdownguide.org/basic-syntax/'
-              }
-            ]} 
+            links={[{
+              label: (<><FontAwesomeIcon icon={['fab', 'markdown']} /> Markdown</>), 
+              url: 'https://www.markdownguide.org/basic-syntax/'
+            }]} 
           />
           {!preview ? 
-            <Input 
-              id='quote' 
+            isActive && <Input 
+              id='quote'
               name='quote' 
               as='textarea'
-              placeholder='Quote...' 
+              placeholder={`${t('quote.quote')}...`}
               onChange={setQuoteText}
               value={quoteText}
-              required 
+              required
+              autoFocus
               rows={4}
-            /> // TODO: Add autofocus on Input
+            />
             : 
             <Style_Markdown children={<Markdown children={quoteText} />} />
           }
           <Style_ActionsContainer>
             <Button
-              style={ButtonStyles.transparent} 
+              btnStyle={ButtonStyles.transparent} 
               onClick={() => setPreview(!preview)}
             >
               <FontAwesomeIcon icon='repeat' /> {!preview ? t('quote.preview') : t('quote.write')}
             </Button>
             <Button 
-              style={ButtonStyles.primary} 
+              btnStyle={ButtonStyles.primary} 
               onClick={() => setPreview(false)}
               as='button'
               type='submit'
+              disabled={isSubmitDisabled}
             >
               <FontAwesomeIcon icon='quote-right' /> {t('quote.publish')}
             </Button>

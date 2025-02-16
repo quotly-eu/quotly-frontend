@@ -81,7 +81,7 @@ const NavbarTop = ({...props}):React.ReactElement => {
         <FloatDropDown
           place={PlaceOrientation.BottomRight}
           triggerElement={
-            <Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='globe' /></Button>
+            <Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='globe' /></Button>
           }
           startMargin='0'
           margin={theme.spacing.xs.rem}

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 
 import styled from 'styled-components';
@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ApiContext } from 'contexts/ApiContext/ApiContext';
 
 import Button from 'components/Button/Button';
-import { ButtonStyles } from 'components/Button/Button.type';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
 
 import { CSS_Link } from 'utils/stylingTemplates';
@@ -16,7 +15,7 @@ import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { generateToken } from 'utils/generateToken';
 import { useCookies } from 'react-cookie';
 import PageTitle from 'components/PageTitle/PageTitle';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Style_PageContainer = styled.div`
   display: grid;
@@ -102,9 +101,16 @@ const Style_GuideLink = styled(Link)`
  * Login page / Landing page for Quotly.
  */
 const Login = () => {
-  const { discordAuth } = useContext(ApiContext);
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  const [ , setCookie ] = useCookies(['state']);
+  const { discordAuth } = useContext(ApiContext);
+  const [ cookies, setCookie ] = useCookies(['state', 'token']);
+
+  useEffect(() => {
+    if(cookies.token) {
+      navigate('/');
+    }
+  }, [cookies.token]);
 
   const onClick = () => {
     const stateToken = generateToken(32);
@@ -126,7 +132,7 @@ const Login = () => {
         <Style_Separator />
         <Style_RightContainer>
           <Style_Description>{t('description')}</Style_Description>
-          <Button onClick={onClick} style={ButtonStyles.default}>
+          <Button onClick={onClick}>
             <FontAwesomeIcon icon={['fab', 'discord']} />
             {t('login.discord_btn')}
           </Button>

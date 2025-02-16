@@ -3,9 +3,17 @@ import { render } from '@testing-library/react';
 import App from '../App';
 import { ThemeProvider } from 'styled-components';
 import theme from 'assets/themes/default';
+import ApiContextProvider from 'contexts/ApiContext/ApiContext';
 
 describe('App', () => {
   it('renders', () => {
-    expect(render(<ThemeProvider theme={theme}><App /></ThemeProvider>)).not.toBeNull();
+    const result = render(
+      <ThemeProvider theme={theme}>
+        <ApiContextProvider>
+          <App />
+        </ApiContextProvider>
+      </ThemeProvider>
+    );
+    expect(result).not.toBeNull();
   });
 });

@@ -22,6 +22,8 @@ import OAuth from 'pages/OAuth/OAuth';
 import PrivacyPolicy from 'pages/PrivacyPolicy/PrivacyPolicy';
 import Cookies from 'pages/Cookies/Cookies';
 import TermsOfService from 'pages/TermsOfService/TermsOfService';
+import QuoteView from 'pages/QuoteView/QuoteView';
+import Logout from 'pages/Logout/Logout';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -88,6 +90,7 @@ const RouteContainer = styled.div`
 const App = () => {
   const quoteDialogRef = useRef<HTMLDialogElement>(null);
   const [mobileCurrentTop, setMobileCurrentTop] = useState(0);
+  const [isQuoteDialogActive, setIsQuoteDialogActive] = useState(false);
 
   // Prevent right-click context menu on production for user experience
   const onContextMenu = (e: React.MouseEvent) => {
@@ -112,8 +115,10 @@ const App = () => {
 
     if (dialog.open) {
       dialog.close();
+      setIsQuoteDialogActive(false);
     } else {
       dialog.showModal();
+      setIsQuoteDialogActive(true);
     }
   };
 
@@ -122,6 +127,7 @@ const App = () => {
       <GlobalStyle />
       <Routes>
         <Route path='login' element={<Login />} />
+        <Route path='logout' element={<Logout />} />
         <Route path='oauth' element={<OAuth />} />
         <Route path='privacy' element={<PrivacyPolicy />} />
         <Route path='cookies' element={<Cookies />} />
@@ -134,6 +140,7 @@ const App = () => {
                 <PagesContainer>
                   <Routes>
                     <Route index element={<Main />} />
+                    <Route path='quote/:id' element={<QuoteView />} />
                     <Route path='*' element={<Navigate replace to='/404' />} />
                   </Routes>
                 </PagesContainer>
@@ -141,7 +148,7 @@ const App = () => {
 
               <NavbarLeft toggleDialog={toggleDialog} />
 
-              <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} />
+              <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} isActive={isQuoteDialogActive} />
             </>
           </AppContainer>
         } />
