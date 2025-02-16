@@ -112,11 +112,11 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
 
   useEffect(() => {
     if(!response) return;
-    if(response?.status === 200) {
+    if(response.status === 200) {
       const user = response.data;
       setAvatarUrl(`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`);
     } else {
-      navigate('/login');
+      navigate('/logout');
     }
   }, [response]);
 

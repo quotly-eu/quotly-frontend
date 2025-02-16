@@ -14,7 +14,7 @@ export type ApiContextType = {
   baseUrl: string;
   routes: {
     quotes: 
-      ApiRoute<[id?: string], 'createComment' | 'comments' | 'reactions'> &
+      ApiRoute<[id?: string], 'toggleSave' | 'createComment' | 'comments' | 'reactions' | 'saved'> &
       ApiRoute<[], 'top' | 'create'>;
     roles: ApiRoute<[roleId?: string]>;
     users: 

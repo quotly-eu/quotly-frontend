@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Markdown from 'react-markdown';
@@ -17,6 +17,10 @@ import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
 import { QuoteType } from 'types/Quote.type';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import useFetch from 'hooks/useFetch';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useCookies } from 'react-cookie';
+import { SavedQuote } from 'types/SavedQuote.type';
 
 
 // Styles
@@ -159,6 +163,20 @@ const Quote = ({
   isLast
 }: QuoteType & {isLast?: boolean}) => {
   const { t, i18n } = useTranslation();
+  const { routes } = useContext(ApiContext);
+  const [ cookies ] = useCookies(['token']);
+  const [ isSaved, setIsSaved ] = useState(false);
+  const { runFetch: fetchSave, response: saved } = useFetch<SavedQuote | null>(`${routes.quotes.sub?.saved(quoteId)}?token=${cookies.token}`);
+  const { runFetch: fetchPostSave, response: postSaved } = useFetch<boolean>(`${routes.quotes.sub?.toggleSave(quoteId)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({
+      token: cookies.token
+    })
+  });
+
   const quoteUrl = `/quote/${quoteId}`;
   const userUrl = `/user/${user.userId}`;
   const userAvatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
@@ -167,9 +185,10 @@ const Quote = ({
   
   const quoteOptions: DropDownItem[] = [
     {
-      label: (<><FontAwesomeIcon icon={['far', 'bookmark']} /> {t('quote.save')}</>),
+      label: (<><FontAwesomeIcon icon={[isSaved ? 'fas' : 'far', 'bookmark']} /> {isSaved ? t('quote.saved') : t('quote.save')}</>),
       onClick: () => {
-        console.log(t('quote.share'));
+        console.log(t('quote.save'));
+        fetchPostSave();
       }
     },
     {
@@ -213,6 +232,19 @@ const Quote = ({
     }
     return newValue.toFixed(0) + suffix;
   }; */
+
+  useEffect(() => {
+    fetchSave();
+  }, []);
+
+  useEffect(() => {
+    if(saved && saved.data !== null) setIsSaved(true);
+  }, [saved]);
+
+  useEffect(() => {
+    if(!postSaved) return;
+    setIsSaved(postSaved.data);
+  }, [postSaved]);
 
   const renderText = () => {
     return (

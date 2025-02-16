@@ -68,9 +68,9 @@ const Style_Button = styled(Button)`
 const QuoteView = () => {
   const { t } = useTranslation();
   const { id } = useParams();
-  const navigate = useNavigate();
   const { routes } = useContext(ApiContext);
   const [ cookies ] = useCookies(['token']);
+  const navigate = useNavigate();
 
   const [ isFormActive, setIsFormActive ] = useState(false);
   const [ isSubmitDisabled, setIsSubmitDisabled] = useState(false);
@@ -88,13 +88,9 @@ const QuoteView = () => {
       token: cookies.token
     })
   });
-  
-  useEffect(() => {
-    if(quote) return;
-    navigate('/');
-  }, [quote]);
 
   if (!id) navigate('/');
+  if (quote?.status === 404) navigate('/404', {replace: true});
   
   useEffect(() => {
     fetchQuote();
@@ -103,8 +99,9 @@ const QuoteView = () => {
 
   useEffect(() => {
     if(!response) return;
-    setIsFormActive(false);
     fetchComments();
+    
+    setIsFormActive(false);
     setCommentText('');
     setIsSubmitDisabled(false);
   }, [response]);

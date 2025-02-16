@@ -90,6 +90,7 @@ const RouteContainer = styled.div`
 const App = () => {
   const quoteDialogRef = useRef<HTMLDialogElement>(null);
   const [mobileCurrentTop, setMobileCurrentTop] = useState(0);
+  const [isQuoteDialogActive, setIsQuoteDialogActive] = useState(false);
 
   // Prevent right-click context menu on production for user experience
   const onContextMenu = (e: React.MouseEvent) => {
@@ -114,8 +115,10 @@ const App = () => {
 
     if (dialog.open) {
       dialog.close();
+      setIsQuoteDialogActive(false);
     } else {
       dialog.showModal();
+      setIsQuoteDialogActive(true);
     }
   };
 
@@ -145,7 +148,7 @@ const App = () => {
 
               <NavbarLeft toggleDialog={toggleDialog} />
 
-              <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} />
+              <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} isActive={isQuoteDialogActive} />
             </>
           </AppContainer>
         } />

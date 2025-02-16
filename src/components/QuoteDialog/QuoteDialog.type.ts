@@ -5,4 +5,6 @@ import { DialogType } from "components/Dialog/Dialog.type";
  * @example
  * <QuoteDialog open={true} toggleDialog={() => {}} />
  */
-export type QuoteDialogType = Omit<DialogType, 'children'> & {};
+export type QuoteDialogType = Omit<DialogType, 'children'> & {
+  isActive: boolean;
+};

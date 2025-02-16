@@ -55,7 +55,7 @@ const Style_ActionsContainer = styled.div`
  * QuoteDialog component
  */
 const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
-  ({open=false, toggleDialog}, ref) => {
+  ({open=false, isActive=false, toggleDialog}, ref) => {
     const { t } = useTranslation();
     const { routes } = useContext(ApiContext);
     const [cookies] = useCookies(['token']);
@@ -79,7 +79,8 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       runFetch();
       setIsButtonDisabled(true);
     };
-    
+  
+    // POST was successful
     useEffect(() => {
       if(!response) return;
       toggleDialog();
@@ -92,24 +93,23 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       <Dialog ref={ref} toggleDialog={toggleDialog} open={open}>
         <Style_Form method='dialog' onSubmit={onSubmit}>
           <GuideLinks 
-            links={[
-              {
-                label: (<><FontAwesomeIcon icon={['fab', 'markdown']} /> Markdown</>), 
-                url: 'https://www.markdownguide.org/basic-syntax/'
-              }
-            ]} 
+            links={[{
+              label: (<><FontAwesomeIcon icon={['fab', 'markdown']} /> Markdown</>), 
+              url: 'https://www.markdownguide.org/basic-syntax/'
+            }]} 
           />
           {!preview ? 
-            <Input 
-              id='quote' 
+            isActive && <Input 
+              id='quote'
               name='quote' 
               as='textarea'
               placeholder={`${t('quote.quote')}...`}
               onChange={setQuoteText}
               value={quoteText}
               required
+              autoFocus
               rows={4}
-            /> // TODO: Add autofocus on Input
+            />
             : 
             <Style_Markdown children={<Markdown children={quoteText} />} />
           }
