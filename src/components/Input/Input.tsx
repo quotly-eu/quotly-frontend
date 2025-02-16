@@ -59,7 +59,7 @@ const Style_Input = styled.input`
 /**
  * Input Component with Icon
  */
-const Input = forwardRef<HTMLInputElement, InputType & Partial<HTMLTextAreaElement | HTMLInputElement>>(
+const Input = forwardRef<React.HTMLProps<HTMLInputElement>, InputType & Omit<Partial<React.HTMLProps<HTMLInputElement>>, 'onChange'>>(
   ({ id, name, placeholder, icon, as='input', required, testing, onChange, ...rest }, ref) => {
     return (
       <InputContainer data-testid={testing && 'label'}>

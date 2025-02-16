@@ -25,6 +25,7 @@ describe('Button', () => {
     const href = '/';
     const { getByRole } = render(
       <Button 
+        as='a'
         children='Button'
         href={href}
       />

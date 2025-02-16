@@ -8,7 +8,7 @@
  * }
  */
 export type User = {
-  userId: string;
+  userId: number;
   discordId: string;
   displayName: string;
   emailAddress?: string;

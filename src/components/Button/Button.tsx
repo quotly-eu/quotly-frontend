@@ -91,6 +91,7 @@ const ButtonContainer = styled.a<ButtonProps>`
       case ButtonStyles.default:
       default:
         return `
+          background-color: transparent;
           color: ${theme.colors.text.dark};
           box-shadow: ${theme.shadows.default}, inset ${theme.shadows.default};
 
@@ -106,17 +107,18 @@ const ButtonContainer = styled.a<ButtonProps>`
       `
         flex-direction: column;
 
-        padding: ${$padding || theme.spacing.xs.rem};
+        padding: ${$padding || theme.spacing.xxs.em};
         width: ${$width || theme.spacing.xxl.rem};
         height: ${$width || theme.spacing.xxl.rem};
 
       ` : `
         ${$width ? `width: ${$width};` : ``}
-        padding: ${$padding || `${theme.spacing.xxs.rem} ${theme.spacing.m.rem}`};
+        padding: ${$padding || `${theme.spacing.xxxs.em} ${theme.spacing.s.em}`};
       `
   }
   ${({$gap, theme}) => `
     font-size: ${theme.font.sizes.s.rem};
+    font-family: ${theme.font.family.default};
     gap: ${$gap || theme.spacing.xxs.rem};
     transition-duration: ${theme.transition.times.s};
   `}
@@ -139,10 +141,10 @@ const ButtonContainer = styled.a<ButtonProps>`
 const Button = ({
   children, 
   href=undefined,
-  as='a',
+  as='button',
   type='button',
   isIconButton=false, 
-  style=ButtonStyles.default, 
+  btnStyle=ButtonStyles.default, 
   padding, 
   gap, 
   width, 
@@ -161,7 +163,7 @@ const Button = ({
       as={as}
       href={href} 
       type={type}
-      $style={style}
+      $style={btnStyle}
       $padding={padding}
       $gap={gap}
       $width={width}

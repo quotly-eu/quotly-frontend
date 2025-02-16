@@ -106,7 +106,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
               placeholder={`${t('quote.quote')}...`}
               onChange={setQuoteText}
               value={quoteText}
-              required 
+              required
               rows={4}
             /> // TODO: Add autofocus on Input
             : 
@@ -114,13 +114,13 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
           }
           <Style_ActionsContainer>
             <Button
-              style={ButtonStyles.transparent} 
+              btnStyle={ButtonStyles.transparent} 
               onClick={() => setPreview(!preview)}
             >
               <FontAwesomeIcon icon='repeat' /> {!preview ? t('quote.preview') : t('quote.write')}
             </Button>
             <Button 
-              style={ButtonStyles.primary} 
+              btnStyle={ButtonStyles.primary} 
               onClick={() => setPreview(false)}
               as='button'
               type='submit'

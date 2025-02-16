@@ -3,9 +3,6 @@ import { CommentType } from './Comment.type';
 import styled, { useTheme } from 'styled-components';
 import ProfileButton from 'components/ProfileButton/ProfileButton';
 import { useTranslation } from 'react-i18next';
-import Button from 'components/Button/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ButtonStyles } from 'components/Button/Button.type';
 
 const Style_CommentContainer = styled.div`
   display: grid;

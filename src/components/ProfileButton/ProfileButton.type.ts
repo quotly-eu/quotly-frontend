@@ -9,5 +9,5 @@ export type ProfileButtonType = {
   src?: string;
   alt?: string;
   size?: string;
-  onClick?: (event?:React.MouseEvent) => void;
+  onClick?: (event?:React.SyntheticEvent) => void;
 };

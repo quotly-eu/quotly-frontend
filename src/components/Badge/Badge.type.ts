@@ -7,7 +7,7 @@ import { CustomTheme } from "types/styled-components";
  * import Button from 'components/Button/Button';
  * import { ButtonStyles } from 'types/Button.type';
  * 
- * <Badge style={ButtonStyles.primary}>Primary</Badge>
+ * <Badge badgeStyle={ButtonStyles.primary}>Primary</Badge>
  */
 export enum BadgeStyles {
   default = 'default',
@@ -35,7 +35,7 @@ export type BadgeType = {
     margin?: string
   }
   margin?: string
-  style?: BadgeStyles
+  badgeStyle?: BadgeStyles
   color?: string
   fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']][
     keyof CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]

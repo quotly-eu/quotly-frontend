@@ -4,6 +4,7 @@
  * <QuoteComment />
  */
 export type CommentType = {
+  id?: number;
   author: string;
   avatarUrl: string;
   comment: string;

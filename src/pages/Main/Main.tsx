@@ -78,7 +78,7 @@ const Main = () => {
       item: (
         <React.Fragment>
           <Badge 
-            style={BadgeStyles.custom}
+            badgeStyle={BadgeStyles.custom}
             color={colors[index]}
             fontSize={theme.font.sizes.xs.rem}
             children={(index + 1).toString() as '1' | '2' | '3'} 

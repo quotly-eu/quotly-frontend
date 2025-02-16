@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ApiContext } from 'contexts/ApiContext/ApiContext';
 
 import Button from 'components/Button/Button';
-import { ButtonStyles } from 'components/Button/Button.type';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
 
 import { CSS_Link } from 'utils/stylingTemplates';
@@ -126,7 +125,7 @@ const Login = () => {
         <Style_Separator />
         <Style_RightContainer>
           <Style_Description>{t('description')}</Style_Description>
-          <Button onClick={onClick} style={ButtonStyles.default}>
+          <Button onClick={onClick}>
             <FontAwesomeIcon icon={['fab', 'discord']} />
             {t('login.discord_btn')}
           </Button>

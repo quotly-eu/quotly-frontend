@@ -157,7 +157,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
       <Top $type='mobile'>
         <FloatDropDown
           place={PlaceOrientation.TopLeft}
-          triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='bars' /></Button>}
+          triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
           dropDownItems={DropDownItems}
           startMargin={theme.spacing.m.rem}
         />
@@ -169,17 +169,17 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
           desktop={
             <FloatDropDown
               place={PlaceOrientation.Right}
-              triggerElement={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='bars' /></Button>}
+              triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
               dropDownItems={DropDownItems}
               startMargin={theme.spacing.m.rem}
             />
           }
         />
-        <Button style={ButtonStyles.primary} isIconButton={true} onClick={toggleDialog}><FontAwesomeIcon icon='quote-right' /></Button>
+        <Button btnStyle={ButtonStyles.primary} isIconButton onClick={toggleDialog}><FontAwesomeIcon icon='quote-right' /></Button>
         <Switcher
           breakpoint={theme.breakpoints.md}
           mobile={<></>}
-          desktop={<Button style={ButtonStyles.transparent} isIconButton={true}><FontAwesomeIcon icon='fire' /></Button>}
+          desktop={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='fire' /></Button>}
         />
       </Center>
       <Bottom>

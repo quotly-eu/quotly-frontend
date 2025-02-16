@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import QuoteComment from 'components/Comment/Comment';
 import { CommentType } from 'components/Comment/Comment.type';
 import Quote from 'components/Quote/Quote';
@@ -49,12 +49,14 @@ const Style_Actions = styled.div`
 
 const mockedComments: CommentType[] = [
   {
+    id: 1,
     author: 'Jordan',
     avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
     dated: new Date(2024, 11, 21),
     comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae blanditiis corporis libero soluta numquam possimus.',
   },
   {
+    id: 2,
     author: 'Jordan',
     avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
     dated: new Date(2024, 11, 21),
@@ -71,6 +73,8 @@ const QuoteView = () => {
   const { routes } = useContext(ApiContext);
   const { runFetch: fetchQuote, response: quote } = useFetch<QuoteType>(routes.quotes.construct(id));
   const { runFetch: fetchComments, response: comments } = useFetch<Comment[]>(`${routes.quotes.sub?.comments(id || '')}`);
+  const [ isFormActive, setIsFormActive ] = useState(false);
+  const [ commentText, setCommentText ] = useState('');
 
   if (!id) navigate('/');
   
@@ -79,16 +83,24 @@ const QuoteView = () => {
     fetchComments();
   }, []);
 
-  const formattedComments: CommentType[] = comments?.data.map(({comment, createdAt, user}) => {
+  const formattedComments: CommentType[] = comments?.data.map(({ commentId, comment, createdAt, user }) => {
     const avatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
 
     return {
+      id: commentId,
       author: user.displayName,
       avatarUrl,
       dated: new Date(createdAt),
       comment
     };
   }) || [];
+
+  const onFocus = () => setIsFormActive(true);
+
+  const onCancelClick = () => {
+    setCommentText('');
+    setIsFormActive(false);
+  };
   
   return (
     <Style_QuoteView>
@@ -100,13 +112,28 @@ const QuoteView = () => {
             placeholder='Comment...'
             name='comment'
             id='comment'
+            onFocus={onFocus}
+            value={commentText}
+            onChange={setCommentText}
             required
           />
-          <Style_Actions>
-            <Button as='button' type='submit' style={ButtonStyles.primary}><FontAwesomeIcon icon='plus' /> Post</Button>
-          </Style_Actions>
+          {isFormActive && <Style_Actions>
+            <Button 
+              type='reset' 
+              btnStyle={ButtonStyles.transparent}
+              onClick={onCancelClick}
+            >
+              <FontAwesomeIcon icon='xmark' /> Cancel
+            </Button>
+            <Button 
+              type='submit'
+              btnStyle={ButtonStyles.primary}
+            >
+              <FontAwesomeIcon icon='plus' /> Post
+            </Button>
+          </Style_Actions>}
         </Style_Form>
-        {formattedComments.map(comment => <QuoteComment {...comment} />)}
+        {mockedComments.map(comment => <QuoteComment {...comment} key={comment.id} />)}
       </Style_Comments>
     </Style_QuoteView>
   );

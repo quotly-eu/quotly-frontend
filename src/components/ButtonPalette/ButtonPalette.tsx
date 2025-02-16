@@ -41,8 +41,8 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
  * @example
  * <ButtonPalette 
  *  buttons={[
- *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon='fluent-emoji:red-heart' height='100%' />} />,
- *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon='fluent-emoji:thumbs-up' height='100%' />} />,
+ *   <Button isIconButton btnStyle={ButtonStyles.transparent} children={<Icon icon='fluent-emoji:red-heart' height='100%' />} />,
+ *   <Button isIconButton btnStyle={ButtonStyles.transparent} children={<Icon icon='fluent-emoji:thumbs-up' height='100%' />} />,
  *  ]} 
  * />
  */

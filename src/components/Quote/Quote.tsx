@@ -240,7 +240,7 @@ const Quote = ({
               place: PlaceOrientation.Bottom,
               margin: '-75%'
             }} 
-            style={BadgeStyles.transparent}
+            badgeStyle={BadgeStyles.transparent}
           />
         }
       </>
@@ -251,7 +251,7 @@ const Quote = ({
     return (<ButtonPalette 
       triggerElement={
         <Style_Button 
-          isIconButton={true} 
+          isIconButton 
           $hasReacted={reactions?.reactedIcon ? true : false}
           children={renderReaction({
             icon: reactions?.reactedIcon || greatestReactedIcon,
@@ -264,8 +264,8 @@ const Quote = ({
         reactions?.icons.map((reaction, index) => (
           <Style_Button 
             key={index} 
-            isIconButton={true} 
-            style={ButtonStyles.transparent}
+            isIconButton 
+            btnStyle={ButtonStyles.transparent}
             children={renderReaction({
               icon: reaction.icon,
               counter: reaction.count
@@ -284,7 +284,7 @@ const Quote = ({
       <Actions>
         <FloatDropDown
           triggerElement={
-            <Style_Button isIconButton={true} style={ButtonStyles.transparent}>
+            <Style_Button isIconButton btnStyle={ButtonStyles.transparent}>
               <FontAwesomeIcon icon='ellipsis' />
             </Style_Button>
           }

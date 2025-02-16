@@ -16,6 +16,6 @@ export type QuoteType = {
   changedAt?: string;
   deletedAt?: string;
   user: User;
-  reactions: []
+  reactions?: []
     // reactedIcon?: 'red-heart' | 'thumbs-up' | 'face-with-tears-of-joy' | 'melting-face' | 'skull';
 };
