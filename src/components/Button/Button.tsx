@@ -151,7 +151,7 @@ const Button = ({
   title, 
   onClick,
   ...rest
-}:ButtonType) => {
+}:ButtonType & React.HTMLProps<HTMLButtonElement>) => {
   const propagateClick = (event: React.MouseEvent) => {
     if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
     if(onClick) onClick(event);

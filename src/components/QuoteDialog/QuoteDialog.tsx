@@ -74,7 +74,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       })
     });
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       runFetch();
       setIsButtonDisabled(true);

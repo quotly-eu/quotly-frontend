@@ -8,6 +8,7 @@ const config: ApiContextType = {
       construct: (id?) => `${config.baseUrl}/v1/quotes${id ? `/${id}` : ''}`,
       sub: {
         create: () => `${config.routes.quotes.construct()}/create`,
+        createComment: (id) => `${config.routes.quotes.construct(id)}/comments/create`,
         comments: (id) => `${config.routes.quotes.construct(id)}/comments`,
         reactions: (id) => `${config.routes.quotes.construct(id)}/reactions`,
         top: () => `${config.routes.quotes.construct()}/top`,
