@@ -21,6 +21,9 @@ import useFetch from 'hooks/useFetch';
 import { ApiContext } from 'contexts/ApiContext/ApiContext';
 import { useCookies } from 'react-cookie';
 import { SavedQuote } from 'types/SavedQuote.type';
+import { ApiResponse } from 'types/ApiResponse.type';
+import { Role } from 'types/Role.type';
+import { User } from 'types/User.type';
 
 
 // Styles
@@ -159,9 +162,15 @@ const Quote = ({
   quoteId,
   createdAt,
   user,
+  userRoles,
+  userResponse,
   // reactions,
   isLast
-}: QuoteType & {isLast?: boolean}) => {
+}: QuoteType & {
+  isLast?: boolean;
+  userRoles?: ApiResponse<Role[]>;
+  userResponse?: ApiResponse<User>;
+}) => {
   const { t, i18n } = useTranslation();
   const { routes } = useContext(ApiContext);
   const [ cookies ] = useCookies(['token']);
@@ -176,6 +185,15 @@ const Quote = ({
       token: cookies.token
     })
   });
+  const { runFetch: fetchPostDelete, response: postDelete } = useFetch<boolean>(`${routes.quotes.sub?.delete(quoteId)}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({
+      token: cookies.token
+    })
+  });
 
   const quoteUrl = `/quote/${quoteId}`;
   const userUrl = `/user/${user.userId}`;
@@ -183,8 +201,9 @@ const Quote = ({
   //const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
   //const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
   
-  const quoteOptions: DropDownItem[] = [
+  const [quoteOptions, setQuoteOptions] = useState<DropDownItem[]>([
     {
+      id: 'save',
       label: (<><FontAwesomeIcon icon={[isSaved ? 'fas' : 'far', 'bookmark']} /> {isSaved ? t('quote.saved') : t('quote.save')}</>),
       onClick: () => {
         console.log(t('quote.save'));
@@ -192,24 +211,50 @@ const Quote = ({
       }
     },
     {
+      id: 'share',
       label: (<><FontAwesomeIcon icon='share' /> {t('quote.share')}</>),
       onClick: () => {
         console.log(t('quote.share'));
       }
     },
-    {
-      label: (<><FontAwesomeIcon icon='pencil' /> {t('quote.edit')}</>),
-      onClick: () => {
-        console.log(t('quote.edit'));
-      }
-    },
-    {
-      label: (<><FontAwesomeIcon icon='trash' /> {t('quote.delete')}</>),
-      onClick: () => {
-        console.log(t('quote.delete'));
-      }
+    
+  ]);
+
+  /* const editItem: DropDownItem = {
+    id: 'edit',
+    label: (<><FontAwesomeIcon icon='pencil' /> {t('quote.edit')}</>),
+    onClick: () => {
+      console.log(t('quote.edit'));
     }
-  ];
+  }; */
+
+  const deleteItem: DropDownItem = {
+    id: 'delete',
+    label: (<><FontAwesomeIcon icon='trash' /> {t('quote.delete')}</>),
+    onClick: () => {
+      fetchPostDelete();
+    }
+  };
+
+  useEffect(() => {
+    const isAdmin = userRoles && userRoles.data.find(role => role.name === 'admin');
+    const isAuthor = userResponse && userResponse.data.userId === user.userId;
+
+    if(!isAdmin && !isAuthor) return;
+
+    /* if(!quoteOptions.find(item => item.id === editItem.id)) {
+      setQuoteOptions(options => {
+        options.push(editItem);
+        return options;
+      });
+    } */
+    if(!quoteOptions.find(item => item.id === deleteItem.id)) {
+      setQuoteOptions(options => {
+        options.push(deleteItem);
+        return options;
+      });
+    }
+  }, [userRoles]);
   
   /* const abbreviateNumber = (value: number) => {
     let newValue = value;
@@ -245,6 +290,20 @@ const Quote = ({
     if(!postSaved) return;
     setIsSaved(postSaved.data);
   }, [postSaved]);
+
+  useEffect(() => {
+    if(!postDelete) return;
+    window.location.pathname = '/';
+  }, [postDelete]);
+
+  useEffect(() => {
+    setQuoteOptions(options => {
+      options[options.findIndex(item => item.id === 'save')].label = (<>
+        <FontAwesomeIcon icon={[isSaved ? 'fas' : 'far', 'bookmark']} /> {isSaved ? t('quote.saved') : t('quote.save')}
+      </>);
+      return options;
+    });
+  }, [isSaved]);
 
   const renderText = () => {
     return (

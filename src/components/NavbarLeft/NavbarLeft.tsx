@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
@@ -12,13 +12,10 @@ import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { DropDownItem, DropDownItemType } from 'components/FloatDropDown/FloatDropDown.type';
 import { PlaceOrientation } from 'types/placeOrientation.type';
-import { NavbarLeftType } from './NavbarLeft.type';
+import { NavbarLeftProps } from './NavbarLeft.type';
 
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { Link, useNavigate } from 'react-router-dom';
-import useFetch from 'hooks/useFetch';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
-import { User } from 'types/User.type';
 import { useCookies } from 'react-cookie';
 
 // Styles
@@ -93,32 +90,28 @@ const PreparedProfileButton = styled(ProfileButton).attrs(({theme}) => ({
 /**
  * NavbarLeft Component
  */
-const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
+const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { routes } = useContext(ApiContext);
   const [ cookies ] = useCookies(['token']);
-  const { runFetch, response } = useFetch<User>(`${routes.users.sub?.me()}?token=${cookies.token}`);
   const [avatarUrl, setAvatarUrl] = useState<string>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(cookies.token) {
-      runFetch();
-    } else {
+    if(!cookies.token) {
       navigate('/login');
     }
   }, [cookies.token]);
 
   useEffect(() => {
-    if(!response) return;
-    if(response.status === 200) {
-      const user = response.data;
+    if(!userResponse) return;
+    if(userResponse.status === 200) {
+      const user = userResponse.data;
       setAvatarUrl(`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`);
     } else {
       navigate('/logout');
     }
-  }, [response]);
+  }, [userResponse]);
 
   const DropDownItems: DropDownItem[] = [
     {
@@ -133,7 +126,7 @@ const NavbarLeft = ({toggleDialog}:NavbarLeftType) => {
   
   const ProfileDropDownItems: DropDownItem[] = [
     {
-      label: (<><FontAwesomeIcon icon='user' /> {t('profile')}</>),
+      label: (<><FontAwesomeIcon icon='user' /> {userResponse?.data.displayName || t('profile')}</>),
       href: '/profile',
       type: DropDownItemType.LINK,
     },

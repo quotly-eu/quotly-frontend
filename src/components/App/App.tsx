@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 // Pages
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
@@ -24,6 +24,11 @@ import Cookies from 'pages/Cookies/Cookies';
 import TermsOfService from 'pages/TermsOfService/TermsOfService';
 import QuoteView from 'pages/QuoteView/QuoteView';
 import Logout from 'pages/Logout/Logout';
+import useFetch from 'hooks/useFetch';
+import { User } from 'types/User.type';
+import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useCookies } from 'react-cookie';
+import { Role } from 'types/Role.type';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -88,9 +93,30 @@ const RouteContainer = styled.div`
  * App Component with BrowserRouter and Routes
  */
 const App = () => {
+  const { routes } = useContext(ApiContext);
+  const [ cookies ] = useCookies(['token']);
   const quoteDialogRef = useRef<HTMLDialogElement>(null);
   const [mobileCurrentTop, setMobileCurrentTop] = useState(0);
   const [isQuoteDialogActive, setIsQuoteDialogActive] = useState(false);
+  const { 
+    runFetch: fetchMe,
+    response: userResponse 
+  } = useFetch<User>(`${routes.users.sub?.me()}?token=${cookies.token}`);
+  const { 
+    runFetch: fetchRoles,
+    response: rolesResponse
+  } = useFetch<Role[]>(`${routes.users.sub?.roles(userResponse?.data.userId || 0)}`);
+
+  useEffect(() => {
+    if(!cookies.token) return;
+    fetchMe();
+  }, [cookies.token]);
+
+  useEffect(() => {
+    if(userResponse && userResponse.status === 200) {
+      fetchRoles();
+    }
+  }, [userResponse]);
 
   // Prevent right-click context menu on production for user experience
   const onContextMenu = (e: React.MouseEvent) => {
@@ -139,14 +165,14 @@ const App = () => {
                 <NavbarTop />
                 <PagesContainer>
                   <Routes>
-                    <Route index element={<Main />} />
-                    <Route path='quote/:id' element={<QuoteView />} />
+                    <Route index element={<Main userRoles={rolesResponse} userResponse={userResponse} />} />
+                    <Route path='quote/:id' element={<QuoteView userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='*' element={<Navigate replace to='/404' />} />
                   </Routes>
                 </PagesContainer>
               </RouteContainer>
 
-              <NavbarLeft toggleDialog={toggleDialog} />
+              <NavbarLeft userResponse={userResponse} toggleDialog={toggleDialog} />
 
               <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} isActive={isQuoteDialogActive} />
             </>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PlaceOrientationProps } from 'types/placeOrientation.type';
 import { placeOrientation } from 'utils/placeOrientation';
 import { BadgeStyles, BadgeType } from './Badge.type';
-import { CustomTheme } from 'types/styled-components';
+import { CustomTheme } from 'types/declarations/styled-components';
 
 // TYPES
 interface BadgeProps extends PlaceOrientationProps {

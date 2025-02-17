@@ -1,19 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react';
-import QuoteComment from 'components/Comment/Comment';
-import { CommentType } from 'components/Comment/Comment.type';
-import Quote from 'components/Quote/Quote';
-import { QuoteType } from 'types/Quote.type';
-import { useNavigate, useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+
 import useFetch from 'hooks/useFetch';
 import { ApiContext } from 'contexts/ApiContext/ApiContext';
-import { Comment } from 'types/Comment.type';
+
+import QuoteComment from 'components/Comment/Comment';
+import Quote from 'components/Quote/Quote';
 import Button from 'components/Button/Button';
-import { ButtonStyles } from 'components/Button/Button.type';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Input from 'components/Input/Input';
-import { useTranslation } from 'react-i18next';
-import { useCookies } from 'react-cookie';
+
+import { Comment } from 'types/Comment.type';
+import { ButtonStyles } from 'components/Button/Button.type';
+import { CommentType } from 'components/Comment/Comment.type';
+import { ApiResponse } from 'types/ApiResponse.type';
+import { QuoteType } from 'types/Quote.type';
+import { Role } from 'types/Role.type';
+import { User } from 'types/User.type';
+
+type QuoteViewProps = {
+  userRoles?: ApiResponse<Role[]>;
+  userResponse?: ApiResponse<User>;
+};
 
 const Style_QuoteView = styled.div`
   display: flex;
@@ -65,7 +76,7 @@ const Style_Button = styled(Button)`
 /**
  * Page to view a specific Quote with their comments.
  */
-const QuoteView = () => {
+const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
   const { t } = useTranslation();
   const { id } = useParams();
   const { routes } = useContext(ApiContext);
@@ -133,7 +144,12 @@ const QuoteView = () => {
   
   return (
     <Style_QuoteView>
-      {quote?.data && <Quote {...quote.data} key={quote.data.quoteId} />}
+      {quote?.data && <Quote 
+        {...quote.data} 
+        userRoles={userRoles} 
+        userResponse={userResponse}
+        key={quote.data.quoteId}
+      />}
       <Style_Comments>
         <Style_Form onSubmit={onSubmit}>
           <Input 

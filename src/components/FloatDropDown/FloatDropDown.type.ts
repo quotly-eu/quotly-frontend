@@ -12,11 +12,12 @@
  * <FloatDropDown dropDownItems={dropDownItems} />
  */
 export type DropDownItem = {
-  label: React.ReactNode,
-  href?: string
-  type?: DropDownItemType,
-  active?: boolean,
-  onClick?: (event?: React.MouseEvent) => void
+  id?: string | number;
+  label: React.ReactNode;
+  href?: string;
+  type?: DropDownItemType;
+  active?: boolean;
+  onClick?: (event?: React.MouseEvent) => void;
 };
 
 /**

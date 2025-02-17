@@ -17,6 +17,14 @@ import { BadgeStyles } from 'components/Badge/Badge.type';
 
 import useFetch from 'hooks/useFetch';
 import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { Role } from 'types/Role.type';
+import { ApiResponse } from 'types/ApiResponse.type';
+import { User } from 'types/User.type';
+
+type MainProps = {
+  userRoles?: ApiResponse<Role[]>;
+  userResponse?: ApiResponse<User>;
+};
 
 // Styles
 const MainContainer = styled.div`
@@ -59,7 +67,7 @@ const FeedsContainer = styled.div`
 /**
  * Main Page for Quotly
  */
-const Main = () => {
+const Main = ({ userRoles, userResponse }: MainProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { routes } = useContext(ApiContext);
@@ -95,7 +103,7 @@ const Main = () => {
       <PageTitle />
       <QuotesContainer>
         {quotes?.data && quotes.data.map((quote, index) => (
-          <Quote {...quote} key={quote.quoteId} isLast={quotes.data.length == (index+1)} />
+          <Quote {...quote} userRoles={userRoles} userResponse={userResponse} key={quote.quoteId} isLast={quotes.data.length == (index+1)} />
         ))}
       </QuotesContainer>
       <Switcher

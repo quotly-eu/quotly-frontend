@@ -14,11 +14,11 @@ export type ApiContextType = {
   baseUrl: string;
   routes: {
     quotes: 
-      ApiRoute<[id?: string], 'toggleSave' | 'createComment' | 'comments' | 'reactions' | 'saved'> &
+      ApiRoute<[id?: string], 'toggleSave' | 'createComment' | 'comments' | 'reactions' | 'saved' | 'delete'> &
       ApiRoute<[], 'top' | 'create'>;
     roles: ApiRoute<[roleId?: string]>;
     users: 
-      ApiRoute<[discordId?: string], 'reactions' | 'roles' | 'savedQuotes'> &
+      ApiRoute<[id?: number], 'reactions' | 'roles' | 'savedQuotes'> &
       ApiRoute<[], 'me'>;
     authorize: ApiRoute;
   }
