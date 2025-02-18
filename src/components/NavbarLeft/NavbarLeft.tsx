@@ -15,7 +15,7 @@ import { PlaceOrientation } from 'types/placeOrientation.type';
 import { NavbarLeftProps } from './NavbarLeft.type';
 
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 // Styles
@@ -92,6 +92,7 @@ const PreparedProfileButton = styled(ProfileButton).attrs(({theme}) => ({
  */
 const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
   const theme = useTheme();
+  const { pathname } = useLocation();
   const { t } = useTranslation();
   const [ cookies ] = useCookies(['token']);
   const [avatarUrl, setAvatarUrl] = useState<string>();
@@ -113,7 +114,7 @@ const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
     }
   }, [userResponse]);
 
-  const DropDownItems: DropDownItem[] = [
+  const dropDownItems: DropDownItem[] = [
     {
       label: (<><FontAwesomeIcon icon='home' /> {t('home')}</>),
       href: '/',
@@ -129,73 +130,94 @@ const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
       label: (<><FontAwesomeIcon icon='user' /> {userResponse?.data.displayName || t('profile')}</>),
       href: '/profile',
       type: DropDownItemType.LINK,
+      active: pathname.includes('/saved')
+    },
+    {
+      label: (<><FontAwesomeIcon icon={['fas', 'bookmark']} /> {t('saved_quotes')}</>),
+      href: '/saved',
+      type: DropDownItemType.LINK,
+      active: pathname.includes('/saved')
     },
     {
       label: (<><FontAwesomeIcon icon='cog' /> {t('settings')}</>),
       href: '/settings',
       type: DropDownItemType.LINK,
+      active: pathname.includes('/settings')
     },
     {
       label: (<><FontAwesomeIcon icon='sign-out' /> {t('logout')}</>),
       href: '/logout',
       type: DropDownItemType.LINK,
+      active: pathname.includes('/logout')
     }
   ];
 
-  return (
-    <NavbarLeftContainer>
-      <LogoBrand to='/' title={t('quotly')}>
-        <Logo />
-      </LogoBrand>
-      <Top $type='mobile'>
+  const renderProfileButton = (place: PlaceOrientation) => (
+    <FloatDropDown
+      place={place}
+      triggerElement={<PreparedProfileButton src={avatarUrl} />}
+      dropDownItems={ProfileDropDownItems}
+      startMargin={theme.spacing.m.rem}
+    />
+  );
+
+  const renderTop = () => (
+    <Top $type='mobile'>
+      <FloatDropDown
+        place={PlaceOrientation.TopLeft}
+        triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
+        dropDownItems={dropDownItems}
+        startMargin={theme.spacing.m.rem}
+      />
+    </Top>
+  );
+  
+  const renderCenter = () => (
+    <Center>
+      <Switcher desktop={
         <FloatDropDown
-          place={PlaceOrientation.TopLeft}
+          place={PlaceOrientation.Right}
           triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
-          dropDownItems={DropDownItems}
+          dropDownItems={dropDownItems}
           startMargin={theme.spacing.m.rem}
         />
-      </Top>
-      <Center>
-        <Switcher
-          breakpoint={theme.breakpoints.md}
-          mobile={<></>}
-          desktop={
-            <FloatDropDown
-              place={PlaceOrientation.Right}
-              triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
-              dropDownItems={DropDownItems}
-              startMargin={theme.spacing.m.rem}
-            />
-          }
-        />
-        <Button btnStyle={ButtonStyles.primary} isIconButton onClick={toggleDialog}><FontAwesomeIcon icon='quote-right' /></Button>
-        <Switcher
-          breakpoint={theme.breakpoints.md}
-          mobile={<></>}
-          desktop={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='fire' /></Button>}
-        />
-      </Center>
-      <Bottom>
-        <Switcher
-          breakpoint={theme.breakpoints.md}
-          mobile={
-            <FloatDropDown
-              place={PlaceOrientation.TopRight}
-              triggerElement={<PreparedProfileButton src={avatarUrl} />}
-              dropDownItems={ProfileDropDownItems}
-              startMargin={theme.spacing.m.rem}
-            />
-          }
-          desktop={
-            <FloatDropDown
-              place={PlaceOrientation.RightInlineBottom}
-              triggerElement={<PreparedProfileButton src={avatarUrl} />}
-              dropDownItems={ProfileDropDownItems}
-              startMargin={theme.spacing.m.rem}
-            />
-          }
-        />
-      </Bottom>
+      }/>
+
+      <Button 
+        btnStyle={ButtonStyles.primary}
+        onClick={toggleDialog} 
+        isIconButton
+      >
+        <FontAwesomeIcon icon='quote-right' />
+      </Button>
+
+      <Switcher desktop={
+        <Button 
+          btnStyle={pathname.includes('/top-quotes') ? ButtonStyles.default : ButtonStyles.transparent} 
+          onClick={() => navigate('/top-quotes')}
+          isIconButton
+        >
+          <FontAwesomeIcon icon='fire' />
+        </Button>
+      } />
+    </Center>
+  );
+
+  const renderBottom = () => (
+    <Bottom>
+      <Switcher
+        mobile={renderProfileButton(PlaceOrientation.TopRight)}
+        desktop={renderProfileButton(PlaceOrientation.RightInlineBottom)}
+      />
+    </Bottom>
+  );
+
+  return (
+    <NavbarLeftContainer>
+      <LogoBrand to='/' title={t('quotly')}><Logo /></LogoBrand>
+      {renderTop()}
+      {renderCenter()}
+      {renderBottom()}
     </NavbarLeftContainer>
   );
 };

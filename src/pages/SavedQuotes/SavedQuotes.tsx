@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import styled, { css, useTheme } from 'styled-components';
 
 import Switcher from 'components/Switcher/Switcher';
+// import ProfileButton from 'components/ProfileButton/ProfileButton';
 import PageTitle from 'components/PageTitle/PageTitle';
 import Quote from 'components/Quote/Quote';
 
@@ -13,14 +14,15 @@ import { Role } from 'types/Role.type';
 import { ApiResponse } from 'types/ApiResponse.type';
 import { User } from 'types/User.type';
 import Feeds from 'components/Feeds/Feeds';
+import { useTranslation } from 'react-i18next';
 
-type MainProps = {
+type SavedQuotesProps = {
   userRoles?: ApiResponse<Role[]>;
   userResponse?: ApiResponse<User>;
 };
 
 // Styles
-const MainContainer = styled.div`
+const SavedQuotesContainer = styled.div`
   display: grid;
   grid-template-areas: 
     // 'users users'
@@ -51,20 +53,22 @@ const QuotesContainer = styled.div`
 /**
  * Main Page for Quotly
  */
-const Main = ({ userRoles, userResponse }: MainProps) => {
+const SavedQuotes = ({ userRoles, userResponse }: SavedQuotesProps) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { routes } = useContext(ApiContext);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(routes.quotes.construct());
+  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.users.sub?.savedQuotes(userResponse?.data.userId || 0)}`);
 
   useEffect(() => {
+    if(!userResponse) return;
     fetchQuotes();
-  }, []);
+  }, [userResponse]);
 
   return (
-    <MainContainer>
-      <PageTitle />
+    <SavedQuotesContainer>
+      <PageTitle title={t('saved_quotes')} />
       <QuotesContainer>
-        {quotes?.data && quotes.data.map((quote, index) => (
+        {quotes && quotes.data.map((quote, index) => (
           <Quote 
             {...quote}
             userRoles={userRoles}
@@ -75,8 +79,8 @@ const Main = ({ userRoles, userResponse }: MainProps) => {
         ))}
       </QuotesContainer>
       <Switcher breakpoint={theme.breakpoints.lg} desktop={<Feeds />} />
-    </MainContainer>
+    </SavedQuotesContainer>
   );
 };
 
-export default Main;
+export default SavedQuotes;

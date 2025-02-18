@@ -20,6 +20,7 @@ import { ApiResponse } from 'types/ApiResponse.type';
 import { QuoteType } from 'types/Quote.type';
 import { Role } from 'types/Role.type';
 import { User } from 'types/User.type';
+import PageTitle from 'components/PageTitle/PageTitle';
 
 type QuoteViewProps = {
   userRoles?: ApiResponse<Role[]>;
@@ -54,7 +55,7 @@ const Style_Form = styled.form`
 
 const Style_Actions = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
   justify-content: flex-end;
   ${({ theme }) => `
     gap: ${theme.spacing.s.rem};
@@ -144,6 +145,7 @@ const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
   
   return (
     <Style_QuoteView>
+      {quote?.data && <PageTitle title={quote.data.quote} />}
       {quote?.data && <Quote 
         {...quote.data} 
         userRoles={userRoles} 
