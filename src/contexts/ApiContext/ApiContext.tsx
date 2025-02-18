@@ -8,6 +8,7 @@ const config: ApiContextType = {
       construct: (id?) => `${config.baseUrl}/v1/quotes${id ? `/${id}` : ''}`,
       sub: {
         create: () => `${config.routes.quotes.construct()}/create`,
+        delete: (id) => `${config.routes.quotes.construct(id)}/delete`,
         toggleSave: (id) => `${config.routes.quotes.construct(id)}/toggleSave`,
         createComment: (id) => `${config.routes.quotes.construct(id)}/comments/create`,
         comments: (id) => `${config.routes.quotes.construct(id)}/comments`,
@@ -23,9 +24,9 @@ const config: ApiContextType = {
       construct: (discordId?) => `${config.baseUrl}/v1/users${discordId ? `/${discordId}` : ''}`,
       sub: {
         me: () => `${config.routes.users.construct()}/me`,
-        reactions: (discordId) => `${config.routes.users.construct(discordId)}/reactions`,
-        roles: (discordId) => `${config.routes.users.construct(discordId)}/roles`,
-        savedQuotes: (discordId) => `${config.routes.users.construct(discordId)}/saved-quotes`,
+        reactions: (id) => `${config.routes.users.construct(id)}/reactions`,
+        roles: (id) => `${config.routes.users.construct(id)}/roles`,
+        savedQuotes: (id) => `${config.routes.users.construct(id)}/saved-quotes`,
       }
     },
     authorize: {

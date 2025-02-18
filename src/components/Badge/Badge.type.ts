@@ -1,5 +1,5 @@
 import { PlaceOrientation } from "types/placeOrientation.type";
-import { CustomTheme } from "types/styled-components";
+import { CustomTheme } from "types/declarations/styled-components";
 
 /**
  * BadgeStyles
