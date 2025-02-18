@@ -130,7 +130,7 @@ const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
       label: (<><FontAwesomeIcon icon='user' /> {userResponse?.data.displayName || t('profile')}</>),
       href: '/profile',
       type: DropDownItemType.LINK,
-      active: pathname.includes('/saved')
+      active: pathname.includes('/profile')
     },
     {
       label: (<><FontAwesomeIcon icon={['fas', 'bookmark']} /> {t('saved_quotes')}</>),
