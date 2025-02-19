@@ -169,7 +169,7 @@ const App = () => {
                   <Routes>
                     <Route index element={<Main userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='quote/:id' element={<QuoteView userRoles={rolesResponse} userResponse={userResponse} />} />
-                    <Route path='user/:id' element={<UserView />} />
+                    <Route path='user/:id' element={<UserView userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='saved' element={<SavedQuotes userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='*' element={<Navigate replace to='/404' />} />
                   </Routes>

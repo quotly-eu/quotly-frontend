@@ -24,6 +24,7 @@ const config: ApiContextType = {
       construct: (discordId?) => `${config.baseUrl}/v1/users${discordId ? `/${discordId}` : ''}`,
       sub: {
         me: () => `${config.routes.users.construct()}/me`,
+        quotes: (id) => `${config.routes.users.construct(id)}/quotes`,
         reactions: (id) => `${config.routes.users.construct(id)}/reactions`,
         roles: (id) => `${config.routes.users.construct(id)}/roles`,
         savedQuotes: (id) => `${config.routes.users.construct(id)}/saved-quotes`,
