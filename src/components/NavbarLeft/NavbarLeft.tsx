@@ -128,9 +128,9 @@ const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
   const ProfileDropDownItems: DropDownItem[] = [
     {
       label: (<><FontAwesomeIcon icon='user' /> {userResponse?.data.displayName || t('profile')}</>),
-      href: '/profile',
+      href: `/user/${userResponse?.data.userId}`,
       type: DropDownItemType.LINK,
-      active: pathname.includes('/profile')
+      active: pathname.includes(`/user/${userResponse?.data.userId}`)
     },
     {
       label: (<><FontAwesomeIcon icon={['fas', 'bookmark']} /> {t('saved_quotes')}</>),
