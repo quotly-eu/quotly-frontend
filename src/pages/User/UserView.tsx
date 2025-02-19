@@ -90,7 +90,7 @@ const FeedItem = styled.div`
  * User Page
  */
 const UserView = ({ userRoles, userResponse }: UserViewProps) => {
-  const { i18n: { language }} = useTranslation();
+  const { t, i18n: { language }} = useTranslation();
   const { id } = useParams();
   const { routes } = useContext(ApiContext);
   const { runFetch: fetchUser, response: user } = useFetch<User>(routes.users.construct(Number(id)));
@@ -122,7 +122,7 @@ const UserView = ({ userRoles, userResponse }: UserViewProps) => {
             <FeedItem><strong>{user?.data.displayName}</strong></FeedItem>
           </FeedRow>
           <FeedRow>
-            <FeedItem>Joined {user && new Date(user.data.createdAt).toLocaleDateString(language, {dateStyle: 'long'})}</FeedItem>
+            <FeedItem>{t('user.joined')} {user && new Date(user.data.createdAt).toLocaleDateString(language, {dateStyle: 'long'})}</FeedItem>
           </FeedRow>
         </FeedContainer>
       </FeedsContainer>
