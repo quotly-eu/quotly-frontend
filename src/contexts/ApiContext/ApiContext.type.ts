@@ -18,7 +18,7 @@ export type ApiContextType = {
       ApiRoute<[], 'top' | 'create'>;
     roles: ApiRoute<[roleId?: string]>;
     users: 
-      ApiRoute<[id?: number], 'reactions' | 'roles' | 'savedQuotes'> &
+      ApiRoute<[id?: number], 'quotes' | 'reactions' | 'roles' | 'savedQuotes'> &
       ApiRoute<[], 'me'>;
     authorize: ApiRoute;
   }

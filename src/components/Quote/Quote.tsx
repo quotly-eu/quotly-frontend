@@ -12,7 +12,6 @@ import FloatDropDown from 'components/FloatDropDown/FloatDropDown';
 
 import { PlaceOrientation } from 'types/placeOrientation.type';
 import { ButtonStyles } from 'components/Button/Button.type';
-import { DropDownItem } from 'components/FloatDropDown/FloatDropDown.type';
 // import { BadgeStyles } from 'components/Badge/Badge.type';
 import { QuoteType } from 'types/Quote.type';
 import { Link } from 'react-router-dom';
@@ -155,7 +154,6 @@ const Style_Button = styled(Button)<{$hasReacted?:boolean, $style?: ButtonStyles
 
 /**
  * Quote Component, the main component for the Quotly page
- * 
  */
 const Quote = ({
   quote,
@@ -171,7 +169,7 @@ const Quote = ({
   userRoles?: ApiResponse<Role[]>;
   userResponse?: ApiResponse<User>;
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n: { language } } = useTranslation();
   const { routes } = useContext(ApiContext);
   const [ cookies ] = useCookies(['token']);
   const [ isSaved, setIsSaved ] = useState(false);
@@ -198,10 +196,13 @@ const Quote = ({
   const quoteUrl = `/quote/${quoteId}`;
   const userUrl = `/user/${user.userId}`;
   const userAvatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
+
+  const isAdmin = userRoles && userRoles.data.find(role => role.name === 'admin');
+  const isAuthor = userResponse && userResponse.data.userId === user.userId;
   //const greatestReactedIcon = reactions?.icons.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].icon;
   //const sumOfReactions = reactions?.icons.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
   
-  const [quoteOptions, setQuoteOptions] = useState<DropDownItem[]>([
+  const quoteOptions = [
     {
       id: 'save',
       label: (<><FontAwesomeIcon icon={[isSaved ? 'fas' : 'far', 'bookmark']} /> {isSaved ? t('quote.saved') : t('quote.save')}</>),
@@ -217,44 +218,14 @@ const Quote = ({
         console.log(t('quote.share'));
       }
     },
-    
-  ]);
-
-  /* const editItem: DropDownItem = {
-    id: 'edit',
-    label: (<><FontAwesomeIcon icon='pencil' /> {t('quote.edit')}</>),
-    onClick: () => {
-      console.log(t('quote.edit'));
+    {
+      id: 'delete',
+      label: (<><FontAwesomeIcon icon='trash' /> {t('quote.delete')}</>),
+      onClick: () => {
+        fetchPostDelete();
+      }
     }
-  }; */
-
-  const deleteItem: DropDownItem = {
-    id: 'delete',
-    label: (<><FontAwesomeIcon icon='trash' /> {t('quote.delete')}</>),
-    onClick: () => {
-      fetchPostDelete();
-    }
-  };
-
-  useEffect(() => {
-    const isAdmin = userRoles && userRoles.data.find(role => role.name === 'admin');
-    const isAuthor = userResponse && userResponse.data.userId === user.userId;
-
-    if(!isAdmin && !isAuthor) return;
-
-    /* if(!quoteOptions.find(item => item.id === editItem.id)) {
-      setQuoteOptions(options => {
-        options.push(editItem);
-        return options;
-      });
-    } */
-    if(!quoteOptions.find(item => item.id === deleteItem.id)) {
-      setQuoteOptions(options => {
-        options.push(deleteItem);
-        return options;
-      });
-    }
-  }, [userRoles]);
+  ];
   
   /* const abbreviateNumber = (value: number) => {
     let newValue = value;
@@ -292,18 +263,15 @@ const Quote = ({
   }, [postSaved]);
 
   useEffect(() => {
+    quoteOptions[quoteOptions.findIndex(item => item.id === 'save')].label = (<>
+      <FontAwesomeIcon icon={[isSaved ? 'fas' : 'far', 'bookmark']} /> {isSaved ? t('quote.saved') : t('quote.save')}
+    </>);
+  }, [isSaved]);
+
+  useEffect(() => {
     if(!postDelete) return;
     window.location.pathname = '/';
   }, [postDelete]);
-
-  useEffect(() => {
-    setQuoteOptions(options => {
-      options[options.findIndex(item => item.id === 'save')].label = (<>
-        <FontAwesomeIcon icon={[isSaved ? 'fas' : 'far', 'bookmark']} /> {isSaved ? t('quote.saved') : t('quote.save')}
-      </>);
-      return options;
-    });
-  }, [isSaved]);
 
   const renderText = () => {
     return (
@@ -315,7 +283,7 @@ const Quote = ({
     return (
       <Author to={userUrl}>
         {user.avatarUrl && <Avatar src={userAvatarUrl} alt={user.displayName} />}
-        {user.displayName} • {new Date(createdAt).toLocaleDateString(i18n.language, {dateStyle: 'long'})}
+        {user.displayName} • {new Date(createdAt).toLocaleDateString(language, {dateStyle: 'long'})}
       </Author>
     );
   };
@@ -379,7 +347,10 @@ const Quote = ({
               <FontAwesomeIcon icon='ellipsis' />
             </Style_Button>
           }
-          dropDownItems={quoteOptions}
+          dropDownItems={quoteOptions.filter(option => {
+            if(option.id === 'delete') return isAdmin || isAuthor;
+            return true;
+          })}
           place={isLast ? PlaceOrientation.InsetBottomRight : PlaceOrientation.InsetTopRight}
           margin={'0px'}
         />

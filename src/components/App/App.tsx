@@ -30,6 +30,7 @@ import { ApiContext } from 'contexts/ApiContext/ApiContext';
 import { useCookies } from 'react-cookie';
 import { Role } from 'types/Role.type';
 import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
+import UserView from 'pages/User/UserView';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -168,6 +169,7 @@ const App = () => {
                   <Routes>
                     <Route index element={<Main userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='quote/:id' element={<QuoteView userRoles={rolesResponse} userResponse={userResponse} />} />
+                    <Route path='user/:id' element={<UserView userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='saved' element={<SavedQuotes userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='*' element={<Navigate replace to='/404' />} />
                   </Routes>
