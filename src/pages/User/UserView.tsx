@@ -10,6 +10,7 @@ import { ApiResponse } from 'types/ApiResponse.type';
 import { QuoteType } from 'types/Quote.type';
 import { Role } from 'types/Role.type';
 import { User } from 'types/User.type';
+import { useCookies } from 'react-cookie';
 
 type UserViewProps = {
     userRoles?: ApiResponse<Role[]>;
@@ -93,8 +94,9 @@ const UserView = ({ userRoles, userResponse }: UserViewProps) => {
   const { t, i18n: { language }} = useTranslation();
   const { id } = useParams();
   const { routes } = useContext(ApiContext);
+  const [ cookies ] = useCookies(['token']);
   const { runFetch: fetchUser, response: user } = useFetch<User>(routes.users.construct(Number(id)));
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.users.sub?.quotes(Number(id))}`);
+  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.users.sub?.quotes(Number(id))}?token=${cookies.token}`);
 
   const userAvatarUrl = useMemo(() =>`https://cdn.discordapp.com/avatars/${user?.data.discordId}/${user?.data.avatarUrl}`, [user]);
 

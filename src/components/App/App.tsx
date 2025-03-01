@@ -1,17 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-// Pages
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Main from '../../pages/Main/Main';
-import NotFound from '../../pages/NotFound/NotFound';
+import Main from 'pages/Main/Main';
+import NotFound from 'pages/NotFound/NotFound';
 
-// Components
 import NavbarTop from '../NavbarTop/NavbarTop';
 import NavbarLeft from '../NavbarLeft/NavbarLeft';
 
-// Theme
 import styled from 'styled-components';
-import GlobalStyle from '../../assets/themes/GlobalStyle';
+import GlobalStyle from 'assets/themes/GlobalStyle';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -29,8 +26,9 @@ import { User } from 'types/User.type';
 import { ApiContext } from 'contexts/ApiContext/ApiContext';
 import { useCookies } from 'react-cookie';
 import { Role } from 'types/Role.type';
-import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
+import TopQuotes from 'pages/TopQuotes/TopQuotesView';
 import UserView from 'pages/User/UserView';
+import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -171,6 +169,7 @@ const App = () => {
                     <Route path='quote/:id' element={<QuoteView userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='user/:id' element={<UserView userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='saved' element={<SavedQuotes userRoles={rolesResponse} userResponse={userResponse} />} />
+                    <Route path='top' element={<TopQuotes userRoles={rolesResponse} userResponse={userResponse} />} />
                     <Route path='*' element={<Navigate replace to='/404' />} />
                   </Routes>
                 </PagesContainer>

@@ -119,9 +119,13 @@ const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
       label: (<><FontAwesomeIcon icon='home' /> {t('home')}</>),
       href: '/',
       type: DropDownItemType.LINK,
+      active: pathname === '/',
     },
     {
-      label: (<><FontAwesomeIcon icon='fire' /> {t('trends')}</>)
+      label: (<><FontAwesomeIcon icon='fire' /> {t('trends')}</>),
+      href: '/top',
+      type: DropDownItemType.LINK,
+      active: pathname.includes('/top'),
     }
   ];
   
@@ -193,8 +197,8 @@ const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
 
       <Switcher desktop={
         <Button 
-          btnStyle={pathname.includes('/top-quotes') ? ButtonStyles.default : ButtonStyles.transparent} 
-          onClick={() => navigate('/top-quotes')}
+          btnStyle={pathname.includes('/top') ? ButtonStyles.default : ButtonStyles.transparent}
+          onClick={() => navigate('/top')}
           isIconButton
         >
           <FontAwesomeIcon icon='fire' />
