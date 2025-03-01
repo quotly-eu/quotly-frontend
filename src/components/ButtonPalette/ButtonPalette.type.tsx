@@ -1,5 +1,5 @@
 import Button from 'components/Button/Button';
-import { ReactElement } from 'react';
+import { ReactElement, SetStateAction } from 'react';
 import { PlaceOrientation } from 'types/placeOrientation.type';
 
 /**
@@ -15,5 +15,6 @@ export type ButtonPaletteType = {
   margin?: string;
   startMargin?: string;
   buttons: ReactElement<typeof Button>[];
-  alwaysOpen?: boolean;
+  isOpen?: boolean;
+  setIsOpen?: React.Dispatch<SetStateAction<boolean>>;
 };

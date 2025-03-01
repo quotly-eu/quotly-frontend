@@ -13,6 +13,7 @@ import { Role } from 'types/Role.type';
 import { ApiResponse } from 'types/ApiResponse.type';
 import { User } from 'types/User.type';
 import Feeds from 'components/Feeds/Feeds';
+import { useCookies } from 'react-cookie';
 
 type MainProps = {
   userRoles?: ApiResponse<Role[]>;
@@ -54,7 +55,8 @@ const QuotesContainer = styled.div`
 const Main = ({ userRoles, userResponse }: MainProps) => {
   const theme = useTheme();
   const { routes } = useContext(ApiContext);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(routes.quotes.construct());
+  const [ cookies ] = useCookies(['token']);
+  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.quotes.construct()}?token=${cookies.token}`);
 
   useEffect(() => {
     fetchQuotes();

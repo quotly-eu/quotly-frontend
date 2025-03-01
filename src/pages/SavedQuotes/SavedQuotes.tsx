@@ -15,6 +15,7 @@ import { ApiResponse } from 'types/ApiResponse.type';
 import { User } from 'types/User.type';
 import Feeds from 'components/Feeds/Feeds';
 import { useTranslation } from 'react-i18next';
+import { useCookies } from 'react-cookie';
 
 type SavedQuotesProps = {
   userRoles?: ApiResponse<Role[]>;
@@ -57,7 +58,8 @@ const SavedQuotes = ({ userRoles, userResponse }: SavedQuotesProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { routes } = useContext(ApiContext);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.users.sub?.savedQuotes(userResponse?.data.userId || 0)}`);
+  const [ cookies ] = useCookies(['token']);
+  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.users.sub?.savedQuotes(userResponse?.data.userId || 0)}?token=${cookies.token}`);
 
   useEffect(() => {
     if(!userResponse) return;

@@ -28,12 +28,12 @@ type QuoteViewProps = {
 };
 
 const Style_QuoteView = styled.div`
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 `;
 
 const Style_Comments = styled.div`
-  ${({ theme }) => `
+    ${({ theme }) => `
     background-color: ${theme.colors.transparency.white(0.5)};
     padding: ${theme.spacing.s.rem};
     margin-inline: ${theme.spacing.s.rem};
@@ -43,9 +43,9 @@ const Style_Comments = styled.div`
 `;
 
 const Style_Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  ${({ theme }) => `
+    display: flex;
+    flex-direction: column;
+    ${({ theme }) => `
     gap: ${theme.spacing.s.rem};
     padding-bottom: ${theme.spacing.s.rem};
     margin-bottom: ${theme.spacing.s.rem};
@@ -54,10 +54,10 @@ const Style_Form = styled.form`
 `;
 
 const Style_Actions = styled.div`
-  display: flex;
-  flex-wrap: wrap-reverse;
-  justify-content: flex-end;
-  ${({ theme }) => `
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: flex-end;
+    ${({ theme }) => `
     gap: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.md}) {
@@ -67,7 +67,7 @@ const Style_Actions = styled.div`
 `;
 
 const Style_Button = styled(Button)`
-  ${({ theme }) => `
+    ${({ theme }) => `
     @media (max-width: ${theme.breakpoints.md}) {
       font-size: ${theme.font.sizes.xs.rem};
     }
@@ -81,15 +81,21 @@ const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
   const { t } = useTranslation();
   const { id } = useParams();
   const { routes } = useContext(ApiContext);
-  const [ cookies ] = useCookies(['token']);
+  const [ cookies ] = useCookies([ 'token' ]);
   const navigate = useNavigate();
 
   const [ isFormActive, setIsFormActive ] = useState(false);
-  const [ isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [ isSubmitDisabled, setIsSubmitDisabled ] = useState(false);
   const [ commentText, setCommentText ] = useState('');
+  const constructorQuote = !cookies.token ?
+    routes.quotes.construct(id || '') :
+    `${routes.quotes.construct(id || '')}?token=${cookies.token}`;
 
-  const { runFetch: fetchQuote, response: quote } = useFetch<QuoteType>(routes.quotes.construct(id));
-  const { runFetch: fetchComments, response: comments } = useFetch<Comment[]>(`${routes.quotes.sub?.comments(id || '')}`);
+  const { runFetch: fetchQuote, response: quote } = useFetch<QuoteType>(constructorQuote);
+  const {
+    runFetch: fetchComments,
+    response: comments
+  } = useFetch<Comment[]>(`${routes.quotes.sub?.comments(id || '')}`);
   const { runFetch: fetchPostComment, response } = useFetch<Comment>(`${routes.quotes.sub?.createComment(id || '')}`, {
     method: 'POST',
     headers: {
@@ -102,21 +108,21 @@ const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
   });
 
   if (!id) navigate('/');
-  if (quote?.status === 404) navigate('/404', {replace: true});
-  
+  if (quote?.status === 404) navigate('/404', { replace: true });
+
   useEffect(() => {
     fetchQuote();
     fetchComments();
   }, []);
 
   useEffect(() => {
-    if(!response) return;
+    if (!response) return;
     fetchComments();
-    
+
     setIsFormActive(false);
     setCommentText('');
     setIsSubmitDisabled(false);
-  }, [response]);
+  }, [ response ]);
 
   const formattedComments: CommentType[] = comments?.data.map(({ commentId, comment, createdAt, user }) => {
     const avatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
@@ -142,46 +148,46 @@ const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
     setIsSubmitDisabled(true);
     fetchPostComment();
   };
-  
+
   return (
     <Style_QuoteView>
-      {quote?.data && <PageTitle title={quote.data.quote} />}
-      {quote?.data && <Quote 
-        {...quote.data} 
-        userRoles={userRoles} 
+      {quote?.data && <PageTitle title={quote.data.quote}/>}
+      {quote?.data && <Quote
+        {...quote.data}
+        userRoles={userRoles}
         userResponse={userResponse}
         key={quote.data.quoteId}
       />}
       <Style_Comments>
         <Style_Form onSubmit={onSubmit}>
-          <Input 
-            as='textarea'
+          <Input
+            as="textarea"
             placeholder={`${t('quote.comment')}...`}
-            name='comment'
-            id='comment'
+            name="comment"
+            id="comment"
             onFocus={onFocus}
             value={commentText}
             onChange={setCommentText}
             required
           />
           {isFormActive && <Style_Actions>
-            <Style_Button 
-              type='reset' 
-              btnStyle={ButtonStyles.transparent}
-              onClick={onCancelClick}
-            >
-              <FontAwesomeIcon icon='xmark' /> {t('quote.cancel')}
-            </Style_Button>
-            <Style_Button 
-              type='submit'
-              btnStyle={ButtonStyles.primary}
-              disabled={isSubmitDisabled}
-            >
-              <FontAwesomeIcon icon='comment' /> {t('quote.comment')}
-            </Style_Button>
+              <Style_Button
+                  type="reset"
+                  btnStyle={ButtonStyles.transparent}
+                  onClick={onCancelClick}
+              >
+                  <FontAwesomeIcon icon="xmark"/> {t('quote.cancel')}
+              </Style_Button>
+              <Style_Button
+                  type="submit"
+                  btnStyle={ButtonStyles.primary}
+                  disabled={isSubmitDisabled}
+              >
+                  <FontAwesomeIcon icon="comment"/> {t('quote.comment')}
+              </Style_Button>
           </Style_Actions>}
         </Style_Form>
-        {formattedComments.map(comment => <QuoteComment {...comment} key={comment.id} />)}
+        {formattedComments.map(comment => <QuoteComment {...comment} key={comment.id}/>)}
       </Style_Comments>
     </Style_QuoteView>
   );
