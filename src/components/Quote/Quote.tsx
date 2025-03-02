@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Markdown from 'react-markdown';
 import { Icon } from '@iconify/react';
@@ -27,7 +27,7 @@ import { Reaction } from 'types/Reaction.type';
 
 // Styles
 const Style_Badge = styled(Badge)`
-    ${({ theme }) => `
+  ${({ theme }) => css`
     font-size: ${theme.font.sizes.xxs.rem};
     @media (max-width: ${theme.breakpoints.md}) {
       font-size: ${theme.font.sizes.xxxs.rem};
@@ -36,20 +36,20 @@ const Style_Badge = styled(Badge)`
 `;
 
 const QuoteContainer = styled.div`
-    display: grid;
-    grid-template-areas:
+  display: grid;
+  grid-template-areas:
     'text actions'
     'author actions';
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr auto;
 
-    ${({ theme }) => `
+  ${({ theme }) => css`
     background-color: ${theme.colors.accent_white_0};
     color: ${theme.colors.text.dark};
 
     padding: ${theme.spacing.m.rem};
     gap: ${theme.spacing.s.rem};
-    
+
     font-size: ${theme.font.sizes.s.rem};
     border-radius: ${theme.spacing.s.rem};
 
@@ -59,37 +59,40 @@ const QuoteContainer = styled.div`
     }
   `}
 
-    text-decoration: none;
-    text-align: center;
+  text-decoration: none;
+  text-align: center;
 `;
 
 const Style_Markdown = styled(Link)`
-    display: flex;
-    grid-area: text;
-    -webkit-tap-highlight-color: transparent;
+  display: flex;
+  grid-area: text;
+  -webkit-tap-highlight-color: transparent;
 
-    ${({ theme }) => `
+  ${({ theme }) => css`
     color: ${theme.colors.text.dark};
 
     padding: ${theme.spacing.s.rem};
     border-radius: ${theme.spacing.xxs.rem};
 
-    &:hover {backdrop-filter: brightness(1.05);}
+    &:hover {
+      backdrop-filter: brightness(1.05);
+    }
+
     transition: backdrop-filter ${theme.transition.times.s} ease-in-out;
   `}
 
-    text-wrap: balance;
-    text-decoration: none;
-    justify-content: center;
-    align-items: center;
+  text-wrap: balance;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Author = styled(Link)`
-    display: flex;
-    grid-area: author;
-    -webkit-tap-highlight-color: transparent;
+  display: flex;
+  grid-area: author;
+  -webkit-tap-highlight-color: transparent;
 
-    ${({ theme }) => `
+  ${({ theme }) => css`
     color: ${theme.colors.text.gray};
 
     padding: ${theme.spacing.xxs.rem} ${theme.spacing.xs.rem};
@@ -97,7 +100,10 @@ const Author = styled(Link)`
     border-radius: ${theme.spacing.xxs.rem};
     font-size: ${theme.font.sizes.xxs.rem};
 
-    &:hover {backdrop-filter: brightness(1.05);}
+    &:hover {
+      backdrop-filter: brightness(1.05);
+    }
+
     transition: backdrop-filter ${theme.transition.times.s} ease-in-out;
 
     @media (max-width: ${theme.breakpoints.md}) {
@@ -105,27 +111,27 @@ const Author = styled(Link)`
     }
   `}
 
-    text-decoration: none;
-    justify-content: center;
-    align-items: center;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Avatar = styled.img`
-    height: 2em;
+  height: 2em;
 
-    border-radius: 100vmax;
+  border-radius: 100vmax;
 `;
 
 const Actions = styled.div`
-    grid-area: actions;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+  grid-area: actions;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 
-    justify-content: flex-end;
-    align-items: flex-start;
+  justify-content: flex-end;
+  align-items: flex-start;
 
-    ${({ theme }) => `
+  ${({ theme }) => css`
     gap: ${theme.spacing.xxs.rem};
     @media (max-width: ${theme.breakpoints.md}) {
       flex-direction: column;
@@ -137,19 +143,19 @@ const Actions = styled.div`
 const Style_Icon = styled(Icon).attrs({ mode: 'bg', width: '80%', height: '80%' })``;
 
 const Style_Button = styled(Button)<{ $hasReacted?: boolean, $style?: ButtonStyles }>`
-    position: relative;
+  position: relative;
 
-    ${({
-           $hasReacted,
-           $style,
-           theme
-       }) => $style == ButtonStyles.default && ($hasReacted !== undefined && !$hasReacted && `
+  ${({
+    $hasReacted,
+    $style,
+    theme
+  }) => $style == ButtonStyles.default && ($hasReacted !== undefined && !$hasReacted && css`
     backdrop-filter: brightness(0.925) blur(5px);
 
     box-shadow: inset ${theme.shadows.default};
   `)}
 
-    ${({ theme }) => `
+  ${({ theme }) => css`
     @media (max-width: ${theme.breakpoints.md}) {
       padding: ${theme.spacing.xxs.rem};
       width: ${theme.spacing.xl.rem};
@@ -162,17 +168,17 @@ const Style_Button = styled(Button)<{ $hasReacted?: boolean, $style?: ButtonStyl
  * Quote Component, the main component for the Quotly page
  */
 const Quote = ({
-                 quote,
-                 quoteId,
-                 createdAt,
-                 user,
-                 userRoles,
-                 userResponse,
-                 reactions,
-                 isSaved,
-                 reaction: reactedReaction,
-                 isLast
-               }: QuoteType & {
+  quote,
+  quoteId,
+  createdAt,
+  user,
+  userRoles,
+  userResponse,
+  reactions,
+  isSaved,
+  reaction: reactedReaction,
+  isLast
+}: QuoteType & {
   isLast?: boolean;
   userRoles?: ApiResponse<Role[]>;
   userResponse?: ApiResponse<User>;
@@ -235,21 +241,22 @@ const Quote = ({
     {
       id: 'save',
       label: (<><FontAwesomeIcon
-        icon={[ saved ? 'fas' : 'far', 'bookmark' ]}/> {saved ? t('quote.saved') : t('quote.save')}</>),
+        icon={[ saved ? 'fas' : 'far', 'bookmark' ]}
+      /> {saved ? t('quote.saved') : t('quote.save')}</>),
       onClick: () => {
         fetchPostSave();
       }
     },
     {
       id: 'share',
-      label: (<><FontAwesomeIcon icon="share"/> {t('quote.share')}</>),
+      label: (<><FontAwesomeIcon icon="share" /> {t('quote.share')}</>),
       onClick: () => {
         console.log(t('quote.share'));
       }
     },
     {
       id: 'delete',
-      label: (<><FontAwesomeIcon icon="trash"/> {t('quote.delete')}</>),
+      label: (<><FontAwesomeIcon icon="trash" /> {t('quote.delete')}</>),
       onClick: () => {
         fetchPostDelete();
       }
@@ -293,7 +300,7 @@ const Quote = ({
 
   useEffect(() => {
     quoteOptions[quoteOptions.findIndex(item => item.id === 'save')].label = (<>
-      <FontAwesomeIcon icon={[ saved ? 'fas' : 'far', 'bookmark' ]}/> {saved ? t('quote.saved') : t('quote.save')}
+      <FontAwesomeIcon icon={[ saved ? 'fas' : 'far', 'bookmark' ]} /> {saved ? t('quote.saved') : t('quote.save')}
     </>);
   }, [ saved ]);
 
@@ -324,12 +331,12 @@ const Quote = ({
   }, [ postReacted ]);
 
   const renderText = () => (
-    <Style_Markdown to={quoteUrl} children={<Markdown children={quote}/>}/>
+    <Style_Markdown to={quoteUrl} children={<Markdown children={quote} />} />
   );
 
   const renderAuthor = () => (
     <Author to={userUrl}>
-      {user.avatarUrl && <Avatar src={userAvatarUrl} alt={user.displayName}/>}
+      {user.avatarUrl && <Avatar src={userAvatarUrl} alt={user.displayName} />}
       {user.displayName} • {new Date(createdAt).toLocaleDateString(language, { dateStyle: 'long' })}
     </Author>
   );
@@ -340,7 +347,7 @@ const Quote = ({
     const isReactedReaction = reactedReaction === reaction.reactionName;
     return (
       <>
-        <Style_Icon icon={'fluent-emoji:' + reaction.reactionName}/>
+        <Style_Icon icon={'fluent-emoji:' + reaction.reactionName} />
         <Style_Badge
           children={abbreviateNumber(
             reaction.count + (
@@ -408,7 +415,7 @@ const Quote = ({
       <FloatDropDown
         triggerElement={
           <Style_Button isIconButton btnStyle={ButtonStyles.transparent}>
-            <FontAwesomeIcon icon="ellipsis"/>
+            <FontAwesomeIcon icon="ellipsis" />
           </Style_Button>
         }
         dropDownItems={quoteOptions.filter(option => {

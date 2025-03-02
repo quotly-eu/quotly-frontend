@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import styled, { css, useTheme } from 'styled-components';
 
 import Switcher from 'components/Switcher/Switcher';
-// import ProfileButton from 'components/ProfileButton/ProfileButton';
 import PageTitle from 'components/PageTitle/PageTitle';
 import Quote from 'components/Quote/Quote';
 
@@ -27,10 +26,10 @@ const SavedQuotesContainer = styled.div`
   display: grid;
   grid-template-areas: 
     // 'users users'
-    'quotes feeds';
+      'quotes feeds';
   grid-template-columns: 1fr auto;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     gap: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.lg}) {
@@ -47,7 +46,7 @@ const Container = css`
 `;
 
 const QuotesContainer = styled.div`
-  ${Container}
+  ${Container};
   grid-area: quotes;
 `;
 
@@ -58,24 +57,27 @@ const SavedQuotes = ({ userRoles, userResponse }: SavedQuotesProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { routes } = useContext(ApiContext);
-  const [ cookies ] = useCookies(['token']);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.users.sub?.savedQuotes(userResponse?.data.userId || 0)}?token=${cookies.token}`);
+  const [ cookies ] = useCookies([ 'token' ]);
+  const {
+    runFetch: fetchQuotes,
+    response: quotes
+  } = useFetch<QuoteType[]>(`${routes.users.sub?.savedQuotes(userResponse?.data.userId || 0)}?token=${cookies.token}`);
 
   useEffect(() => {
-    if(!userResponse) return;
+    if (!userResponse) return;
     fetchQuotes();
-  }, [userResponse]);
+  }, [ userResponse ]);
 
   return (
     <SavedQuotesContainer>
       <PageTitle title={t('saved_quotes')} />
       <QuotesContainer>
         {quotes && quotes.data.map((quote, index) => (
-          <Quote 
+          <Quote
             {...quote}
             userRoles={userRoles}
             userResponse={userResponse}
-            isLast={quotes.data.length !== 1 && quotes.data.length == (index+1)} 
+            isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
             key={quote.quoteId}
           />
         ))}

@@ -1,6 +1,18 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.13.0] - 2025-02-19
+### Additions
+- Added top quotes page for [#36](https://github.com/quotly-eu/quotly-frontend/issues/36)
+
+## [0.12.0] - 2025-02-19
+### Additions
+- Added user page for [#38](https://github.com/quotly-eu/quotly-frontend/issues/38)
+
+## [0.11.0] - 2025-02-18
+### Additions
+- Added saved quotes page for [#39](https://github.com/quotly-eu/quotly-frontend/issues/39)
+
 ## [0.10.0] - 2024-12-21
 ### Additions
 - Added Quote page for [#34](https://github.com/quotly-eu/quotly-frontend/issues/34)

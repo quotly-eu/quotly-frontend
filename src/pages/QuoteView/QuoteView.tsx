@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -28,12 +28,12 @@ type QuoteViewProps = {
 };
 
 const Style_QuoteView = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Style_Comments = styled.div`
-    ${({ theme }) => `
+  ${({ theme }) => css`
     background-color: ${theme.colors.transparency.white(0.5)};
     padding: ${theme.spacing.s.rem};
     margin-inline: ${theme.spacing.s.rem};
@@ -43,9 +43,9 @@ const Style_Comments = styled.div`
 `;
 
 const Style_Form = styled.form`
-    display: flex;
-    flex-direction: column;
-    ${({ theme }) => `
+  display: flex;
+  flex-direction: column;
+  ${({ theme }) => css`
     gap: ${theme.spacing.s.rem};
     padding-bottom: ${theme.spacing.s.rem};
     margin-bottom: ${theme.spacing.s.rem};
@@ -54,10 +54,10 @@ const Style_Form = styled.form`
 `;
 
 const Style_Actions = styled.div`
-    display: flex;
-    flex-wrap: wrap-reverse;
-    justify-content: flex-end;
-    ${({ theme }) => `
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  ${({ theme }) => css`
     gap: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.md}) {
@@ -67,7 +67,7 @@ const Style_Actions = styled.div`
 `;
 
 const Style_Button = styled(Button)`
-    ${({ theme }) => `
+  ${({ theme }) => css`
     @media (max-width: ${theme.breakpoints.md}) {
       font-size: ${theme.font.sizes.xs.rem};
     }
@@ -151,7 +151,7 @@ const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
 
   return (
     <Style_QuoteView>
-      {quote?.data && <PageTitle title={quote.data.quote}/>}
+      {quote?.data && <PageTitle title={quote.data.quote} />}
       {quote?.data && <Quote
         {...quote.data}
         userRoles={userRoles}
@@ -168,26 +168,27 @@ const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
             onFocus={onFocus}
             value={commentText}
             onChange={setCommentText}
+            maxLength={1024}
             required
           />
           {isFormActive && <Style_Actions>
-              <Style_Button
-                  type="reset"
-                  btnStyle={ButtonStyles.transparent}
-                  onClick={onCancelClick}
-              >
-                  <FontAwesomeIcon icon="xmark"/> {t('quote.cancel')}
-              </Style_Button>
-              <Style_Button
-                  type="submit"
-                  btnStyle={ButtonStyles.primary}
-                  disabled={isSubmitDisabled}
-              >
-                  <FontAwesomeIcon icon="comment"/> {t('quote.comment')}
-              </Style_Button>
+            <Style_Button
+              type="reset"
+              btnStyle={ButtonStyles.transparent}
+              onClick={onCancelClick}
+            >
+              <FontAwesomeIcon icon="xmark" /> {t('quote.cancel')}
+            </Style_Button>
+            <Style_Button
+              type="submit"
+              btnStyle={ButtonStyles.primary}
+              disabled={isSubmitDisabled}
+            >
+              <FontAwesomeIcon icon="comment" /> {t('quote.comment')}
+            </Style_Button>
           </Style_Actions>}
         </Style_Form>
-        {formattedComments.map(comment => <QuoteComment {...comment} key={comment.id}/>)}
+        {formattedComments.map(comment => <QuoteComment {...comment} key={comment.id} />)}
       </Style_Comments>
     </Style_QuoteView>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CommentType } from './Comment.type';
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 import ProfileButton from 'components/ProfileButton/ProfileButton';
 import { useTranslation } from 'react-i18next';
 
@@ -13,7 +13,7 @@ const Style_CommentContainer = styled.div`
     'guidance sub';
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto;
-  ${({ theme }) => `
+  ${({ theme }) => css`
     background: linear-gradient(135deg, ${theme.colors.accent_white_0}, transparent 50px);
     padding: ${theme.spacing.xxs.rem};
     border-radius: ${theme.spacing.m.rem};
@@ -32,7 +32,7 @@ const Style_Author = styled.div`
   display: flex;
   flex-direction: column;
   grid-area: author;
-  ${({ theme }) => `
+  ${({ theme }) => css`
     color: ${theme.colors.text.gray};
   `}
   justify-content: center;
@@ -40,6 +40,7 @@ const Style_Author = styled.div`
 
 const Style_Comment = styled.div`
   grid-area: comment;
+  overflow-wrap: anywhere;
 `;
 
 const Style_SubComments = styled.div`
@@ -48,7 +49,7 @@ const Style_SubComments = styled.div`
 `;
 
 const Style_Guidance = styled.div`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     border-left: 1px solid ${theme.colors.transparency.black(0.2)};
     margin-bottom: ${theme.spacing.xs.rem};
   `}
@@ -60,7 +61,7 @@ const Style_Guidance = styled.div`
 const Style_GuidanceCorner = styled.div`
   grid-area: avatar;
   position: absolute;
-  ${({ theme }) => `
+  ${({ theme }) => css`
     width: ${theme.spacing.m.em};
     height: ${theme.spacing.s.em};
     margin-top: ${theme.spacing.xxs.em};
@@ -76,7 +77,7 @@ const Style_GuidanceCorner = styled.div`
 /**
  * Display a Quote's comment with their possible sub comments
  */
-const QuoteComment = ({author, avatarUrl, comment, dated, level, children}:CommentType) => {
+const QuoteComment = ({ author, avatarUrl, comment, dated, level, children }: CommentType) => {
   const { i18n: { language } } = useTranslation();
   const theme = useTheme();
 
@@ -100,9 +101,9 @@ const QuoteComment = ({author, avatarUrl, comment, dated, level, children}:Comme
       <Style_Comment>
         {comment}
       </Style_Comment>
-      {children && 
+      {children &&
         <>
-        <Style_Guidance />
+          <Style_Guidance />
           <Style_SubComments>
             {children.map(child => <QuoteComment level={(level || 0) + 1} {...child} />)}
           </Style_SubComments>

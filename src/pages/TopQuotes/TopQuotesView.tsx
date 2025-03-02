@@ -22,14 +22,14 @@ type TopQuotesProps = {
 };
 
 // Styles
-const SavedQuotesContainer = styled.div`
+const TopQuotesContainer = styled.div`
   display: grid;
   grid-template-areas: 
     // 'users users'
-    'quotes feeds';
+      'quotes feeds';
   grid-template-columns: 1fr auto;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     gap: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.lg}) {
@@ -46,7 +46,7 @@ const Container = css`
 `;
 
 const QuotesContainer = styled.div`
-  ${Container}
+  ${Container};
   grid-area: quotes;
 `;
 
@@ -57,30 +57,33 @@ const TopQuotes = ({ userRoles, userResponse }: TopQuotesProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { routes } = useContext(ApiContext);
-  const [ cookies ] = useCookies(['token']);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.quotes.sub?.top()}?token=${cookies.token}&limit=50`);
+  const [ cookies ] = useCookies([ 'token' ]);
+  const {
+    runFetch: fetchQuotes,
+    response: quotes
+  } = useFetch<QuoteType[]>(`${routes.quotes.sub?.top()}?token=${cookies.token}&limit=50`);
 
   useEffect(() => {
-    if(!userResponse) return;
+    if (!userResponse) return;
     fetchQuotes();
-  }, [userResponse]);
+  }, [ userResponse ]);
 
   return (
-    <SavedQuotesContainer>
+    <TopQuotesContainer>
       <PageTitle title={t('top_quotes')} />
       <QuotesContainer>
         {quotes && quotes.data.map((quote, index) => (
-          <Quote 
+          <Quote
             {...quote}
             userRoles={userRoles}
             userResponse={userResponse}
-            isLast={quotes.data.length !== 1 && quotes.data.length == (index+1)} 
+            isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
             key={quote.quoteId}
           />
         ))}
       </QuotesContainer>
       <Switcher breakpoint={theme.breakpoints.lg} desktop={<Feeds />} />
-    </SavedQuotesContainer>
+    </TopQuotesContainer>
   );
 };
 

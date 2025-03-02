@@ -50,17 +50,15 @@ const LogoBrand = styled(Link)`
   font-size: 1.5rem;
   font-weight: 700;
 
-  filter: drop-shadow(${props => props.theme.shadows.accent_default('#245d6059')});
-
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: none;
   }
 `;
 
-const Top = styled.div<{$type:string}>`
+const Top = styled.div<{ $type: string }>`
   grid-area: top;
 
-  ${({$type}) => $type === 'mobile' ? `display: none;` : ``}
+  ${({ $type }) => $type === 'mobile' ? `display: none;` : ``};
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: block;
   }
@@ -69,7 +67,7 @@ const Center = styled.div`
   display: flex;
   flex-direction: column;
   grid-area: center;
-  justify-content:space-between;
+  justify-content: space-between;
   height: min(20rem, 100%);
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
@@ -83,73 +81,73 @@ const Center = styled.div`
 const Bottom = styled.div`
   grid-area: bottom;
 `;
-const PreparedProfileButton = styled(ProfileButton).attrs(({theme}) => ({
+const PreparedProfileButton = styled(ProfileButton).attrs(({ theme }) => ({
   size: theme.spacing.xxl.em
 }))``;
 
 /**
  * NavbarLeft Component
  */
-const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
+const NavbarLeft = ({ toggleDialog, userResponse }: NavbarLeftProps) => {
   const theme = useTheme();
   const { pathname } = useLocation();
   const { t } = useTranslation();
-  const [ cookies ] = useCookies(['token']);
-  const [avatarUrl, setAvatarUrl] = useState<string>();
+  const [ cookies ] = useCookies([ 'token' ]);
+  const [ avatarUrl, setAvatarUrl ] = useState<string>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!cookies.token) {
+    if (!cookies.token) {
       navigate('/login');
     }
-  }, [cookies.token]);
+  }, [ cookies.token ]);
 
   useEffect(() => {
-    if(!userResponse) return;
-    if(userResponse.status === 200) {
+    if (!userResponse) return;
+    if (userResponse.status === 200) {
       const user = userResponse.data;
       setAvatarUrl(`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`);
     } else {
       navigate('/logout');
     }
-  }, [userResponse]);
+  }, [ userResponse ]);
 
   const dropDownItems: DropDownItem[] = [
     {
-      label: (<><FontAwesomeIcon icon='home' /> {t('home')}</>),
+      label: (<><FontAwesomeIcon icon="home" /> {t('home')}</>),
       href: '/',
       type: DropDownItemType.LINK,
       active: pathname === '/',
     },
     {
-      label: (<><FontAwesomeIcon icon='fire' /> {t('trends')}</>),
+      label: (<><FontAwesomeIcon icon="fire" /> {t('trends')}</>),
       href: '/top',
       type: DropDownItemType.LINK,
       active: pathname.includes('/top'),
     }
   ];
-  
+
   const ProfileDropDownItems: DropDownItem[] = [
     {
-      label: (<><FontAwesomeIcon icon='user' /> {userResponse?.data.displayName || t('profile')}</>),
+      label: (<><FontAwesomeIcon icon="user" /> {userResponse?.data.displayName || t('profile')}</>),
       href: `/user/${userResponse?.data.userId}`,
       type: DropDownItemType.LINK,
       active: pathname.includes(`/user/${userResponse?.data.userId}`)
     },
     {
-      label: (<><FontAwesomeIcon icon={['fas', 'bookmark']} /> {t('saved_quotes')}</>),
+      label: (<><FontAwesomeIcon icon={[ 'fas', 'bookmark' ]} /> {t('saved_quotes')}</>),
       href: '/saved',
       type: DropDownItemType.LINK,
       active: pathname.includes('/saved')
     },
     {
-      label: (<><FontAwesomeIcon icon='cog' /> {t('settings')}</>),
+      label: (<><FontAwesomeIcon icon="cog" /> {t('settings')}</>),
       href: '/settings',
       type: DropDownItemType.LINK,
       active: pathname.includes('/settings')
     },
     {
-      label: (<><FontAwesomeIcon icon='sign-out' /> {t('logout')}</>),
+      label: (<><FontAwesomeIcon icon="sign-out" /> {t('logout')}</>),
       href: '/logout',
       type: DropDownItemType.LINK,
       active: pathname.includes('/logout')
@@ -166,44 +164,54 @@ const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
   );
 
   const renderTop = () => (
-    <Top $type='mobile'>
+    <Top $type="mobile">
       <FloatDropDown
         place={PlaceOrientation.TopLeft}
-        triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
+        triggerElement={<Button
+          btnStyle={ButtonStyles.transparent}
+          isIconButton
+        ><FontAwesomeIcon icon="bars" /></Button>}
         dropDownItems={dropDownItems}
         startMargin={theme.spacing.m.rem}
       />
     </Top>
   );
-  
+
   const renderCenter = () => (
     <Center>
-      <Switcher desktop={
-        <FloatDropDown
-          place={PlaceOrientation.Right}
-          triggerElement={<Button btnStyle={ButtonStyles.transparent} isIconButton><FontAwesomeIcon icon='bars' /></Button>}
-          dropDownItems={dropDownItems}
-          startMargin={theme.spacing.m.rem}
-        />
-      }/>
+      <Switcher
+        desktop={
+          <FloatDropDown
+            place={PlaceOrientation.Right}
+            triggerElement={<Button
+              btnStyle={ButtonStyles.transparent}
+              isIconButton
+            ><FontAwesomeIcon icon="bars" /></Button>}
+            dropDownItems={dropDownItems}
+            startMargin={theme.spacing.m.rem}
+          />
+        }
+      />
 
-      <Button 
+      <Button
         btnStyle={ButtonStyles.primary}
-        onClick={toggleDialog} 
+        onClick={toggleDialog}
         isIconButton
       >
-        <FontAwesomeIcon icon='quote-right' />
+        <FontAwesomeIcon icon="quote-right" />
       </Button>
 
-      <Switcher desktop={
-        <Button 
-          btnStyle={pathname.includes('/top') ? ButtonStyles.default : ButtonStyles.transparent}
-          onClick={() => navigate('/top')}
-          isIconButton
-        >
-          <FontAwesomeIcon icon='fire' />
-        </Button>
-      } />
+      <Switcher
+        desktop={
+          <Button
+            btnStyle={pathname.includes('/top') ? ButtonStyles.default : ButtonStyles.transparent}
+            onClick={() => navigate('/top')}
+            isIconButton
+          >
+            <FontAwesomeIcon icon="fire" />
+          </Button>
+        }
+      />
     </Center>
   );
 
@@ -218,7 +226,7 @@ const NavbarLeft = ({ toggleDialog, userResponse }:NavbarLeftProps) => {
 
   return (
     <NavbarLeftContainer>
-      <LogoBrand to='/' title={t('quotly')}><Logo /></LogoBrand>
+      <LogoBrand to="/" title={t('quotly')}><Logo /></LogoBrand>
       {renderTop()}
       {renderCenter()}
       {renderBottom()}
