@@ -13,8 +13,8 @@ const OAuth = () => {
   const { routes } = useContext(ApiContext);
   const query = useQuery(search);
   const navigate = useNavigate();
-  const [ cookies, setCookie, removeCookie ] = useCookies(['state', 'token']);
-  const {runFetch, response} = useFetch<string>(routes.authorize.construct(), {
+  const [ cookies, setCookie, removeCookie ] = useCookies([ 'state', 'token' ]);
+  const { runFetch, response } = useFetch<string>(routes.authorize.construct(), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -28,7 +28,7 @@ const OAuth = () => {
    * Check if the authorization has been made only from the same site.
    */
   useEffect(() => {
-    if(cookies.state === query.get('state')) {
+    if (cookies.state === query.get('state')) {
       removeCookie('state');
       runFetch();
     } else {
@@ -39,13 +39,18 @@ const OAuth = () => {
   }, []);
 
   useEffect(() => {
-    if(response?.status === 200) {
+    if (!response) return;
+    if (response?.status === 200) {
       setCookie('token', response.data);
       navigate('/', {
         replace: true
       });
-    } 
-  }, [response]);
+    } else if (!import.meta.env.DEV) {
+      navigate('/login?error', {
+        replace: true
+      });
+    }
+  }, [ response ]);
 
   return <></>;
 };
