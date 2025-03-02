@@ -70,8 +70,8 @@ const TopQuotes = ({ userRoles, userResponse }: TopQuotesProps) => {
 
   return (
     <TopQuotesContainer>
-      <PageTitle title={t('top_quotes')} />
       <QuotesContainer>
+        <PageTitle title={t('trends')} icon="fire" isVisual />
         {quotes && quotes.data.map((quote, index) => (
           <Quote
             {...quote}

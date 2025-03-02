@@ -240,9 +240,9 @@ const Quote = ({
   const quoteOptions = [
     {
       id: 'save',
-      label: (<><FontAwesomeIcon
-        icon={[ saved ? 'fas' : 'far', 'bookmark' ]}
-      /> {saved ? t('quote.saved') : t('quote.save')}</>),
+      label: (<>
+        <FontAwesomeIcon icon={[ saved ? 'fas' : 'far', 'bookmark' ]} />{saved ? t('quote.saved') : t('quote.save')}
+      </>),
       onClick: () => {
         fetchPostSave();
       }

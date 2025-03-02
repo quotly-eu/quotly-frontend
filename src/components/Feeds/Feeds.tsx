@@ -22,7 +22,7 @@ const Container = css`
 const FeedsContainer = styled.div`
   position: sticky;
   max-width: 400px;
-  ${Container}
+  ${Container};
   grid-area: feeds;
   top: 0;
   place-self: start;
@@ -30,30 +30,33 @@ const FeedsContainer = styled.div`
 
 
 /**
- * Fetched Feeds 
+ * Fetched Feeds
  */
 const Feeds = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { routes } = useContext(ApiContext);
-  const { runFetch: fetchTopQuotes, response: topQuotes } = useFetch<QuoteType[]>(`${routes.quotes.sub?.top()}?limit=3`);
+  const {
+    runFetch: fetchTopQuotes,
+    response: topQuotes
+  } = useFetch<QuoteType[]>(`${routes.quotes.sub?.top()}?limit=3`);
 
   useEffect(() => {
     fetchTopQuotes();
   }, []);
-  
+
   const formattedTopQuotes = topQuotes?.data.map((quote, index) => {
-    const colors = [theme.colors.gold, theme.colors.silver, theme.colors.bronze];
+    const colors = [ theme.colors.gold, theme.colors.silver, theme.colors.bronze ];
 
     return {
       item: (
         <React.Fragment>
-          <Badge 
+          <Badge
             badgeStyle={BadgeStyles.custom}
             color={colors[index]}
             fontSize={theme.font.sizes.xs.rem}
-            children={(index + 1).toString() as '1' | '2' | '3'} 
-          /> 
+            children={(index + 1).toString() as '1' | '2' | '3'}
+          />
           <Markdown children={quote.quote} />
         </React.Fragment>
       ),
@@ -63,8 +66,8 @@ const Feeds = () => {
 
   return (
     <FeedsContainer>
-      {formattedTopQuotes && <Feed 
-        title={t('feeds.top_quotes')} 
+      {formattedTopQuotes && <Feed
+        title={t('trends')}
         items={formattedTopQuotes}
       />}
       <GuideLinks
@@ -74,7 +77,7 @@ const Feeds = () => {
           { label: t('guides.cookies'), url: '/cookies' }
         ]}
       />
-    </FeedsContainer>  
+    </FeedsContainer>
   );
   /*
     <Feed title={t('feeds.suggested_profiles')} items={

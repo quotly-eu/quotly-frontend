@@ -12,6 +12,7 @@ import { Role } from 'types/Role.type';
 import { User } from 'types/User.type';
 import { useCookies } from 'react-cookie';
 import PageTitle from '../../components/PageTitle/PageTitle';
+import Switcher from '../../components/Switcher/Switcher';
 
 type UserViewProps = {
   userRoles?: ApiResponse<Role[]>;
@@ -121,8 +122,11 @@ const UserView = ({ userRoles, userResponse }: UserViewProps) => {
 
   return (
     <UserViewContainer>
-      <PageTitle title={user?.data.displayName} />
       <QuotesContainer>
+        <Switcher
+          desktop={<PageTitle title={user?.data.displayName} icon="user" isVisual />}
+          mobile={<PageTitle title={user?.data.displayName} />}
+        />
         {quotes?.data && quotes.data.map(quote => (
           <Quote
             {...quote}

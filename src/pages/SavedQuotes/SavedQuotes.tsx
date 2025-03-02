@@ -70,8 +70,8 @@ const SavedQuotes = ({ userRoles, userResponse }: SavedQuotesProps) => {
 
   return (
     <SavedQuotesContainer>
-      <PageTitle title={t('saved_quotes')} />
       <QuotesContainer>
+        <PageTitle title={t('saved_quotes')} icon={[ 'fas', 'bookmark' ]} isVisual />
         {quotes && quotes.data.map((quote, index) => (
           <Quote
             {...quote}
