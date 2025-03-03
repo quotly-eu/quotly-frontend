@@ -29,6 +29,7 @@ import { Role } from 'types/Role.type';
 import TopQuotes from 'pages/TopQuotes/TopQuotesView';
 import UserView from 'pages/User/UserView';
 import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
+import SearchQuotes from 'pages/SearchQuotes/SearchQuotes';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -167,6 +168,15 @@ const App = () => {
                 <PagesContainer>
                   <Routes>
                     <Route index element={<Main userRoles={rolesResponse} userResponse={userResponse} />} />
+                    <Route
+                      path="search"
+                      element={
+                        <SearchQuotes
+                          userRoles={rolesResponse}
+                          userResponse={userResponse}
+                        />
+                      }
+                    />
                     <Route
                       path="quote/:id"
                       element={
