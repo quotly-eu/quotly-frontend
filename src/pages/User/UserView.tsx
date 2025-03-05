@@ -1,23 +1,16 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import useFetch from 'hooks/useFetch';
 import ProfileButton from 'components/ProfileButton/ProfileButton';
 import Quote from 'components/Quote/Quote';
-import { ApiResponse } from 'types/ApiResponse.type';
 import { QuoteType } from 'types/Quote.type';
-import { Role } from 'types/Role.type';
 import { User } from 'types/User.type';
 import { useCookies } from 'react-cookie';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import Switcher from '../../components/Switcher/Switcher';
-
-type UserViewProps = {
-  userRoles?: ApiResponse<Role[]>;
-  userResponse?: ApiResponse<User>;
-};
 
 const UserViewContainer = styled.div`
   display: grid;
@@ -101,10 +94,10 @@ const FeedItem = styled.div`
 /**
  * User Page
  */
-const UserView = ({ userRoles, userResponse }: UserViewProps) => {
+const UserView = () => {
   const { t, i18n: { language } } = useTranslation();
   const { id } = useParams();
-  const { routes } = useContext(ApiContext);
+  const { routes } = useApiContext();
   const [ cookies ] = useCookies([ 'token' ]);
   const { runFetch: fetchUser, response: user } = useFetch<User>(routes.users.construct(Number(id)));
   const {
@@ -127,11 +120,10 @@ const UserView = ({ userRoles, userResponse }: UserViewProps) => {
           desktop={<PageTitle title={user?.data.displayName} icon="user" isVisual />}
           mobile={<PageTitle title={user?.data.displayName} />}
         />
-        {quotes?.data && quotes.data.map(quote => (
+        {quotes?.data && quotes.data.map((quote, index) => (
           <Quote
             {...quote}
-            userRoles={userRoles}
-            userResponse={userResponse}
+            isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
           />
         ))}
       </QuotesContainer>

@@ -10,6 +10,8 @@ import { ThemeProvider } from 'styled-components';
 
 import App from 'components/App/App';
 import ApiContextProvider from 'contexts/ApiContext/ApiContext';
+import { BrowserRouter } from 'react-router-dom';
+import AppDataProvider from './contexts/AppData/AppData';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +21,11 @@ root.render(
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={theme}>
         <ApiContextProvider>
-          <App />
+          <AppDataProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </AppDataProvider>
         </ApiContextProvider>
       </ThemeProvider>
     </I18nextProvider>

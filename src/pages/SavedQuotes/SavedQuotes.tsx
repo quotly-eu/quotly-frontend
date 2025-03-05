@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled, { css, useTheme } from 'styled-components';
 
 import Switcher from 'components/Switcher/Switcher';
@@ -8,18 +8,11 @@ import Quote from 'components/Quote/Quote';
 import { QuoteType } from 'types/Quote.type';
 
 import useFetch from 'hooks/useFetch';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
-import { Role } from 'types/Role.type';
-import { ApiResponse } from 'types/ApiResponse.type';
-import { User } from 'types/User.type';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import Feeds from 'components/Feeds/Feeds';
 import { useTranslation } from 'react-i18next';
 import { useCookies } from 'react-cookie';
-
-type SavedQuotesProps = {
-  userRoles?: ApiResponse<Role[]>;
-  userResponse?: ApiResponse<User>;
-};
+import { useAppData } from '../../contexts/AppData/AppData';
 
 // Styles
 const SavedQuotesContainer = styled.div`
@@ -53,20 +46,21 @@ const QuotesContainer = styled.div`
 /**
  * Main Page for Quotly
  */
-const SavedQuotes = ({ userRoles, userResponse }: SavedQuotesProps) => {
+const SavedQuotes = () => {
   const theme = useTheme();
+  const [{ user }] = useAppData();
   const { t } = useTranslation();
-  const { routes } = useContext(ApiContext);
+  const { routes } = useApiContext();
   const [ cookies ] = useCookies([ 'token' ]);
   const {
     runFetch: fetchQuotes,
     response: quotes
-  } = useFetch<QuoteType[]>(`${routes.users.sub?.savedQuotes(userResponse?.data.userId || 0)}?token=${cookies.token}`);
+  } = useFetch<QuoteType[]>(`${routes.users.sub?.savedQuotes(user?.userId || 0)}?token=${cookies.token}`);
 
   useEffect(() => {
-    if (!userResponse) return;
+    if (!user) return;
     fetchQuotes();
-  }, [ userResponse ]);
+  }, [ user ]);
 
   return (
     <SavedQuotesContainer>
@@ -75,8 +69,6 @@ const SavedQuotes = ({ userRoles, userResponse }: SavedQuotesProps) => {
         {quotes && quotes.data.map((quote, index) => (
           <Quote
             {...quote}
-            userRoles={userRoles}
-            userResponse={userResponse}
             isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
             key={quote.quoteId}
           />

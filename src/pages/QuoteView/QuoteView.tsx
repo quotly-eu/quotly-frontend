@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import useFetch from 'hooks/useFetch';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 
 import QuoteComment from 'components/Comment/Comment';
 import Quote from 'components/Quote/Quote';
@@ -16,16 +16,8 @@ import Input from 'components/Input/Input';
 import { Comment } from 'types/Comment.type';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { CommentType } from 'components/Comment/Comment.type';
-import { ApiResponse } from 'types/ApiResponse.type';
 import { QuoteType } from 'types/Quote.type';
-import { Role } from 'types/Role.type';
-import { User } from 'types/User.type';
 import PageTitle from 'components/PageTitle/PageTitle';
-
-type QuoteViewProps = {
-  userRoles?: ApiResponse<Role[]>;
-  userResponse?: ApiResponse<User>;
-};
 
 const Style_QuoteView = styled.div`
   display: flex;
@@ -77,10 +69,10 @@ const Style_Button = styled(Button)`
 /**
  * Page to view a specific Quote with their comments.
  */
-const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
+const QuoteView = () => {
   const { t } = useTranslation();
   const { id } = useParams();
-  const { routes } = useContext(ApiContext);
+  const { routes } = useApiContext();
   const [ cookies ] = useCookies([ 'token' ]);
   const navigate = useNavigate();
 
@@ -154,8 +146,6 @@ const QuoteView = ({ userRoles, userResponse }: QuoteViewProps) => {
       {quote?.data && <PageTitle title={quote.data.quote} />}
       {quote?.data && <Quote
         {...quote.data}
-        userRoles={userRoles}
-        userResponse={userResponse}
         key={quote.data.quoteId}
       />}
       <Style_Comments>

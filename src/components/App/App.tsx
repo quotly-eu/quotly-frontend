@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Main from 'pages/Main/Main';
 import NotFound from 'pages/NotFound/NotFound';
 
@@ -23,13 +23,14 @@ import QuoteView from 'pages/QuoteView/QuoteView';
 import Logout from 'pages/Logout/Logout';
 import useFetch from 'hooks/useFetch';
 import { User } from 'types/User.type';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import { useCookies } from 'react-cookie';
 import { Role } from 'types/Role.type';
 import TopQuotes from 'pages/TopQuotes/TopQuotesView';
 import UserView from 'pages/User/UserView';
 import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
 import SearchQuotes from 'pages/SearchQuotes/SearchQuotes';
+import { useAppData } from '../../contexts/AppData/AppData';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -94,7 +95,8 @@ const RouteContainer = styled.div`
  * App Component with BrowserRouter and Routes
  */
 const App = () => {
-  const { routes } = useContext(ApiContext);
+  const { routes } = useApiContext();
+  const [ config, dispatch ] = useAppData();
   const [ cookies ] = useCookies([ 'token' ]);
   const quoteDialogRef = useRef<HTMLDialogElement>(null);
   const [ mobileCurrentTop, setMobileCurrentTop ] = useState(0);
@@ -115,9 +117,28 @@ const App = () => {
 
   useEffect(() => {
     if (userResponse && userResponse.status === 200) {
+      dispatch({
+        type: 'setUser',
+        config: {
+          ...config,
+          user: userResponse.data
+        }
+      });
       fetchRoles();
     }
   }, [ userResponse ]);
+
+  useEffect(() => {
+    if (rolesResponse && rolesResponse.status === 200) {
+      dispatch({
+        type: 'setRoles',
+        config: {
+          ...config,
+          roles: rolesResponse.data
+        }
+      });
+    }
+  }, [ rolesResponse ]);
 
   // Prevent right-click context menu on production for user experience
   const onContextMenu = (e: React.MouseEvent) => {
@@ -150,7 +171,7 @@ const App = () => {
   };
 
   return (
-    <BrowserRouter>
+    <>
       <GlobalStyle />
       <Routes>
         <Route path="login" element={<Login />} />
@@ -167,34 +188,12 @@ const App = () => {
                 <NavbarTop />
                 <PagesContainer>
                   <Routes>
-                    <Route index element={<Main userRoles={rolesResponse} userResponse={userResponse} />} />
-                    <Route
-                      path="search"
-                      element={
-                        <SearchQuotes
-                          userRoles={rolesResponse}
-                          userResponse={userResponse}
-                        />
-                      }
-                    />
-                    <Route
-                      path="quote/:id"
-                      element={
-                        <QuoteView
-                          userRoles={rolesResponse}
-                          userResponse={userResponse}
-                        />
-                      }
-                    />
-                    <Route
-                      path="user/:id"
-                      element={<UserView userRoles={rolesResponse} userResponse={userResponse} />}
-                    />
-                    <Route
-                      path="saved"
-                      element={<SavedQuotes userRoles={rolesResponse} userResponse={userResponse} />}
-                    />
-                    <Route path="top" element={<TopQuotes userRoles={rolesResponse} userResponse={userResponse} />} />
+                    <Route index element={<Main />} />
+                    <Route path="search" element={<SearchQuotes />} />
+                    <Route path="quote/:id" element={<QuoteView />} />
+                    <Route path="user/:id" element={<UserView />} />
+                    <Route path="saved" element={<SavedQuotes />} />
+                    <Route path="top" element={<TopQuotes />} />
                     <Route path="*" element={<Navigate replace to="/404" />} />
                   </Routes>
                 </PagesContainer>
@@ -209,7 +208,7 @@ const App = () => {
         />
         <Route path="404" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 

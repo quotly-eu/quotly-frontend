@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { ApiContextType } from './ApiContext.type';
 
 const config: ApiContextType = {
@@ -38,12 +38,14 @@ const config: ApiContextType = {
   discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Foauth&scope=identify+email' 
 };
 
+const ApiContext = createContext(config);
+
 /**
  * Api Context config with necessary urls
  * @example
- * const { routes } = useContext(ApiContext);
+ * const { routes } = useApiContext();
  */
-export const ApiContext = createContext(config);
+export const useApiContext = () => useContext(ApiContext);
 
 /**
  * Api Context Provider for the App, mainly for useFetch Hooks

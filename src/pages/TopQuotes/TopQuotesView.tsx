@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled, { css, useTheme } from 'styled-components';
 
 import Switcher from 'components/Switcher/Switcher';
@@ -8,18 +8,10 @@ import Quote from 'components/Quote/Quote';
 import { QuoteType } from 'types/Quote.type';
 
 import useFetch from 'hooks/useFetch';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
-import { Role } from 'types/Role.type';
-import { ApiResponse } from 'types/ApiResponse.type';
-import { User } from 'types/User.type';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import Feeds from 'components/Feeds/Feeds';
 import { useTranslation } from 'react-i18next';
 import { useCookies } from 'react-cookie';
-
-type TopQuotesProps = {
-  userRoles?: ApiResponse<Role[]>;
-  userResponse?: ApiResponse<User>;
-};
 
 // Styles
 const TopQuotesContainer = styled.div`
@@ -53,10 +45,10 @@ const QuotesContainer = styled.div`
 /**
  * Main Page for Quotly
  */
-const TopQuotes = ({ userRoles, userResponse }: TopQuotesProps) => {
+const TopQuotes = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { routes } = useContext(ApiContext);
+  const { routes } = useApiContext();
   const [ cookies ] = useCookies([ 'token' ]);
   const {
     runFetch: fetchQuotes,
@@ -64,9 +56,8 @@ const TopQuotes = ({ userRoles, userResponse }: TopQuotesProps) => {
   } = useFetch<QuoteType[]>(`${routes.quotes.sub?.top()}?token=${cookies.token}&limit=50`);
 
   useEffect(() => {
-    if (!userResponse) return;
     fetchQuotes();
-  }, [ userResponse ]);
+  }, []);
 
   return (
     <TopQuotesContainer>
@@ -75,8 +66,6 @@ const TopQuotes = ({ userRoles, userResponse }: TopQuotesProps) => {
         {quotes && quotes.data.map((quote, index) => (
           <Quote
             {...quote}
-            userRoles={userRoles}
-            userResponse={userResponse}
             isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
             key={quote.quoteId}
           />

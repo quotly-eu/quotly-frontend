@@ -1,7 +1,7 @@
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import useFetch from 'hooks/useFetch';
 import { useQuery } from 'hooks/useQuery';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
  */
 const OAuth = () => {
   const { search } = useLocation();
-  const { routes } = useContext(ApiContext);
+  const { routes } = useApiContext();
   const query = useQuery(search);
   const navigate = useNavigate();
   const [ cookies, setCookie, removeCookie ] = useCookies([ 'state', 'token' ]);
