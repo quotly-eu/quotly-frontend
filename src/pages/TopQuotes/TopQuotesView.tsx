@@ -13,22 +13,23 @@ import { Role } from 'types/Role.type';
 import { ApiResponse } from 'types/ApiResponse.type';
 import { User } from 'types/User.type';
 import Feeds from 'components/Feeds/Feeds';
+import { useTranslation } from 'react-i18next';
 import { useCookies } from 'react-cookie';
 
-type MainProps = {
+type TopQuotesProps = {
   userRoles?: ApiResponse<Role[]>;
   userResponse?: ApiResponse<User>;
 };
 
 // Styles
-const MainContainer = styled.div`
+const TopQuotesContainer = styled.div`
   display: grid;
   grid-template-areas: 
     // 'users users'
-    'quotes feeds';
+      'quotes feeds';
   grid-template-columns: 1fr auto;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     gap: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.lg}) {
@@ -45,40 +46,45 @@ const Container = css`
 `;
 
 const QuotesContainer = styled.div`
-  ${Container}
+  ${Container};
   grid-area: quotes;
 `;
 
 /**
  * Main Page for Quotly
  */
-const Main = ({ userRoles, userResponse }: MainProps) => {
+const TopQuotes = ({ userRoles, userResponse }: TopQuotesProps) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { routes } = useContext(ApiContext);
-  const [ cookies ] = useCookies(['token']);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.quotes.construct()}?token=${cookies.token}`);
+  const [ cookies ] = useCookies([ 'token' ]);
+  const {
+    runFetch: fetchQuotes,
+    response: quotes
+  } = useFetch<QuoteType[]>(`${routes.quotes.sub?.top()}?token=${cookies.token}&limit=50`);
 
   useEffect(() => {
+    if (!userResponse) return;
     fetchQuotes();
-  }, []);
+  }, [ userResponse ]);
 
   return (
-    <MainContainer>
-      <PageTitle />
+    <TopQuotesContainer>
       <QuotesContainer>
-        {quotes?.data && quotes.data.map((quote, index) => (
-          <Quote 
+        <PageTitle title={t('trends')} icon="fire" isVisual />
+        {quotes && quotes.data.map((quote, index) => (
+          <Quote
             {...quote}
             userRoles={userRoles}
             userResponse={userResponse}
-            isLast={quotes.data.length !== 1 && quotes.data.length == (index+1)} 
+            isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
             key={quote.quoteId}
           />
         ))}
       </QuotesContainer>
       <Switcher breakpoint={theme.breakpoints.lg} desktop={<Feeds />} />
-    </MainContainer>
+    </TopQuotesContainer>
   );
 };
 
-export default Main;
+export default TopQuotes;

@@ -1,17 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-// Pages
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Main from '../../pages/Main/Main';
-import NotFound from '../../pages/NotFound/NotFound';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Main from 'pages/Main/Main';
+import NotFound from 'pages/NotFound/NotFound';
 
-// Components
 import NavbarTop from '../NavbarTop/NavbarTop';
 import NavbarLeft from '../NavbarLeft/NavbarLeft';
 
-// Theme
-import styled from 'styled-components';
-import GlobalStyle from '../../assets/themes/GlobalStyle';
+import styled, { css } from 'styled-components';
+import GlobalStyle from 'assets/themes/GlobalStyle';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -29,8 +26,10 @@ import { User } from 'types/User.type';
 import { ApiContext } from 'contexts/ApiContext/ApiContext';
 import { useCookies } from 'react-cookie';
 import { Role } from 'types/Role.type';
-import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
+import TopQuotes from 'pages/TopQuotes/TopQuotesView';
 import UserView from 'pages/User/UserView';
+import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
+import SearchQuotes from 'pages/SearchQuotes/SearchQuotes';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -61,9 +60,9 @@ const PagesContainer = styled.div`
   flex-direction: column;
   flex: 1;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     background-color: ${theme.colors.transparency.black(0.075)};
-  
+
     padding: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.md}) {
@@ -82,7 +81,7 @@ const RouteContainer = styled.div`
   flex-direction: column;
   grid-area: route;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     @media (max-width: ${theme.breakpoints.md}) {
       border-radius: 0 0 ${theme.spacing.l.rem} ${theme.spacing.l.rem};
     }
@@ -96,35 +95,35 @@ const RouteContainer = styled.div`
  */
 const App = () => {
   const { routes } = useContext(ApiContext);
-  const [ cookies ] = useCookies(['token']);
+  const [ cookies ] = useCookies([ 'token' ]);
   const quoteDialogRef = useRef<HTMLDialogElement>(null);
-  const [mobileCurrentTop, setMobileCurrentTop] = useState(0);
-  const [isQuoteDialogActive, setIsQuoteDialogActive] = useState(false);
-  const { 
+  const [ mobileCurrentTop, setMobileCurrentTop ] = useState(0);
+  const [ isQuoteDialogActive, setIsQuoteDialogActive ] = useState(false);
+  const {
     runFetch: fetchMe,
-    response: userResponse 
+    response: userResponse
   } = useFetch<User>(`${routes.users.sub?.me()}?token=${cookies.token}`);
-  const { 
+  const {
     runFetch: fetchRoles,
     response: rolesResponse
   } = useFetch<Role[]>(`${routes.users.sub?.roles(userResponse?.data.userId || 0)}`);
 
   useEffect(() => {
-    if(!cookies.token) return;
+    if (!cookies.token) return;
     fetchMe();
-  }, [cookies.token]);
+  }, [ cookies.token ]);
 
   useEffect(() => {
-    if(userResponse && userResponse.status === 200) {
+    if (userResponse && userResponse.status === 200) {
       fetchRoles();
     }
-  }, [userResponse]);
+  }, [ userResponse ]);
 
   // Prevent right-click context menu on production for user experience
   const onContextMenu = (e: React.MouseEvent) => {
-    if(process.env.NODE_ENV === 'production') e.preventDefault();
+    if (process.env.NODE_ENV === 'production') e.preventDefault();
   };
-  
+
   // On mobile devices, hide or show top navbar relatively.
   const mobileScroll = (e: React.UIEvent) => {
     const target = e.currentTarget;
@@ -154,13 +153,14 @@ const App = () => {
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route path='login' element={<Login />} />
-        <Route path='logout' element={<Logout />} />
-        <Route path='oauth' element={<OAuth />} />
-        <Route path='privacy' element={<PrivacyPolicy />} />
-        <Route path='cookies' element={<Cookies />} />
-        <Route path='tos' element={<TermsOfService />} />
-        <Route path='*' element={
+        <Route path="login" element={<Login />} />
+        <Route path="logout" element={<Logout />} />
+        <Route path="oauth" element={<OAuth />} />
+        <Route path="privacy" element={<PrivacyPolicy />} />
+        <Route path="cookies" element={<Cookies />} />
+        <Route path="tos" element={<TermsOfService />} />
+        <Route
+          path="*" element={
           <AppContainer onContextMenu={onContextMenu}>
             <>
               <RouteContainer onScroll={mobileScroll}>
@@ -168,10 +168,34 @@ const App = () => {
                 <PagesContainer>
                   <Routes>
                     <Route index element={<Main userRoles={rolesResponse} userResponse={userResponse} />} />
-                    <Route path='quote/:id' element={<QuoteView userRoles={rolesResponse} userResponse={userResponse} />} />
-                    <Route path='user/:id' element={<UserView userRoles={rolesResponse} userResponse={userResponse} />} />
-                    <Route path='saved' element={<SavedQuotes userRoles={rolesResponse} userResponse={userResponse} />} />
-                    <Route path='*' element={<Navigate replace to='/404' />} />
+                    <Route
+                      path="search"
+                      element={
+                        <SearchQuotes
+                          userRoles={rolesResponse}
+                          userResponse={userResponse}
+                        />
+                      }
+                    />
+                    <Route
+                      path="quote/:id"
+                      element={
+                        <QuoteView
+                          userRoles={rolesResponse}
+                          userResponse={userResponse}
+                        />
+                      }
+                    />
+                    <Route
+                      path="user/:id"
+                      element={<UserView userRoles={rolesResponse} userResponse={userResponse} />}
+                    />
+                    <Route
+                      path="saved"
+                      element={<SavedQuotes userRoles={rolesResponse} userResponse={userResponse} />}
+                    />
+                    <Route path="top" element={<TopQuotes userRoles={rolesResponse} userResponse={userResponse} />} />
+                    <Route path="*" element={<Navigate replace to="/404" />} />
                   </Routes>
                 </PagesContainer>
               </RouteContainer>
@@ -181,8 +205,9 @@ const App = () => {
               <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} isActive={isQuoteDialogActive} />
             </>
           </AppContainer>
-        } />
-        <Route path='404' element={<NotFound />} />
+        }
+        />
+        <Route path="404" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

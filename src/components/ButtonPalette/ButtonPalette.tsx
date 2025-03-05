@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { placeOrientation } from 'utils/placeOrientation';
 import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
@@ -46,8 +46,15 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
  *  ]} 
  * />
  */
-const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin='0rem', startMargin='0rem', alwaysOpen=false}:ButtonPaletteType) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ButtonPalette = ({
+  triggerElement,
+  buttons,
+  place=PlaceOrientation.InsetLeft,
+  margin='0rem',
+  startMargin='0rem',
+  isOpen=false, 
+  setIsOpen=() => {},
+}:ButtonPaletteType) => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
@@ -73,7 +80,7 @@ const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLef
     <ButtonPaletteContainer ref={menuRef}>
       {cloneTriggerElement}
       <ButtonPaletteMenu 
-        $active={alwaysOpen || isOpen} 
+        $active={isOpen} 
         $margin={isOpen ? margin : startMargin} 
         $placeOrientation={place}
       >

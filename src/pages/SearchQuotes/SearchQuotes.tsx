@@ -13,22 +13,24 @@ import { Role } from 'types/Role.type';
 import { ApiResponse } from 'types/ApiResponse.type';
 import { User } from 'types/User.type';
 import Feeds from 'components/Feeds/Feeds';
+import { useTranslation } from 'react-i18next';
 import { useCookies } from 'react-cookie';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-type MainProps = {
+type SearchQuotesProps = {
   userRoles?: ApiResponse<Role[]>;
   userResponse?: ApiResponse<User>;
 };
 
 // Styles
-const MainContainer = styled.div`
+const SearchQuotesContainer = styled.div`
   display: grid;
   grid-template-areas: 
     // 'users users'
-    'quotes feeds';
+      'quotes feeds';
   grid-template-columns: 1fr auto;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     gap: ${theme.spacing.s.rem};
 
     @media (max-width: ${theme.breakpoints.lg}) {
@@ -45,40 +47,53 @@ const Container = css`
 `;
 
 const QuotesContainer = styled.div`
-  ${Container}
+  ${Container};
   grid-area: quotes;
 `;
 
 /**
  * Main Page for Quotly
  */
-const Main = ({ userRoles, userResponse }: MainProps) => {
+const SearchQuotes = ({ userRoles, userResponse }: SearchQuotesProps) => {
   const theme = useTheme();
+  const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const { routes } = useContext(ApiContext);
-  const [ cookies ] = useCookies(['token']);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.quotes.construct()}?token=${cookies.token}`);
+  const navigate = useNavigate();
+  const [ cookies ] = useCookies([ 'token' ]);
+  const search = searchParams.get('query') || '';
+  const {
+    runFetch: fetchQuotes,
+    response: quotes
+  } = useFetch<QuoteType[]>(`${routes.quotes.construct()}?&search=${search}&token=${cookies.token}`);
 
   useEffect(() => {
+    if (!userResponse) return;
     fetchQuotes();
-  }, []);
+  }, [ userResponse, search ]);
+
+  useEffect(() => {
+    if (search) return;
+    navigate('/404', { replace: true });
+  }, [search]);
 
   return (
-    <MainContainer>
-      <PageTitle />
+    <SearchQuotesContainer>
       <QuotesContainer>
-        {quotes?.data && quotes.data.map((quote, index) => (
-          <Quote 
+        <PageTitle title={`${t('results_for')} '${search}'`} icon="magnifying-glass" isVisual />
+        {quotes && quotes.data.map((quote, index) => (
+          <Quote
             {...quote}
             userRoles={userRoles}
             userResponse={userResponse}
-            isLast={quotes.data.length !== 1 && quotes.data.length == (index+1)} 
+            isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
             key={quote.quoteId}
           />
         ))}
       </QuotesContainer>
       <Switcher breakpoint={theme.breakpoints.lg} desktop={<Feeds />} />
-    </MainContainer>
+    </SearchQuotesContainer>
   );
 };
 
-export default Main;
+export default SearchQuotes;

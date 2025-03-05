@@ -22,8 +22,8 @@ const Style_Form = styled.form`
     'links'
     'textarea'
     'actions';
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 2fr auto;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 2fr auto;
   gap: 1rem;
 
   ${({ theme }) => `
@@ -39,7 +39,7 @@ const Style_Markdown = styled.div`
     font-size: ${theme.font.sizes.s.rem};
     box-shadow: ${theme.shadows.default};
   `}
-  text-align:center;
+  text-align: center;
   text-wrap: balance;
 `;
 
@@ -55,14 +55,14 @@ const Style_ActionsContainer = styled.div`
  * QuoteDialog component
  */
 const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
-  ({open=false, isActive=false, toggleDialog}, ref) => {
+  ({ open = false, isActive = false, toggleDialog }, ref) => {
     const { t } = useTranslation();
     const { routes } = useContext(ApiContext);
-    const [cookies] = useCookies(['token']);
+    const [ cookies ] = useCookies([ 'token' ]);
 
-    const [quoteText, setQuoteText] = useState<string>('');
-    const [preview, setPreview] = useState<boolean>(false);
-    const [isSubmitDisabled, setIsButtonDisabled] = useState(false);
+    const [ quoteText, setQuoteText ] = useState<string>('');
+    const [ preview, setPreview ] = useState<boolean>(false);
+    const [ isSubmitDisabled, setIsButtonDisabled ] = useState(false);
     const { runFetch, response } = useFetch(routes.quotes.sub?.create() || '', {
       method: 'POST',
       headers: {
@@ -70,6 +70,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       },
       body: new URLSearchParams({
         quote: quoteText,
+        send_webhook: 'true',
         token: cookies.token
       })
     });
@@ -79,30 +80,30 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
       runFetch();
       setIsButtonDisabled(true);
     };
-  
+
     // POST was successful
     useEffect(() => {
-      if(!response) return;
+      if (!response) return;
       toggleDialog();
       setQuoteText('');
       setIsButtonDisabled(false);
       window.location.reload();
-    }, [response]);
+    }, [ response ]);
 
     return (
       <Dialog ref={ref} toggleDialog={toggleDialog} open={open}>
-        <Style_Form method='dialog' onSubmit={onSubmit}>
-          <GuideLinks 
-            links={[{
-              label: (<><FontAwesomeIcon icon={['fab', 'markdown']} /> Markdown</>), 
+        <Style_Form method="dialog" onSubmit={onSubmit}>
+          <GuideLinks
+            links={[ {
+              label: (<><FontAwesomeIcon icon={[ 'fab', 'markdown' ]} /> Markdown</>),
               url: 'https://www.markdownguide.org/basic-syntax/'
-            }]} 
+            } ]}
           />
-          {!preview ? 
-            isActive && <Input 
-              id='quote'
-              name='quote' 
-              as='textarea'
+          {!preview ?
+            isActive && <Input
+              id="quote"
+              name="quote"
+              as="textarea"
               placeholder={`${t('quote.quote')}...`}
               onChange={setQuoteText}
               value={quoteText}
@@ -110,24 +111,24 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
               autoFocus
               rows={4}
             />
-            : 
+            :
             <Style_Markdown children={<Markdown children={quoteText} />} />
           }
           <Style_ActionsContainer>
             <Button
-              btnStyle={ButtonStyles.transparent} 
+              btnStyle={ButtonStyles.transparent}
               onClick={() => setPreview(!preview)}
             >
-              <FontAwesomeIcon icon='repeat' /> {!preview ? t('quote.preview') : t('quote.write')}
+              <FontAwesomeIcon icon="repeat" /> {!preview ? t('quote.preview') : t('quote.write')}
             </Button>
-            <Button 
-              btnStyle={ButtonStyles.primary} 
+            <Button
+              btnStyle={ButtonStyles.primary}
               onClick={() => setPreview(false)}
-              as='button'
-              type='submit'
+              as="button"
+              type="submit"
               disabled={isSubmitDisabled}
             >
-              <FontAwesomeIcon icon='quote-right' /> {t('quote.publish')}
+              <FontAwesomeIcon icon="quote-right" /> {t('quote.publish')}
             </Button>
           </Style_ActionsContainer>
         </Style_Form>

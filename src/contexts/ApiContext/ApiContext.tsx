@@ -10,6 +10,7 @@ const config: ApiContextType = {
         create: () => `${config.routes.quotes.construct()}/create`,
         delete: (id) => `${config.routes.quotes.construct(id)}/delete`,
         toggleSave: (id) => `${config.routes.quotes.construct(id)}/toggleSave`,
+        toggleReact: (id) => `${config.routes.quotes.construct(id)}/toggleReact`,
         createComment: (id) => `${config.routes.quotes.construct(id)}/comments/create`,
         comments: (id) => `${config.routes.quotes.construct(id)}/comments`,
         reactions: (id) => `${config.routes.quotes.construct(id)}/reactions`,
