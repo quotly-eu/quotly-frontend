@@ -31,6 +31,7 @@ import UserView from 'pages/User/UserView';
 import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
 import SearchQuotes from 'pages/SearchQuotes/SearchQuotes';
 import { useAppData } from '../../contexts/AppData/AppData';
+import Settings from '../../pages/Settings/Settings';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -189,11 +190,12 @@ const App = () => {
                 <PagesContainer>
                   <Routes>
                     <Route index element={<Main />} />
-                    <Route path="search" element={<SearchQuotes />} />
                     <Route path="quote/:id" element={<QuoteView />} />
+                    <Route path="top" element={<TopQuotes />} />
+                    <Route path="search" element={<SearchQuotes />} />
                     <Route path="user/:id" element={<UserView />} />
                     <Route path="saved" element={<SavedQuotes />} />
-                    <Route path="top" element={<TopQuotes />} />
+                    <Route path="settings" element={<Settings />} />
                     <Route path="*" element={<Navigate replace to="/404" />} />
                   </Routes>
                 </PagesContainer>
