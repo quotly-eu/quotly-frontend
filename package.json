@@ -27,6 +27,7 @@
     "remark-gfm": "^4.0.0",
     "remark-toc": "^9.0.0",
     "styled-components": "^6.1.13",
+    "usehooks-ts": "^3.1.1",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^7.1.0",
     "workbox-broadcast-update": "^7.1.0",

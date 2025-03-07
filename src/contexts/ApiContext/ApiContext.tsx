@@ -25,17 +25,20 @@ const config: ApiContextType = {
       construct: (discordId?) => `${config.baseUrl}/v1/users${discordId ? `/${discordId}` : ''}`,
       sub: {
         me: () => `${config.routes.users.construct()}/me`,
+        delete: () => `${config.routes.users.sub?.me()}/delete`,
         quotes: (id) => `${config.routes.users.construct(id)}/quotes`,
         reactions: (id) => `${config.routes.users.construct(id)}/reactions`,
         roles: (id) => `${config.routes.users.construct(id)}/roles`,
         savedQuotes: (id) => `${config.routes.users.construct(id)}/saved-quotes`,
+        webhook: () => `${config.routes.users.construct()}/webhook`
       }
     },
     authorize: {
       construct: () => `${config.baseUrl}/v1/authorize`,
     },
   },
-  discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Foauth&scope=identify+email' 
+  discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Foauth&scope=identify+email',
+  discordWebhook: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Fwebhook&integration_type=0&scope=webhook.incoming'
 };
 
 const ApiContext = createContext(config);
@@ -54,7 +57,7 @@ export const useApiContext = () => useContext(ApiContext);
  *  <App />
  * </ApiContextProvider>
  */
-const ApiContextProvider = ({children}:{children: React.ReactNode}) => (
+const ApiContextProvider = ({ children }: { children: React.ReactNode }) => (
   <ApiContext.Provider value={config}>
     {children}
   </ApiContext.Provider>

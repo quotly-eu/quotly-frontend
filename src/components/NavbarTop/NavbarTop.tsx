@@ -47,7 +47,7 @@ const MobileNavbarTopContainer = styled.div`
   ${cssNavbarTop}
 
   transition: translate 0.3s;
-  z-index: 1000;
+  z-index: 100000000;
 `;
 
 /* const Left = styled.div`

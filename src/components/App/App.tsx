@@ -32,6 +32,7 @@ import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
 import SearchQuotes from 'pages/SearchQuotes/SearchQuotes';
 import { useAppData } from '../../contexts/AppData/AppData';
 import Settings from '../../pages/Settings/Settings';
+import Webhook from '../../pages/Webhook/Webhook';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -178,6 +179,7 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="logout" element={<Logout />} />
         <Route path="oauth" element={<OAuth />} />
+        <Route path="webhook" element={<Webhook />} />
         <Route path="privacy" element={<PrivacyPolicy />} />
         <Route path="cookies" element={<Cookies />} />
         <Route path="tos" element={<TermsOfService />} />

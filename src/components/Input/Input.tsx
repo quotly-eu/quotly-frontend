@@ -17,9 +17,8 @@ const InputContainer = styled.label`
   display: flex;
   flex-direction: row;
   width: 100%;
-  
+  backdrop-filter: brightness(1.075);
   ${({ theme }) => `
-    background-color: ${theme.colors.transparency.white(0.5)};
     color: ${theme.colors.text.dark};
     font-size: ${theme.font.sizes.xs.rem};
     border-radius: ${theme.spacing.m.rem};
