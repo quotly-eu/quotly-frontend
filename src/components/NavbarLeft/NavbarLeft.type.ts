@@ -8,5 +8,4 @@ import { User } from "types/User.type";
  */
 export type NavbarLeftProps = {
   toggleDialog?: () => void;
-  userResponse?: ApiResponse<User>;
 };

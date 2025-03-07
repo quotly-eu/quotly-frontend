@@ -8,5 +8,5 @@
  */
 export type ApiResponse <T,> = {
   status: number;
-  data: T & { detail?: unknown; };
+  data: T & { detail?: string | object; };
 };

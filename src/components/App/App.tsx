@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import Main from 'pages/Main/Main';
 import NotFound from 'pages/NotFound/NotFound';
 
@@ -100,6 +100,7 @@ const App = () => {
   const { routes } = useApiContext();
   const [ config, dispatch ] = useAppData();
   const [ cookies ] = useCookies([ 'token' ]);
+  const navigate = useNavigate();
   const quoteDialogRef = useRef<HTMLDialogElement>(null);
   const [ mobileCurrentTop, setMobileCurrentTop ] = useState(0);
   const [ isQuoteDialogActive, setIsQuoteDialogActive ] = useState(false);
@@ -118,7 +119,8 @@ const App = () => {
   }, [ cookies.token ]);
 
   useEffect(() => {
-    if (userResponse && userResponse.status === 200) {
+    console.log(userResponse);
+    if(userResponse?.status === 200) {
       dispatch({
         type: 'setUser',
         config: {
@@ -127,6 +129,8 @@ const App = () => {
         }
       });
       fetchRoles();
+    } else if (Number(userResponse?.status) >= 400) {
+      navigate('/logout');
     }
   }, [ userResponse ]);
 
@@ -203,7 +207,7 @@ const App = () => {
                 </PagesContainer>
               </RouteContainer>
 
-              <NavbarLeft userResponse={userResponse} toggleDialog={toggleDialog} />
+              <NavbarLeft toggleDialog={toggleDialog} />
 
               <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} isActive={isQuoteDialogActive} />
             </>

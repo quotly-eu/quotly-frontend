@@ -48,7 +48,7 @@ const Main = () => {
   const theme = useTheme();
   const { routes } = useApiContext();
   const [ cookies ] = useCookies(['token']);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.quotes.construct()}?token=${cookies.token}`);
+  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.quotes.construct()}${cookies.token ? `?token=${cookies.token}`: ''} `);
 
   useEffect(() => {
     fetchQuotes();

@@ -30,7 +30,8 @@ const config: ApiContextType = {
         reactions: (id) => `${config.routes.users.construct(id)}/reactions`,
         roles: (id) => `${config.routes.users.construct(id)}/roles`,
         savedQuotes: (id) => `${config.routes.users.construct(id)}/saved-quotes`,
-        webhook: () => `${config.routes.users.construct()}/webhook`
+        webhook: () => `${config.routes.users.construct()}/webhook`,
+        webhooks: () => `${config.routes.users.construct()}/me/webhooks`
       }
     },
     authorize: {
@@ -38,7 +39,7 @@ const config: ApiContextType = {
     },
   },
   discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Foauth&scope=identify+email',
-  discordWebhook: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Fwebhook&integration_type=0&scope=webhook.incoming'
+  discordWebhook: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Fwebhook&integration_type=0&scope=webhook.incoming+identify+email'
 };
 
 const ApiContext = createContext(config);

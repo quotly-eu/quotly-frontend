@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import { useTranslation } from 'react-i18next';
 import styled, { css, useTheme } from 'styled-components';
@@ -14,6 +14,10 @@ import { useApiContext } from '../../contexts/ApiContext/ApiContext';
 import { generateToken } from '../../utils/generateToken';
 import { useCookies } from 'react-cookie';
 import { DropDownItem } from '../../components/FloatDropDown/FloatDropDown.type';
+import useFetch from '../../hooks/useFetch';
+import { Webhook } from '../../types/Webhook.type';
+import Dialog from '../../components/Dialog/Dialog';
+import { User } from '../../types/User.type';
 
 const SettingsContainer = styled.div`
   flex: 1;
@@ -66,26 +70,53 @@ const OptionComponents = styled.div`
   `}
 `;
 
+const DialogContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  ${({ theme }) => css`
+    padding: ${theme.spacing.m.rem};
+    gap: ${theme.spacing.m.rem};
+  `}
+`
+
 /**
  * User Settings Page for Quotly
  */
 const Settings = () => {
-  const { t } = useTranslation();
   const theme = useTheme();
-  const { discordWebhook } = useApiContext();
-  const [, setCookie] = useCookies(['state']);
+  const { t } = useTranslation();
+  const { discordWebhook, routes } = useApiContext();
+  const [cookies, setCookie] = useCookies(['token', 'state']);
   const [currentTheme, setCurrentTheme] = useLocalStorage<keyof typeof themes>('theme', 'light');
-  const hasWebhook = true;
+
+  const [webhookId, setWebhookId] = useState<Webhook['id']>();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  const { runFetch: fetchWebhooks, response: webhooks } = useFetch<Webhook[]>(`${routes.users.sub?.webhooks()}?token=${cookies.token}`);
+  const { runFetch: fetchDeleteWebhook, response: deleteWebhook } = useFetch<Webhook[]>(`${routes.users.sub?.webhook()}`, {
+    method: 'DELETE',
+    body: new URLSearchParams({
+      token: cookies.token,
+      id: String(webhookId)
+    })
+  });
+  const { runFetch: fetchDeleteAccount, response: deleteAccount } = useFetch<User>(`${routes.users.sub?.delete()}`, {
+    method: 'DELETE',
+    body: new URLSearchParams({
+      token: cookies.token
+    })
+  });
 
   const themeItems: DropDownItem[] = [
     {
       id: 'light',
-      label: (<><FontAwesomeIcon icon="sun" /> Hell</>),
+      label: (<><FontAwesomeIcon icon="sun" /> {t('light')}</>),
       onClick: () => setCurrentTheme('light')
     },
     {
       id: 'dark',
-      label: <><FontAwesomeIcon icon="moon" /> Dunkel</>,
+      label: <><FontAwesomeIcon icon="moon" /> {t('dark')}</>,
       onClick: () => setCurrentTheme('dark')
     }
   ];
@@ -100,12 +131,37 @@ const Settings = () => {
     window.location.href = `${discordWebhook}&state=${stateToken}`;
   };
 
+  const toggleDialog = () => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (dialog.open) {
+      dialog.close();
+    } else {
+      dialog.showModal();
+    }
+  };
+
+  useEffect(() => {
+    fetchWebhooks();
+  }, [deleteWebhook]);
+
+  useEffect(() => {
+    if(!webhookId) return;
+    fetchDeleteWebhook();
+  }, [webhookId]);
+
+  useEffect(() => {
+    if(!deleteAccount) return;
+    window.location.pathname = '/';
+  }, [deleteAccount]);
+
   return (
     <SettingsContainer>
       <PageTitle title={t('settings')} icon="cog" isVisual />
       <OptionsContainer>
         <OptionText>
-          <FontAwesomeIcon icon="palette" /> {t('Theme')}
+          <FontAwesomeIcon icon="palette" /> {t('theme')}
         </OptionText>
         <OptionComponents>
           <FloatDropDown
@@ -121,26 +177,36 @@ const Settings = () => {
           />
         </OptionComponents>
         <OptionText>
-          <FontAwesomeIcon icon={['fab', 'discord']} /> {t('Webhook')}
+          <FontAwesomeIcon icon={['fab', 'discord']} /> {t('webhook')}
         </OptionText>
         <OptionComponents>
-          {hasWebhook ? <Button width="100%" onClick={onClick}>
-            {t('Webhook anlegen')}
-          </Button> : <>
-            <Input value='https://www.example.com/1234567890/abcdefghijklmnopqrstuvwxyz' readOnly />
-            <Button width='0' btnStyle={ButtonStyles.transparent}>
+          {webhooks?.data && (webhooks?.data.length > 0 ? webhooks.data.map(webhook => (<>
+            <Input value={`https://discord.com/api/v10/webhooks/${webhook.webhookId}/${webhook.webhookToken}`} readOnly />
+            <Button width='0' btnStyle={ButtonStyles.transparent} onClick={() => setWebhookId(webhook.id)}>
               <FontAwesomeIcon icon='trash' />
             </Button>
-          </>
+          </>)) : <Button width="100%" onClick={onClick}>
+            {t('create_webhook')}
+          </Button>)
           }
         </OptionComponents>
         <OptionText>
-          <FontAwesomeIcon icon="warning" /> {t('Account löschen')}
+          <FontAwesomeIcon icon="warning" /> {t('delete_account')}
         </OptionText>
         <OptionComponents>
-          <Button width="100%" btnStyle={ButtonStyles.danger}>
+          <Button width="100%" btnStyle={ButtonStyles.danger} onClick={toggleDialog}>
             {t('quote.delete')}
           </Button>
+          <Dialog ref={dialogRef} toggleDialog={toggleDialog}>
+            <DialogContainer>
+            <Button onClick={toggleDialog}>
+              <FontAwesomeIcon icon='xmark' /> {t('quote.cancel')}
+            </Button>
+            <Button btnStyle={ButtonStyles.danger} onClick={fetchDeleteAccount}>
+              <FontAwesomeIcon icon='trash' /> {t('quote.delete')}
+            </Button>
+            </DialogContainer>
+          </Dialog>
         </OptionComponents>
       </OptionsContainer>
     </SettingsContainer>

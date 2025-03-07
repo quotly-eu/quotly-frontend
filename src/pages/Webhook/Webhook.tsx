@@ -43,7 +43,6 @@ const Webhook = () => {
   useEffect(() => {
     if (!response) return;
     if (response?.status === 200) {
-      setCookie('token', response.data);
       navigate('/settings', {
         replace: true
       });
