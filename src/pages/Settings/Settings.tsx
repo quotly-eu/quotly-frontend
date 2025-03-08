@@ -78,7 +78,7 @@ const DialogContainer = styled.div`
     padding: ${theme.spacing.m.rem};
     gap: ${theme.spacing.m.rem};
   `}
-`
+`;
 
 /**
  * User Settings Page for Quotly

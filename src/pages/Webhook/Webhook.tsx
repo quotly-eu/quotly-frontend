@@ -13,7 +13,7 @@ const Webhook = () => {
   const { routes } = useApiContext();
   const query = useQuery(search);
   const navigate = useNavigate();
-  const [ cookies, setCookie, removeCookie ] = useCookies([ 'state', 'token' ]);
+  const [ cookies, , removeCookie ] = useCookies([ 'state', 'token' ]);
   const { runFetch, response } = useFetch<string>(`${routes.users.sub?.webhook()}`, {
     method: 'POST',
     headers: {
