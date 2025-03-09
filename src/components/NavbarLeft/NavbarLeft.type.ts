@@ -1,6 +1,3 @@
-import { ApiResponse } from "types/ApiResponse.type";
-import { User } from "types/User.type";
-
 /**
  * NavbarLeftType type for NavbarLeft component
  * @example
@@ -8,5 +5,4 @@ import { User } from "types/User.type";
  */
 export type NavbarLeftProps = {
   toggleDialog?: () => void;
-  userResponse?: ApiResponse<User>;
 };

@@ -1,6 +1,15 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.14.0] - 2025-03-03
+### Additions
+- Added settings page for [#35](https://github.com/quotly-eu/quotly-frontend/issues/35)
+
+### Changes
+- Refactorings to code structure
+- Adjusted useFetch
+- Implemented AppData for global data
+
 ## [0.13.0] - 2025-02-19
 ### Additions
 - Added top quotes page for [#36](https://github.com/quotly-eu/quotly-frontend/issues/36)

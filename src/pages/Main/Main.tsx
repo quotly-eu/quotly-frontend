@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled, { css, useTheme } from 'styled-components';
 
 import Switcher from 'components/Switcher/Switcher';
@@ -8,17 +8,9 @@ import Quote from 'components/Quote/Quote';
 import { QuoteType } from 'types/Quote.type';
 
 import useFetch from 'hooks/useFetch';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
-import { Role } from 'types/Role.type';
-import { ApiResponse } from 'types/ApiResponse.type';
-import { User } from 'types/User.type';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import Feeds from 'components/Feeds/Feeds';
 import { useCookies } from 'react-cookie';
-
-type MainProps = {
-  userRoles?: ApiResponse<Role[]>;
-  userResponse?: ApiResponse<User>;
-};
 
 // Styles
 const MainContainer = styled.div`
@@ -45,18 +37,18 @@ const Container = css`
 `;
 
 const QuotesContainer = styled.div`
-  ${Container}
   grid-area: quotes;
+  ${Container}
 `;
 
 /**
  * Main Page for Quotly
  */
-const Main = ({ userRoles, userResponse }: MainProps) => {
+const Main = () => {
   const theme = useTheme();
-  const { routes } = useContext(ApiContext);
+  const { routes } = useApiContext();
   const [ cookies ] = useCookies(['token']);
-  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.quotes.construct()}?token=${cookies.token}`);
+  const { runFetch: fetchQuotes, response: quotes } = useFetch<QuoteType[]>(`${routes.quotes.construct()}${cookies.token ? `?token=${cookies.token}`: ''} `);
 
   useEffect(() => {
     fetchQuotes();
@@ -69,8 +61,6 @@ const Main = ({ userRoles, userResponse }: MainProps) => {
         {quotes?.data && quotes.data.map((quote, index) => (
           <Quote 
             {...quote}
-            userRoles={userRoles}
-            userResponse={userResponse}
             isLast={quotes.data.length !== 1 && quotes.data.length == (index+1)} 
             key={quote.quoteId}
           />

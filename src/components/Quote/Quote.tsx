@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import Markdown from 'react-markdown';
@@ -17,12 +17,10 @@ import { QuoteType } from 'types/Quote.type';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useFetch from 'hooks/useFetch';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
 import { useCookies } from 'react-cookie';
-import { ApiResponse } from 'types/ApiResponse.type';
-import { Role } from 'types/Role.type';
-import { User } from 'types/User.type';
 import { Reaction } from 'types/Reaction.type';
+import { useApiContext } from '../../contexts/ApiContext/ApiContext';
+import { useAppData } from '../../contexts/AppData/AppData';
 
 
 // Styles
@@ -172,19 +170,17 @@ const Quote = ({
   quoteId,
   createdAt,
   user,
-  userRoles,
-  userResponse,
   reactions,
   isSaved,
   reaction: reactedReaction,
   isLast
 }: QuoteType & {
   isLast?: boolean;
-  userRoles?: ApiResponse<Role[]>;
-  userResponse?: ApiResponse<User>;
 }) => {
   const { t, i18n: { language } } = useTranslation();
-  const { routes } = useContext(ApiContext);
+  const [ { user: authUser, roles } ] = useAppData();
+  const { routes } = useApiContext();
+  const { origin } = window.location;
   const [ cookies ] = useCookies([ 'token' ]);
   const [ saved, setSaved ] = useState(isSaved);
   const [ isPaletteOpen, setIsPaletteOpen ] = useState(false);
@@ -232,8 +228,8 @@ const Quote = ({
   const userUrl = `/user/${user.userId}`;
   const userAvatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
 
-  const isAdmin = userRoles && userRoles.data.find(role => role.name === 'admin');
-  const isAuthor = userResponse && userResponse.data.userId === user.userId;
+  const isAdmin = roles && roles.find(role => role.name === 'admin');
+  const isAuthor = authUser && authUser.userId === user.userId;
   const greatestReaction = reactions?.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].reactionName;
   const sumOfReactions = reactions?.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
 
@@ -251,7 +247,14 @@ const Quote = ({
       id: 'share',
       label: (<><FontAwesomeIcon icon="share" /> {t('quote.share')}</>),
       onClick: () => {
-        console.log(t('quote.share'));
+        const url = `${origin}/quote/${quoteId}`;
+        if (navigator.share) {
+          navigator.share({
+            title: 'Quotly',
+            text: quote,
+            url
+          }).then();
+        }
       }
     },
     {
@@ -370,7 +373,6 @@ const Quote = ({
 
   const renderButtonPalette = (place?: PlaceOrientation, startMargin?: string) => {
     const count = (sumOfReactions || 0) + (newReaction && reactedReaction && newReaction !== reactedReaction ? -1 : 0);
-    console.log(count, newReaction);
     return (
       <ButtonPalette
         triggerElement={

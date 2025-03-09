@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import styled, { css, useTheme } from 'styled-components';
 import Markdown from 'react-markdown';
 
 import useFetch from 'hooks/useFetch';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import Badge from 'components/Badge/Badge';
 
 import { QuoteType } from 'types/Quote.type';
@@ -35,7 +35,7 @@ const FeedsContainer = styled.div`
 const Feeds = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { routes } = useContext(ApiContext);
+  const { routes } = useApiContext();
   const {
     runFetch: fetchTopQuotes,
     response: topQuotes

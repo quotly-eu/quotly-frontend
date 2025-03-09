@@ -1,8 +1,8 @@
-import { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { ApiContextType } from './ApiContext.type';
 
 const config: ApiContextType = {
-  baseUrl: 'http://localhost:3510',
+  baseUrl: 'https://api.quotly.eu',
   routes: {
     quotes: {
       construct: (id?) => `${config.baseUrl}/v1/quotes${id ? `/${id}` : ''}`,
@@ -25,25 +25,31 @@ const config: ApiContextType = {
       construct: (discordId?) => `${config.baseUrl}/v1/users${discordId ? `/${discordId}` : ''}`,
       sub: {
         me: () => `${config.routes.users.construct()}/me`,
+        delete: () => `${config.routes.users.sub?.me()}/delete`,
         quotes: (id) => `${config.routes.users.construct(id)}/quotes`,
         reactions: (id) => `${config.routes.users.construct(id)}/reactions`,
         roles: (id) => `${config.routes.users.construct(id)}/roles`,
         savedQuotes: (id) => `${config.routes.users.construct(id)}/saved-quotes`,
+        webhook: () => `${config.routes.users.construct()}/webhook`,
+        webhooks: () => `${config.routes.users.construct()}/me/webhooks`
       }
     },
     authorize: {
       construct: () => `${config.baseUrl}/v1/authorize`,
     },
   },
-  discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Foauth&scope=identify+email' 
+  discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=https%3A%2F%2Fquotly.eu%2Foauth&scope=email+identify',
+  discordWebhook: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=https%3A%2F%2Fquotly.eu%2Fwebhook&integration_type=0&scope=email+identify+webhook.incoming'
 };
+
+const ApiContext = createContext(config);
 
 /**
  * Api Context config with necessary urls
  * @example
- * const { routes } = useContext(ApiContext);
+ * const { routes } = useApiContext();
  */
-export const ApiContext = createContext(config);
+export const useApiContext = () => useContext(ApiContext);
 
 /**
  * Api Context Provider for the App, mainly for useFetch Hooks
@@ -52,7 +58,7 @@ export const ApiContext = createContext(config);
  *  <App />
  * </ApiContextProvider>
  */
-const ApiContextProvider = ({children}:{children: React.ReactNode}) => (
+const ApiContextProvider = ({ children }: { children: React.ReactNode }) => (
   <ApiContext.Provider value={config}>
     {children}
   </ApiContext.Provider>

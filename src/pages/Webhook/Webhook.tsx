@@ -6,21 +6,22 @@ import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
- * OAuth Page to verify the Discord authorization
+ * Webhook Page to verify the Discord authorization
  */
-const OAuth = () => {
+const Webhook = () => {
   const { search } = useLocation();
   const { routes } = useApiContext();
   const query = useQuery(search);
   const navigate = useNavigate();
-  const [ cookies, setCookie, removeCookie ] = useCookies([ 'state', 'token' ]);
-  const { runFetch, response } = useFetch<string>(routes.authorize.construct(), {
+  const [ cookies, , removeCookie ] = useCookies([ 'state', 'token' ]);
+  const { runFetch, response } = useFetch<string>(`${routes.users.sub?.webhook()}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams({
-      code: query.get('code')!
+      code: query.get('code')!,
+      token: cookies.token
     })
   });
 
@@ -30,7 +31,7 @@ const OAuth = () => {
   useEffect(() => {
     if (cookies.state !== query.get('state') || query.get('error')) {
       removeCookie('state');
-      navigate('/login?error', {
+      navigate('/settings?error', {
         replace: true
       });
       return;
@@ -42,12 +43,11 @@ const OAuth = () => {
   useEffect(() => {
     if (!response) return;
     if (response?.status === 200) {
-      setCookie('token', response.data);
-      navigate('/', {
+      navigate('/settings', {
         replace: true
       });
     } else if (process.env.NODE_ENV === 'production') {
-      navigate('/login?error', {
+      navigate('/settings?error', {
         replace: true
       });
     }
@@ -56,4 +56,4 @@ const OAuth = () => {
   return <></>;
 };
 
-export default OAuth;
+export default Webhook;

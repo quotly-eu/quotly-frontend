@@ -19,8 +19,9 @@ export type ApiContextType = {
     roles: ApiRoute<[roleId?: string]>;
     users: 
       ApiRoute<[id?: number], 'quotes' | 'reactions' | 'roles' | 'savedQuotes'> &
-      ApiRoute<[], 'me'>;
+      ApiRoute<[], 'me' | 'delete' | 'webhook' | 'webhooks'>;
     authorize: ApiRoute;
   }
   discordAuth: string;
+  discordWebhook: string;
 };

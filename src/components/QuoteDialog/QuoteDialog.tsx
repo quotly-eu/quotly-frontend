@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
@@ -13,7 +13,7 @@ import GuideLinks from 'components/GuideLinks/GuideLinks';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { QuoteDialogType } from './QuoteDialog.type';
 import useFetch from 'hooks/useFetch';
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import { useCookies } from 'react-cookie';
 
 const Style_Form = styled.form`
@@ -57,7 +57,7 @@ const Style_ActionsContainer = styled.div`
 const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
   ({ open = false, isActive = false, toggleDialog }, ref) => {
     const { t } = useTranslation();
-    const { routes } = useContext(ApiContext);
+    const { routes } = useApiContext();
     const [ cookies ] = useCookies([ 'token' ]);
 
     const [ quoteText, setQuoteText ] = useState<string>('');

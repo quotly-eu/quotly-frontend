@@ -8,6 +8,6 @@ describe('NavbarTop', () => {
   });
   it('renders search input', () => {
     const { getByRole } = render(<NavbarTop />);
-    expect(getByRole('textbox')).toBeInTheDocument();
+    expect(getByRole('searchbox')).toBeInTheDocument();
   });
 });

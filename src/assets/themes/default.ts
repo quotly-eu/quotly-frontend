@@ -1,6 +1,4 @@
-const _accent_success_0 = '#008282';
-const _shadows_default = '-5px 5px 5px';
-const theme = {
+const light = {
   colors: {
     white: '#ffffff',
     black: '#000000',
@@ -17,7 +15,7 @@ const theme = {
     accent_white_1: '#acd3eb',
     accent_primary_0: '#1f4fc4',
     accent_secondary_0: '#5f4fc4',
-    accent_success_0: _accent_success_0,
+    accent_success_0: '#008282',
     accent_info_0: '#1686a4',
     accent_warning_0: '#d89c1e',
     accent_danger_0: '#d13f3f',
@@ -31,6 +29,50 @@ const theme = {
       dark: '#294551',
     }
   },
+  shadows: {
+    accent_default: (color: string) => `-5px 5px 5px ${color}`,
+    get default() {return this.accent_default(light.colors.accent_success_0+'2c');},
+  }
+};
+
+const dark = {
+  colors: {
+    white: '#121212',
+    black: '#ffffff',
+    primary: '#4c8aff',
+    secondary: '#a191ff',
+    success: '#28c76f',
+    info: '#00bcd4',
+    warning: '#ffb400',
+    danger: '#ff3b30',
+    gold: '#ffcc00',
+    silver: '#b0b0b0',
+    bronze: '#b5691d',
+    accent_white_0: '#2b3442',
+    accent_white_1: '#212c40',
+    accent_primary_0: '#3f6ad8',
+    accent_secondary_0: '#8c6eff',
+    accent_success_0: '#419a9a',
+    accent_info_0: '#0085a3',
+    accent_warning_0: '#c48200',
+    accent_danger_0: '#b02a2a',
+    transparency: {
+      black: (opacity: number) => `rgba(200, 200, 200, ${opacity})`,
+      white: (opacity: number) => `rgba(0, 0, 0, ${opacity})`,
+    },
+    text: {
+      light: '#ffffff',
+      gray: '#a5b9c5',
+      dark: '#fdfdfd',
+    }
+  },
+  shadows: {
+    accent_default: (color: string) => `-5px 5px 7px ${color}`,
+    get default() {return this.accent_default(dark.colors.accent_success_0+'20');},
+  }
+};
+
+const theme = {
   spacing: {
     xxxs: {
       value: 0.25,
@@ -162,10 +204,6 @@ const theme = {
     lg: '992px',
     xl: '1200px',
   },
-  shadows: {
-    accent_default: (color: string) => `${_shadows_default} ${color}`,
-    get default() {return this.accent_default(_accent_success_0+'2c');},
-  },
   transition: {
     times: {
       s: '150ms',
@@ -174,4 +212,24 @@ const theme = {
     }
   }
 };
-export default theme; // Light theme
+
+export const themes = {
+  light: {
+    ...light,
+    ...theme,
+  },
+  dark: {
+    ...dark,
+    ...theme
+  }
+};
+
+export const darkTheme = {
+  ...dark,
+  ...theme,
+};
+
+export default {
+  ...light,
+  ...theme
+};

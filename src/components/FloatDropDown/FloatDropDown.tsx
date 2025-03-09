@@ -7,31 +7,36 @@ import { placeOrientation } from 'utils/placeOrientation';
 import { Link } from 'react-router-dom';
 
 interface FloatDropDownProps extends PlaceOrientationProps {
-  $active?: boolean
+  $active?: boolean;
+  $hasParentWidth?: boolean;
 }
 
 interface FloatDropDownItemProps {
-  $active?: boolean
+  $active?: boolean;
 }
 
 const FloatDropDownContainer = styled.div`
-  position:relative;
+  position: relative;
 `;
 
 const FloatDropDownMenu = styled.div<FloatDropDownProps>`
-  position:absolute;
+  position: absolute;
 
-  width: max-content;
-
-  ${({ theme }) => `
+  ${({ theme, $hasParentWidth }) => `
     border-radius: ${theme.spacing.xs.rem};
     box-shadow: ${theme.shadows.default};
     transition: all ${theme.transition.times.m} ease-in-out;
+    ${$hasParentWidth ? css`
+    width: 100%;
+    justify-content: center;
+  ` : css`
+    width: max-content;
+  `}
   `}
 
   ${placeOrientation}
-  
-  ${({$active}:FloatDropDownProps) => $active ? `
+
+  ${({ $active }: FloatDropDownProps) => $active ? `
     opacity: 1;
     pointer-events: all;
     ` : `
@@ -41,13 +46,14 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
   `}
 
   backdrop-filter: brightness(1.075) blur(25px);
-  overflow:hidden;
+  overflow: hidden;
   z-index: 10000;
 }
 `;
 
+// noinspection CssUnusedSymbol
 const FloatDropDownItem = css<FloatDropDownItemProps>`
-  display:flex;
+  display: flex;
   -webkit-tap-highlight-color: transparent;
 
   ${({ theme, $active }) => `
@@ -72,6 +78,7 @@ const FloatDropDownItem = css<FloatDropDownItemProps>`
   text-decoration: none;
   align-items: center;
   cursor: pointer;
+
   .svg-inline--fa {
     width: 1.5em;
     text-align: center;
@@ -91,21 +98,23 @@ const FloatDropDownLinkItem = styled(Link)<FloatDropDownItemProps>`
  */
 const FloatDropDown = ({
   triggerElement,
-  place=PlaceOrientation.TopLeft, 
+  place = PlaceOrientation.TopLeft,
   dropDownItems,
   margin,
   startMargin,
-  'data-testid': dataTestId
-}:{
+  'data-testid': dataTestId,
+  hasParentWidth = false
+}: {
   triggerElement: React.ReactElement,
   place?: PlaceOrientation
   dropDownItems: DropDownItem[],
   margin?: string,
   startMargin?: string,
   'data-testid'?: string
+  hasParentWidth?: boolean
 }) => {
   const theme = useTheme();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [ isOpen, setIsOpen ] = React.useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropDownMenu = () => {
@@ -119,46 +128,60 @@ const FloatDropDown = ({
   useEffect(() => {
     const toggleOutside = (event: MouseEvent) => {
       const dropDownTarget = dropDownRef.current;
-      if(isOpen && dropDownTarget && !dropDownTarget.contains(event.target as Node)) {
+      if (isOpen && dropDownTarget && !dropDownTarget.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
     document.addEventListener('click', toggleOutside);
 
-    return () => {document.removeEventListener('click', toggleOutside);};
+    return () => {
+      document.removeEventListener('click', toggleOutside);
+    };
   });
 
   return (
     <FloatDropDownContainer ref={dropDownRef}>
       {cloneTriggerElement}
-        <FloatDropDownMenu 
-          $placeOrientation={place} 
-          $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.l.rem} 
-          $active={isOpen} 
-          data-testid={dataTestId}>
-          {dropDownItems.map((dropDownItem, index) => {
-            const propagateClick = (event: React.MouseEvent) => {
-              event.stopPropagation();
-              if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
-              if(dropDownItem.onClick) dropDownItem.onClick(event);
-              toggleDropDownMenu();
-            };
+      <FloatDropDownMenu
+        $placeOrientation={place}
+        $margin={(isOpen ? margin : startMargin) || margin || theme.spacing.l.rem}
+        $active={isOpen}
+        $hasParentWidth={hasParentWidth}
+        data-testid={dataTestId}
+      >
+        {dropDownItems.map((dropDownItem, index) => {
+          const propagateClick = (event: React.MouseEvent) => {
+            event.stopPropagation();
+            if (typeof navigator.vibrate === 'function') navigator.vibrate(20);
+            if (dropDownItem.onClick) dropDownItem.onClick(event);
+            toggleDropDownMenu();
+          };
 
-            if(dropDownItem.type && dropDownItem.type === DropDownItemType.LINK) {
-              return (
-                <FloatDropDownLinkItem to={dropDownItem.href || ''} onClick={propagateClick} $active={dropDownItem.active} key={index}>
-                  {dropDownItem.label}
-                </FloatDropDownLinkItem>
-              );
-            }
-
+          if (dropDownItem.type && dropDownItem.type === DropDownItemType.LINK) {
             return (
-              <FloatDropDownAnchorItem href={dropDownItem.href} onClick={propagateClick} $active={dropDownItem.active} key={index}>
+              <FloatDropDownLinkItem
+                to={dropDownItem.href || ''}
+                onClick={propagateClick}
+                $active={dropDownItem.active}
+                key={index}
+              >
                 {dropDownItem.label}
-              </FloatDropDownAnchorItem>
+              </FloatDropDownLinkItem>
             );
-          })}
-        </FloatDropDownMenu>
+          }
+
+          return (
+            <FloatDropDownAnchorItem
+              href={dropDownItem.href}
+              onClick={propagateClick}
+              $active={dropDownItem.active}
+              key={index}
+            >
+              {dropDownItem.label}
+            </FloatDropDownAnchorItem>
+          );
+        })}
+      </FloatDropDownMenu>
     </FloatDropDownContainer>
   );
 };

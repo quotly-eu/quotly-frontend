@@ -17,6 +17,7 @@ import { NavbarLeftProps } from './NavbarLeft.type';
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { useAppData } from '../../contexts/AppData/AppData';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -88,11 +89,12 @@ const PreparedProfileButton = styled(ProfileButton).attrs(({ theme }) => ({
 /**
  * NavbarLeft Component
  */
-const NavbarLeft = ({ toggleDialog, userResponse }: NavbarLeftProps) => {
+const NavbarLeft = ({ toggleDialog }: NavbarLeftProps) => {
   const theme = useTheme();
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const [ cookies ] = useCookies([ 'token' ]);
+  const [{user}]= useAppData();
   const [ avatarUrl, setAvatarUrl ] = useState<string>();
   const navigate = useNavigate();
 
@@ -103,14 +105,9 @@ const NavbarLeft = ({ toggleDialog, userResponse }: NavbarLeftProps) => {
   }, [ cookies.token ]);
 
   useEffect(() => {
-    if (!userResponse) return;
-    if (userResponse.status === 200) {
-      const user = userResponse.data;
+    if (!user || !user.discordId || !user.avatarUrl) return;
       setAvatarUrl(`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`);
-    } else {
-      navigate('/logout');
-    }
-  }, [ userResponse ]);
+  }, [ user ]);
 
   const dropDownItems: DropDownItem[] = [
     {
@@ -129,10 +126,10 @@ const NavbarLeft = ({ toggleDialog, userResponse }: NavbarLeftProps) => {
 
   const ProfileDropDownItems: DropDownItem[] = [
     {
-      label: (<><FontAwesomeIcon icon="user" /> {userResponse?.data.displayName || t('profile')}</>),
-      href: `/user/${userResponse?.data.userId}`,
+      label: (<><FontAwesomeIcon icon="user" /> {user?.displayName || t('profile')}</>),
+      href: `/user/${user?.userId}`,
       type: DropDownItemType.LINK,
-      active: pathname.includes(`/user/${userResponse?.data.userId}`)
+      active: pathname.includes(`/user/${user?.userId}`)
     },
     {
       label: (<><FontAwesomeIcon icon={[ 'fas', 'bookmark' ]} /> {t('saved_quotes')}</>),

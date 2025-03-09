@@ -4,13 +4,16 @@ import App from '../App';
 import { ThemeProvider } from 'styled-components';
 import theme from 'assets/themes/default';
 import ApiContextProvider from 'contexts/ApiContext/ApiContext';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('App', () => {
   it('renders', () => {
     const result = render(
       <ThemeProvider theme={theme}>
         <ApiContextProvider>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </ApiContextProvider>
       </ThemeProvider>
     );

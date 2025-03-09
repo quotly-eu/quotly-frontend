@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ApiContext } from 'contexts/ApiContext/ApiContext';
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
 
 import Button from 'components/Button/Button';
 import GuideLinks from 'components/GuideLinks/GuideLinks';
@@ -103,7 +103,7 @@ const Style_GuideLink = styled(Link)`
 const Login = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { discordAuth } = useContext(ApiContext);
+  const { discordAuth } = useApiContext();
   const [ cookies, setCookie ] = useCookies(['state', 'token']);
 
   useEffect(() => {
