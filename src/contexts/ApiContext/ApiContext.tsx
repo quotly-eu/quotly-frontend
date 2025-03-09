@@ -38,8 +38,8 @@ const config: ApiContextType = {
       construct: () => `${config.baseUrl}/v1/authorize`,
     },
   },
-  discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Foauth&scope=identify+email',
-  discordWebhook: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3570%2Fwebhook&integration_type=0&scope=webhook.incoming+identify+email'
+  discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=https%3A%2F%2Fquotly.eu%2Foauth&scope=email+identify',
+  discordWebhook: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=https%3A%2F%2Fquotly.eu%2Fwebhook&integration_type=0&scope=email+identify+webhook.incoming'
 };
 
 const ApiContext = createContext(config);
