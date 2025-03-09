@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 import { ApiContextType } from './ApiContext.type';
 
 const config: ApiContextType = {
-  baseUrl: 'http://localhost:3510',
+  baseUrl: 'https://api.quotly.eu',
   routes: {
     quotes: {
       construct: (id?) => `${config.baseUrl}/v1/quotes${id ? `/${id}` : ''}`,
