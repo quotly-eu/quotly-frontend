@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,12 +32,20 @@ const Style_Form = styled.form`
 `;
 
 const Style_Markdown = styled.div`
-  ${({ theme }) => `
+  display: flex;
+  flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
+  
+  ${({ theme }) => css`
     background-color: ${theme.colors.transparency.white(0.5)};
     padding: ${theme.spacing.s.rem};
+    gap: ${theme.spacing.s.rem};
     border-radius: ${theme.spacing.m.rem};
     font-size: ${theme.font.sizes.s.rem};
     box-shadow: ${theme.shadows.default};
+    @media (max-width: ${theme.breakpoints.md}) {
+      font-size: ${theme.font.sizes.xs.rem};
+    }
   `}
   text-align: center;
   text-wrap: balance;

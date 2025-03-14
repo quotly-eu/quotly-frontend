@@ -1,6 +1,10 @@
 # Changelog of quotly-frontend
 All notable changes to this project will be documented in this file.
 
+## [0.14.1] - 2025-03-14
+### Fixes
+- Fixed Quote text new line for [#49](https://github.com/quotly-eu/quotly-frontend/issues/49)
+
 ## [0.14.0] - 2025-03-03
 ### Additions
 - Added settings page for [#35](https://github.com/quotly-eu/quotly-frontend/issues/35)
