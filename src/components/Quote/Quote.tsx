@@ -63,6 +63,7 @@ const QuoteContainer = styled.div`
 
 const Style_Markdown = styled(Link)`
   display: flex;
+  flex-direction: column;
   grid-area: text;
   -webkit-tap-highlight-color: transparent;
 
@@ -70,6 +71,7 @@ const Style_Markdown = styled(Link)`
     color: ${theme.colors.text.dark};
 
     padding: ${theme.spacing.s.rem};
+    gap: ${theme.spacing.s.rem};
     border-radius: ${theme.spacing.xxs.rem};
 
     &:hover {
