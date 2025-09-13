@@ -4,7 +4,7 @@
 export default beforeEach(() => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
-    value: jest.fn().mockImplementation((query) => ({
+    value: jest.fn().mockImplementation((query: string) => ({
       matches: query == "(max-width: mockMobile)",
       media: query,
       onchange: null,

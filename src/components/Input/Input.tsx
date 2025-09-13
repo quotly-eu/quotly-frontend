@@ -1,71 +1,82 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { InputType } from './Input.type';
+
 // Styles
-const InputContainer = styled.div<{$hasIcon:boolean}>`
-  position: relative;
+const Style_FontAwesomeIcon = styled(FontAwesomeIcon)`
+  ${({ theme }) => `
+    padding-left: ${theme.spacing.s.rem}; 
+  `}
+  font-size: 1.4em;
+`;
+
+const InputContainer = styled.label`
   display: flex;
   flex-direction: row;
-  color: ${props => props.theme.colors.text.dark};
-  background-color: ${props => props.theme.colors.accent_white_0};
-  
-  gap: ${props => props.theme.spacing.s.rem};
-
-  border-radius: 100vmax;
-
-  font-size: ${props => props.theme.font.sizes.xs};
+  width: 100%;
+  backdrop-filter: brightness(1.075);
+  ${({ theme }) => `
+    color: ${theme.colors.text.dark};
+    font-size: ${theme.font.sizes.xs.rem};
+    border-radius: ${theme.spacing.m.rem};
+    box-shadow: ${theme.shadows.default};
+  `}
 
   justify-content: center;
   align-items: center;
-  box-shadow: ${props => props.theme.shadows.default};
   overflow: hidden;
-  label {
-    position: absolute;
-    display: flex;
-    
-    left: ${props => props.theme.spacing.s.rem};
-    font-size: 1.4em;
+  z-index: 999;
+`;
 
-    border-radius: 100vmax;
-    align-items: center;
-  }
-  input {
-    color: inherit;
-    background-color: transparent;
+const Style_Input = styled.input`
+  color: inherit;
+  background-color: transparent;
 
-    width: 100%;
+  width: 100%;
+  ${({ theme }) => `
     padding: 
-      ${props => props.theme.spacing.xs.rem} 
-      ${props => props.theme.spacing.s.rem};
-    ${({$hasIcon, theme}) => $hasIcon && `padding-left: ${theme.spacing.xl.em}`};
+    ${theme.spacing.xs.rem} 
+    ${theme.spacing.s.rem};  
+  `}
 
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
 
-    border: 0;
-    &:focus {
-      outline: none;
-    }
+  resize: none;
+
+  border: 0;
+  &:focus {
+    outline: none;
   }
 `;
+
 
 /**
  * Input Component with Icon
  */
-const Input = ({ id, name, placeholder, iconClass, testing }:{
-  id?: string,
-  name?: string
-  placeholder?: string
-  iconClass?: string,
-  testing?: boolean
-}) => {
-  return (
-    <InputContainer $hasIcon={iconClass !== undefined}>
-      {iconClass && <label htmlFor={id} data-testid={testing && "label"}><i className={iconClass} data-testid={testing && "icon"}></i></label>}
-      <input id={id} name={name} placeholder={placeholder}  />
-    </InputContainer>
-  );
-};
+// eslint-disable-next-line react/display-name
+const Input = forwardRef<React.HTMLProps<HTMLInputElement>, InputType & Omit<Partial<React.HTMLProps<HTMLInputElement>>, 'onChange'>>(
+  ({ id, name, placeholder, icon, as='input', required, testing, onChange, ...rest }, ref) => {
+    return (
+      <InputContainer data-testid={testing && 'label'}>
+        {icon && <Style_FontAwesomeIcon icon={icon} />}
+        <Style_Input 
+          as={as}
+          id={id}
+          name={name}
+          placeholder={placeholder}
+          required={required}
+          onChange={(ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => onChange && onChange(ev.target.value)}
+          ref={ref}
+          {...rest} 
+        />
+      </InputContainer>
+    );
+  }
+);
 
 export default Input;

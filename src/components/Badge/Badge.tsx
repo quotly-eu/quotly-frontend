@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
+import { PlaceOrientationProps } from 'types/placeOrientation.type';
 import { placeOrientation } from 'utils/placeOrientation';
-import { BadgeStyles } from './Badge.type';
-import { CustomTheme } from 'types/styled-components';
+import { BadgeStyles, BadgeType } from './Badge.type';
+import { CustomTheme } from 'types/declarations/styled-components';
 
 // TYPES
 interface BadgeProps extends PlaceOrientationProps {
   $style?: string,
-  $fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']],
+  $color?: string,
+  $fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']][
+    keyof CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
+  ],
 }
 
 // STYLES
@@ -17,7 +20,17 @@ const BadgeContainer = styled.div<BadgeProps>`
 
   ${placeOrientation}
 
-  ${({$style, theme}) => {
+  ${({$fontSize, theme}) => `
+    color: ${theme.colors.text.light};
+
+    font-size: ${$fontSize || theme.font.sizes.xxxs.em};
+    padding: ${theme.spacing.xxxs.rem} ${theme.spacing.xxs.rem};
+    gap: ${theme.spacing.xxxs.rem};
+
+    border-radius: 100vmax;
+
+  `}
+  ${({$style, $color, theme}) => {
     switch($style) {
       case BadgeStyles.transparent: { 
         const outlineWidth = '0px';
@@ -35,10 +48,6 @@ const BadgeContainer = styled.div<BadgeProps>`
           ;
         `; 
       }
-      case BadgeStyles.primary:
-        return `
-          background-color: ${theme.colors.primary};
-        `;
       case BadgeStyles.secondary:
         return `
           background-color: ${theme.colors.secondary};
@@ -59,6 +68,11 @@ const BadgeContainer = styled.div<BadgeProps>`
         return `
           background-color: ${theme.colors.danger};
         `;
+      case BadgeStyles.custom:
+        return $color && `
+          color: ${$color};
+        `;
+      case BadgeStyles.primary:
       case BadgeStyles.default:
       default:
         return `
@@ -66,41 +80,22 @@ const BadgeContainer = styled.div<BadgeProps>`
         `;
     }
   }}
-  ${({$fontSize, theme}) => `
-    color: ${theme.colors.text.light};
-
-    font-size: ${$fontSize || theme.font.sizes.xxxs};
-    padding: ${theme.spacing.xxxs.rem} ${theme.spacing.xxs.rem};
-    gap: ${theme.spacing.xxxs.rem};
-
-    border-radius: 100vmax;
-
-  `}
 
   font-weight: 800;
-  border-radius:  100vmax;
+  border-radius: 100vmax;
 
   align-items:center;
   justify-content:center;
+  user-select:none;
 `;
 
 /**
  * 
  * @returns 
  */
-const Badge = ({children, className, place, style=BadgeStyles.default, fontSize}: {
-  children?: React.ReactNode
-  className?: string
-  place?: {
-    place: PlaceOrientation,
-    margin?: string
-  }
-  margin?: string
-  style?: BadgeStyles
-  fontSize?: CustomTheme['font']['sizes'][keyof CustomTheme['font']['sizes']]
-}) => {
+const Badge = ({children, place, badgeStyle=BadgeStyles.default, color, fontSize, ...rest}:BadgeType) => {
   return (
-    <BadgeContainer className={className} $placeOrientation={place?.place} $margin={place?.margin || "0px"} $style={style} $fontSize={fontSize}>
+    <BadgeContainer $placeOrientation={place?.place} $margin={place?.margin || '0px'} $style={badgeStyle} $color={color} $fontSize={fontSize} {...rest}>
       {children}
     </BadgeContainer>
   );

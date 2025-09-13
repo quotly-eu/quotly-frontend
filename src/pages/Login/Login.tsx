@@ -1,0 +1,172 @@
+import React, { useEffect } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
+
+import styled, { css } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { useApiContext } from 'contexts/ApiContext/ApiContext';
+
+import Button from 'components/Button/Button';
+import GuideLinks from 'components/GuideLinks/GuideLinks';
+
+import { CSS_Link } from 'utils/stylingTemplates';
+
+import { ReactComponent as Logo } from 'assets/img/quotly.svg';
+import { generateToken } from 'utils/generateToken';
+import { useCookies } from 'react-cookie';
+import PageTitle from 'components/PageTitle/PageTitle';
+import { Link, useNavigate } from 'react-router-dom';
+import useGetToken from 'hooks/useGetToken';
+
+const Style_PageContainer = styled.div`
+  display: grid;
+  min-height: inherit;
+  grid-template-rows: 1fr auto;
+`;
+
+const Style_LoginContainer = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr auto auto;
+
+  ${({ theme }) => css`
+    padding: ${theme.spacing.m.rem};
+    gap: ${theme.spacing.xl.rem};
+
+    @media (max-width: ${theme.breakpoints.md}) {
+      grid-auto-flow: row;
+      grid-template-columns: none;
+      grid-template-rows: 1fr auto auto;
+    }
+  `}
+
+  place-self: center;
+`;
+
+const Style_LeftContainer = styled.div`
+  max-width: 600px;
+  place-self:center;
+`;
+
+const Style_Separator = styled.div`
+  width: 1px;
+  ${({ theme }) => css`
+    background-color: ${theme.colors.accent_white_1};
+
+    @media (max-width: ${theme.breakpoints.md}) {
+      width: unset;
+      height: 1px;
+    }
+  `}
+`;
+
+const Style_RightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+
+  ${({ theme }) => css`
+    gap: ${theme.spacing.m.rem};
+    border-radius: ${theme.spacing.m.rem};
+  `}
+  place-self: center;
+`;
+
+const Style_Footer = styled.footer`
+  ${({ theme }) => css`
+    padding: ${theme.spacing.xs.rem};
+  `}
+`;
+
+const Style_Logo = styled(Logo)`
+  width: 100%;
+`;
+
+const Style_Description = styled.h2`
+  text-wrap: pretty;
+  font-weight: 900;
+`;
+
+const Style_AuthInfo = styled.small`
+  ${({ theme }) => css`
+    color: ${theme.colors.text.gray};
+  `}
+`;
+
+const Style_GuideLink = styled(Link)`
+  ${CSS_Link}
+`;
+
+/**
+ * Login page / Landing page for Quotly.
+ */
+const Login = () => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { discordAuth } = useApiContext();
+  const [, setCookie] = useCookies(['state', 'token']);
+  const token = useGetToken();
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate, token]);
+
+  const onClick = () => {
+    const stateToken = generateToken(32);
+    setCookie('state', stateToken, {
+      path: '/',
+      sameSite: 'strict',
+      secure: true
+    });
+    window.location.href = `${discordAuth}&state=${stateToken}`;
+  };
+
+  return (
+    <Style_PageContainer>
+      <PageTitle title='Login' />
+      <Style_LoginContainer>
+        <Style_LeftContainer>
+          <Style_Logo />
+        </Style_LeftContainer>
+        <Style_Separator />
+        <Style_RightContainer>
+          <Style_Description>{t('description')}</Style_Description>
+          <Button onClick={onClick}>
+            <FontAwesomeIcon icon={['fab', 'discord']} />
+            {t('login.discord_btn')}
+          </Button>
+          <Style_AuthInfo>
+            <Trans i18nKey='login.auth_info'>
+              <Style_GuideLink to='/tos'>TOS</Style_GuideLink>
+              <Style_GuideLink to='/privacy'>Privacy Policy</Style_GuideLink>
+              <Style_GuideLink to='/cookies'>Cookies</Style_GuideLink>
+            </Trans>
+          </Style_AuthInfo>
+        </Style_RightContainer>
+      </Style_LoginContainer>
+      <Style_Footer>
+        <GuideLinks textAlign='center' links={[
+          {
+            label: t('guides.privacy_policy'),
+            url: '/privacy'
+          },
+          {
+            label: t('guides.terms_of_service'),
+            url: '/tos'
+          },
+          {
+            label: t('guides.cookies'),
+            url: '/cookies'
+          },
+          {
+            label: '© 2024 ' + t('quotly')
+          }
+        ]} />
+      </Style_Footer>
+    </Style_PageContainer>
+  );
+};
+
+export default Login;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { placeOrientation } from 'utils/placeOrientation';
 import { PlaceOrientation, PlaceOrientationProps } from 'types/placeOrientation.type';
@@ -19,11 +19,11 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
 
   border-radius: 100vmax;
   justify-content: start;
-  transition: all 0.3s ease-in-out;
   z-index: 1;
   ${({ theme, $active }) => `
     box-shadow: ${theme.shadows.default}, inset ${theme.shadows.default};
     backdrop-filter: brightness(1.075) blur(10px);
+    transition: all ${theme.transition.times.m} ease-in-out;
     ${$active ? `
       opacity: 1;
       pointer-events: all;
@@ -41,13 +41,20 @@ const ButtonPaletteMenu = styled.div<ButtonPaletteProps>`
  * @example
  * <ButtonPalette 
  *  buttons={[
- *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:red-heart" height="100%" />} />,
- *   <Button isIconButton={true} style={ButtonStyles.transparent} children={<Icon icon="fluent-emoji:thumbs-up" height="100%" />} />,
+ *   <Button isIconButton btnStyle={ButtonStyles.transparent} children={<Icon icon='fluent-emoji:red-heart' height='100%' />} />,
+ *   <Button isIconButton btnStyle={ButtonStyles.transparent} children={<Icon icon='fluent-emoji:thumbs-up' height='100%' />} />,
  *  ]} 
  * />
  */
-const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLeft, margin="0rem", startMargin="0rem", alwaysOpen=false}:ButtonPaletteType) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ButtonPalette = ({
+  triggerElement,
+  buttons,
+  place=PlaceOrientation.InsetLeft,
+  margin='0rem',
+  startMargin='0rem',
+  isOpen=false, 
+  setIsOpen=() => {},
+}:ButtonPaletteType) => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
@@ -73,11 +80,15 @@ const ButtonPalette = ({triggerElement, buttons, place=PlaceOrientation.InsetLef
     <ButtonPaletteContainer ref={menuRef}>
       {cloneTriggerElement}
       <ButtonPaletteMenu 
-        $active={alwaysOpen || isOpen} 
+        $active={isOpen} 
         $margin={isOpen ? margin : startMargin} 
         $placeOrientation={place}
       >
-        {buttons}
+        {buttons.map((button, index) => (
+          <React.Fragment key={index}>
+            {button}
+          </React.Fragment>
+        ))}
       </ButtonPaletteMenu>
     </ButtonPaletteContainer>
   );

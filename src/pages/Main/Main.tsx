@@ -1,107 +1,63 @@
 import React from 'react';
-import Quote from '../../components/Quote/Quote';
-import styled from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
+import Switcher from 'components/Switcher/Switcher';
+import PageTitle from 'components/PageTitle/PageTitle';
+import Quote from 'components/Quote/Quote';
+
+import Feeds from 'components/Feeds/Feeds';
+import useGetToken from 'hooks/useGetToken';
+import { $api } from 'utils/api';
+
+// Styles
 const MainContainer = styled.div`
   display: grid;
-  gap: ${({ theme }) => theme.spacing.s.rem};
+  grid-template-areas: 
+    'quotes feeds';
+  grid-template-columns: 1fr auto;
+
+  ${({ theme }) => css`
+    gap: ${theme.spacing.s.rem};
+
+    @media (max-width: ${theme.breakpoints.lg}) {
+      grid-template-areas: 'quotes';
+      grid-template-columns: 1fr;
+    }
+  `}
 `;
 
-// TODO: Default Icons for the Quotes, replace it in the future
-const defaultIcons = [
-  {
-    icon: 'red-heart',
-    count: 259000
-  },
-  {
-    icon: 'thumbs-up',
-    count: 3
-  },
-  {
-    icon: 'face-with-tears-of-joy',
-    count: 2
-  },
-  {
-    icon: 'melting-face',
-    count: 1
-  },
-  {
-    icon: 'skull',
-    count: 259001
-  }
-];
+const Container = css`
+  display: flex;
+  flex-direction: column;
+  gap: inherit;
+`;
+
+const QuotesContainer = styled.div`
+  grid-area: quotes;
+  ${Container}
+`;
 
 /**
  * Main Page for Quotly
  */
 const Main = () => {
+  const theme = useTheme();
+  const token = useGetToken();
+  const { data: quotes } = $api.useQuery('get', '/v1/quotes', { params: { query: { token } } });
+
   return (
     <MainContainer>
-      <Quote 
-        quote={{
-          id: '1',
-          text: `**Daniel zu domi:** "ich kann gerade nicht, meine Hände liegen da drüben"`,
-          url: '/test',
-          dated: '07/04/2024'
-        }}
-        author={{
-          name: 'Daniel',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
-          url: '/'
-        }}
-        reactions={{
-          icons: defaultIcons
-        }}
-      />
-      <Quote 
-        quote={{
-          id: '1',
-          text: `**Domi:** "Das ist der einzige Weg, Geld zu verkaufen!"`,
-          url: '/test',
-          dated: '05/24/2024'
-        }}
-        author={{
-          name: 'Jordan',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female&seed=1',
-          url: '/'
-        }}
-        reactions={{
-          reactedIcon: 'face-with-tears-of-joy',
-          icons: defaultIcons
-        }}
-      />
-      <Quote 
-        quote={{
-          id: '1',
-          text: `**Dominic:** "Wie viel hat deine Grafikkarte geteuert?"`,
-          url: '/test',
-          dated: '01/26/2024'
-        }}
-        author={{
-          name: 'Rubinschwein47',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male&seed=2',
-          url: '/'
-        }}
-        reactions={{
-          icons: defaultIcons
-        }}
-      />
-      <Quote 
-        quote={{
-          id: '1',
-          text: `**Daniel:** "Du könntest das Kabel vom Geld reinstecken"`,
-          url: '/test',
-          dated: '01/15/2024'
-        }}
-        author={{
-          name: 'Daniel',
-          avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=male',
-          url: '/'
-        }}
-        reactions={{
-          icons: defaultIcons
-        }}
-      />
+      <PageTitle />
+      <QuotesContainer>
+        {quotes && quotes.map((quote, index) => (
+          <Quote
+            {...quote}
+            isLast={quotes.length !== 1 && quotes.length == (index + 1)}
+            key={quote.quoteId}
+          />
+        ))}
+      </QuotesContainer>
+      <Switcher breakpoint={theme.breakpoints.lg} desktop={<Feeds />} />
     </MainContainer>
   );
 };

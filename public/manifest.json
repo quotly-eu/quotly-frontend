@@ -1,35 +1,43 @@
 {
-  "short_name": "Quotly",
-  "name": "Quotly - A simple web app that allows you to create and share funny quotes.",
+  "manifest_version": 2,
+  "version": "1.0.0",
+  "background_color": "#ebf3fa",
+  "categories": [
+    "entertainment"
+  ],
+  "description": "Quotly is a simple web app that allows you to create and share funny quotes.",
+  "dir": "auto",
+  "display": "standalone",
   "icons": [
     {
-      "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
+      "src": "favicon.ico",
       "type": "image/x-icon"
     },
     {
+      "sizes": "192x192",
       "src": "quotly192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "type": "image/png"
     },
     {
+      "sizes": "512x512",
       "src": "quotly512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "type": "image/png"
     }
   ],
-  "start_url": "/",
-  "scope": "/",
-  "display": "standalone",
-  "theme_color": "#ebf3fa",
-  "background_color": "#ebf3fa",
-  "description": "Quotly is a simple web app that allows you to create and share funny quotes.",
+  "id": "quotly_app",
   "lang": "en",
-  "dir": "auto",
+  "launch_handler": {
+    "client_mode": [
+      "navigate-existing",
+      "auto"
+    ]
+  },
+  "name": "Quotly",
   "orientation": "portrait",
   "prefer_related_applications": false,
-  "id": "quotly_app",
-  "categories": [
-    "entertainment"
-  ]
+  "scope": "/",
+  "short_name": "Quotly",
+  "start_url": "/",
+  "theme_color": "#ebf3fa"
 }

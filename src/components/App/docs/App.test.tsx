@@ -1,9 +1,22 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from '../App';
+import { ThemeProvider } from 'styled-components';
+import theme from 'assets/themes/default';
+import ApiContextProvider from 'contexts/ApiContext/ApiContext';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('App', () => {
   it('renders', () => {
-    expect(render(<App />)).not.toBeNull();
+    const result = render(
+      <ThemeProvider theme={theme}>
+        <ApiContextProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ApiContextProvider>
+      </ThemeProvider>
+    );
+    expect(result).not.toBeNull();
   });
 });

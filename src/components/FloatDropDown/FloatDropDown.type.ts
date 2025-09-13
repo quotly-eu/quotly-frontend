@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+import { ReactNode, MouseEvent } from "react";
+
 /**
  * DropDownItem type for FloatDropDown
  * @example
@@ -12,10 +15,12 @@
  * <FloatDropDown dropDownItems={dropDownItems} />
  */
 export type DropDownItem = {
-  label: React.ReactNode,
-  href?: string
-  type?: DropDownItemType,
-  onClick?: (event?: React.MouseEvent) => void
+  id?: string | number;
+  label: ReactNode;
+  href?: string;
+  type?: DropDownItemType;
+  active?: boolean;
+  onClick?: (event?: MouseEvent) => void;
 };
 
 /**

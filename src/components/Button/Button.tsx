@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ButtonStyles } from './Button.type';
+import { ButtonStyles, ButtonType } from './Button.type';
 
 // Types
 interface ButtonProps {
@@ -27,7 +27,6 @@ const ButtonContainer = styled.a<ButtonProps>`
 
           &:active {
             background-color: ${theme.colors.accent_primary_0};
-            border-color: ${theme.colors.accent_primary_0};
           }
         `;
       case ButtonStyles.secondary:
@@ -38,7 +37,6 @@ const ButtonContainer = styled.a<ButtonProps>`
           box-shadow: ${theme.shadows.default};
           &:active {
             background-color: ${theme.colors.accent_secondary_0};
-            border-color: ${theme.colors.accent_secondary_0};
           }
         `;
       case ButtonStyles.success:
@@ -49,7 +47,6 @@ const ButtonContainer = styled.a<ButtonProps>`
           box-shadow: ${theme.shadows.default};
           &:active {
             background-color: ${theme.colors.accent_success_0};
-            border-color: ${theme.colors.accent_success_0};
           }
         `;
       case ButtonStyles.info:
@@ -60,7 +57,6 @@ const ButtonContainer = styled.a<ButtonProps>`
           box-shadow: ${theme.shadows.default};
           &:active {
             background-color: ${theme.colors.accent_info_0};
-            border-color: ${theme.colors.accent_info_0};
           }
         `;
       case ButtonStyles.warning:
@@ -71,7 +67,6 @@ const ButtonContainer = styled.a<ButtonProps>`
           box-shadow: ${theme.shadows.default};
           &:active {
             background-color: ${theme.colors.accent_warning_0};
-            border-color: ${theme.colors.accent_warning_0};
           }
         `;
       case ButtonStyles.danger:
@@ -82,12 +77,12 @@ const ButtonContainer = styled.a<ButtonProps>`
           box-shadow: ${theme.shadows.default};
           &:active {
             background-color: ${theme.colors.accent_danger_0};
-            border-color: ${theme.colors.accent_danger_0};
           }
         `;
       case ButtonStyles.transparent:
         return `
           color: ${theme.colors.text.dark};
+          background-color: transparent;
 
           &:active {
             background-color: ${theme.colors.transparency.black(0.1)};
@@ -96,6 +91,7 @@ const ButtonContainer = styled.a<ButtonProps>`
       case ButtonStyles.default:
       default:
         return `
+          background-color: transparent;
           color: ${theme.colors.text.dark};
           box-shadow: ${theme.shadows.default}, inset ${theme.shadows.default};
 
@@ -111,24 +107,27 @@ const ButtonContainer = styled.a<ButtonProps>`
       `
         flex-direction: column;
 
-        padding: ${$padding || theme.spacing.xs.rem};
+        padding: ${$padding || theme.spacing.xxs.em};
         width: ${$width || theme.spacing.xxl.rem};
         height: ${$width || theme.spacing.xxl.rem};
 
       ` : `
-        padding: ${$padding || `${theme.spacing.xxs.rem} ${theme.spacing.m.rem}`};
+        ${$width ? `width: ${$width};` : ``}
+        padding: ${$padding || `${theme.spacing.xxxs.em} ${theme.spacing.s.em}`};
       `
   }
   ${({$gap, theme}) => `
-    font-size: ${theme.font.sizes.s};
+    font-size: ${theme.font.sizes.s.rem};
+    font-family: ${theme.font.family.default};
     gap: ${$gap || theme.spacing.xxs.rem};
     transition-duration: ${theme.transition.times.s};
   `}
   border-radius: 100vmax;
+  border: none;
 
   font-weight: 500;
 
-  transition-property: background-color, border-color, color;
+  transition-property: background-color, color;
   transition-timing-function: ease-in-out;
   text-decoration: none;
   justify-content: center;
@@ -139,35 +138,41 @@ const ButtonContainer = styled.a<ButtonProps>`
 /**
  * Button and Icon Button Component
  */
-const Button = ({children, className, href=undefined, isIconButton=false, style=ButtonStyles.default, padding, gap, width, title, onClick}:{
-  children?: React.ReactNode,
-  className?: string,
-  href?: string,
-  style?: ButtonStyles,
-  padding?: string,
-  gap?: string,
-  width?: string
-  isIconButton?: boolean,
-  title?: string,
-  onClick?: (event?: React.MouseEvent) => void,
-}) => {
+const Button = ({
+  children, 
+  href=undefined,
+  as='button',
+  type='button',
+  isIconButton=false, 
+  btnStyle=ButtonStyles.default, 
+  padding, 
+  gap, 
+  width, 
+  title, 
+  onClick,
+  ...rest
+}:ButtonType & React.HTMLProps<HTMLButtonElement>) => {
   const propagateClick = (event: React.MouseEvent) => {
-    event.preventDefault();
+    if(typeof navigator.vibrate === 'function') navigator.vibrate(20);
     if(onClick) onClick(event);
   };
+
   return (
-    <ButtonContainer 
-      children={children}
+    <ButtonContainer
+      as={as}
       href={href} 
-      className={className}
-      $style={style}
+      type={type}
+      $style={btnStyle}
       $padding={padding}
       $gap={gap}
       $width={width}
       $isIconButton={isIconButton}
       onClick={propagateClick}
       title={title}
-    />
+      {...rest}
+    >
+      {children}
+    </ButtonContainer>
   );
 };
 

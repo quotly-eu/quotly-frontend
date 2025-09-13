@@ -1,10 +1,14 @@
+/* eslint-disable no-unused-vars */
+import { ReactNode, MouseEvent } from "react";
+import { WebTarget } from "styled-components";
+
 /**
- * ButtonStyles
+ * ButtonStyles for the Button component.
  * @example
  * import Button from 'components/Button/Button';
  * import { ButtonStyles } from 'types/Button.type';
  * 
- * <Button style={ButtonStyles.primary}>Primary</Button>
+ * <Button btnStyle={ButtonStyles.primary}>Primary</Button>
  */
 export enum ButtonStyles {
   default = 'default',
@@ -16,3 +20,25 @@ export enum ButtonStyles {
   danger = 'danger',
   transparent = 'transparent',
 }
+
+/**
+ * ButtonType for the Button component.
+ * @example
+ * import Button from 'components/Button/Button';
+ * 
+ * <Button>Click Me</Button>
+ */
+export type ButtonType = {
+  children?: ReactNode,
+  href?: string,
+  as?: void | WebTarget,
+  type?: 'button' | 'submit' | 'reset',
+  btnStyle?: ButtonStyles,
+  padding?: string,
+  gap?: string,
+  width?: string
+  isIconButton?: boolean,
+  title?: string,
+  onClick?: (event: MouseEvent) => void,
+  [rest: string]: unknown
+};

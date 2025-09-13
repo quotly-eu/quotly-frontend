@@ -1,10 +1,10 @@
-import React, { act } from "react";
-import { render } from "utils/quotly-testing";
-import FloatDropDown from "../FloatDropDown";
-import { DropDownItem } from "../FloatDropDown.type";
+import React, { act } from 'react';
+import { render } from 'utils/quotly-testing';
+import FloatDropDown from '../FloatDropDown';
+import { DropDownItem } from '../FloatDropDown.type';
 
-describe("FloatDropDown", () => {
-  it("renders", () => {
+describe('FloatDropDown', () => {
+  it('renders', () => {
     expect(render(
       <FloatDropDown 
         triggerElement={<div />}
@@ -12,21 +12,21 @@ describe("FloatDropDown", () => {
       />
     )).not.toBeNull();
   });
-  it("renders triggerElement", () => {
-    const triggerElement = <div data-testid="triggerElement" />;
+  it('renders triggerElement', () => {
+    const triggerElement = <div data-testid='triggerElement' />;
     const { getByTestId } = render(
       <FloatDropDown 
         triggerElement={triggerElement}
         dropDownItems={[]}
       />
     );
-    expect(getByTestId("triggerElement")).toBeInTheDocument();
+    expect(getByTestId('triggerElement')).toBeInTheDocument();
   });
-  it("renders dropDownItems", () => {
+  it('renders dropDownItems', () => {
     const dropDownItems: DropDownItem[] = [
-      { label: "Test" },
-      { label: "Test2" },
-      { label: (<div data-testid="Test3" />) }
+      { label: 'Test' },
+      { label: 'Test2' },
+      { label: (<div data-testid='Test3' />) }
     ];
     const { getByText, getByTestId } = render(
       <FloatDropDown 
@@ -34,30 +34,30 @@ describe("FloatDropDown", () => {
         dropDownItems={dropDownItems}
       />
     );
-    expect(getByText("Test")).toBeInTheDocument();
-    expect(getByText("Test2")).toBeInTheDocument();
-    expect(getByTestId("Test3")).toBeInTheDocument();
+    expect(getByText('Test')).toBeInTheDocument();
+    expect(getByText('Test2')).toBeInTheDocument();
+    expect(getByTestId('Test3')).toBeInTheDocument();
   });
-  it("opens on triggerElement click", () => {
+  it('opens on triggerElement click', () => {
     const dropDownItems: DropDownItem[] = [
-      { label: "Test" },
+      { label: 'Test' },
     ];
     const { getByTestId } = render(
       <FloatDropDown 
-        triggerElement={<div data-testid="triggerElement" />}
+        triggerElement={<div data-testid='triggerElement' />}
         dropDownItems={dropDownItems}
-        data-testid="float-dropdown"
+        data-testid='float-dropdown'
       />
     );
     act(() => {
-      getByTestId("triggerElement").click();
+      getByTestId('triggerElement').click();
     });
-    expect(getByTestId("float-dropdown")).toHaveStyle("opacity: 1;");
+    expect(getByTestId('float-dropdown')).toHaveStyle('opacity: 1;');
   });
-  it("triggers onClick", () => {
+  it('triggers onClick', () => {
     const onClick = jest.fn();
     const dropDownItems: DropDownItem[] = [
-      { label: "Test", onClick },
+      { label: 'Test', onClick },
     ];
     const { getByText } = render(
       <FloatDropDown 
@@ -66,13 +66,13 @@ describe("FloatDropDown", () => {
       />
     );
     act(() => {
-      getByText("Test").click();
+      getByText('Test').click();
     });
     expect(onClick).toHaveBeenCalledTimes(1);
   });
-  it("has href", () => { 
+  it('has href', () => { 
     const dropDownItems: DropDownItem[] = [
-      { label: "Test", href: "/" },
+      { label: 'Test', href: '/' },
     ];
     const { getByText } = render(
       <FloatDropDown 
@@ -80,6 +80,6 @@ describe("FloatDropDown", () => {
         dropDownItems={dropDownItems}
       />
     );
-    expect(getByText("Test").closest("a")).toHaveAttribute("href", "/");
+    expect(getByText('Test').closest('a')).toHaveAttribute('href', '/');
   });
 });

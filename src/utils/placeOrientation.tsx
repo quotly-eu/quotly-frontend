@@ -15,21 +15,21 @@ export const placeOrientation = css<PlaceOrientationProps>`
 ${({ $placeOrientation, $margin }) => {
     switch($placeOrientation) {
       case PlaceOrientation.TopLeft: 
-        return `
+        return css`
           bottom: 100%;
           left: 0;
           translate: 0 calc(-${$margin});
           transform-origin: bottom left;
         `;
       case PlaceOrientation.Top: 
-        return `
+        return css`
           bottom: 100%;
           left: 50%;
           translate: -50% calc(-${$margin});
           transform-origin: bottom;
         `;
       case PlaceOrientation.TopRight: 
-        return `
+        return css`
           bottom: 100%;
           right: 0;
           translate: 0 calc(-${$margin});
@@ -37,20 +37,20 @@ ${({ $placeOrientation, $margin }) => {
         `;
 
       case PlaceOrientation.Left: 
-        return `
+        return css`
           bottom: 50%;
           right: 100%;
           translate: calc(-${$margin}) 50%;
           transform-origin: left;
         `;
       case PlaceOrientation.Center:
-        return `
+        return css`
           bottom: 50%;
           left: 50%;
           translate: calc(-50% -${$margin}) 50%;
         `;
       case PlaceOrientation.Right:
-        return `
+        return css`
           bottom: 50%;
           left: 100%;
           translate: calc(${$margin}) 50%;
@@ -58,47 +58,51 @@ ${({ $placeOrientation, $margin }) => {
         `;
 
       case PlaceOrientation.LeftInlineTop:
-        return `
+        return css`
           top: 0;
           right: 100%;
           translate: calc(-${$margin}) 0;
+          transform-origin: top right;
         `;
       case PlaceOrientation.LeftInlineBottom:
-        return `
+        return css`
           bottom: 0;
           right: 100%;
           translate: calc(-${$margin}) 0;
+          transform-origin: bottom right;
         `;
 
       case PlaceOrientation.RightInlineTop:
-        return `
+        return css`
           top: 0;
           left: 100%;
           translate: calc(${$margin}) 0;
+          transform-origin: top left;
         `;
       case PlaceOrientation.RightInlineBottom:
-        return `
+        return css`
           bottom: 0;
           left: 100%;
           translate: calc(${$margin}) 0;
+          transform-origin: bottom left;
         `;
 
       case PlaceOrientation.BottomLeft:
-        return `
+        return css`
           top: 100%;
           left: 0;
           translate: 0 calc(${$margin});
           transform-origin: top left;
         `;
       case PlaceOrientation.Bottom:
-        return `
+        return css`
           top: 100%;
           left: 50%;
           translate: -50% calc(${$margin});
           transform-origin: top;
         `;
       case PlaceOrientation.BottomRight:
-        return `
+        return css`
           top: 100%;
           right: 0;
           translate: 0 calc(${$margin});
@@ -106,21 +110,21 @@ ${({ $placeOrientation, $margin }) => {
         `;
 
       case PlaceOrientation.InsetTopLeft:
-        return `
+        return css`
           top: 0;
           left: 0;
           translate: calc(${$margin}) calc(${$margin});
           transform-origin: top left;
         `;
       case PlaceOrientation.InsetTop:
-        return `
+        return css`
           top: 0;
           left: 50%;
           translate: -50% calc(${$margin});
           transform-origin: top;
         `;
       case PlaceOrientation.InsetTopRight:
-        return `
+        return css`
           top: 0;
           right: 0;
           translate: calc(-${$margin}) calc(${$margin});
@@ -128,14 +132,14 @@ ${({ $placeOrientation, $margin }) => {
         `;
 
       case PlaceOrientation.InsetLeft:
-        return `
+        return css`
           top: 50%;
           left: 0;
           translate: calc(${$margin}) -50%;
           transform-origin: left;
         `;
       case PlaceOrientation.InsetRight:
-        return `
+        return css`
           top: 50%;
           right: 0;
           translate: calc(${$margin}) -50%;
@@ -143,21 +147,21 @@ ${({ $placeOrientation, $margin }) => {
         `;
 
       case PlaceOrientation.InsetBottomLeft:
-        return `
+        return css`
           bottom: 0;
           left: 0;
           translate: calc(${$margin}) calc(-${$margin});
           transform-origin: bottom left;
         `;
       case PlaceOrientation.InsetBottom:
-        return `
+        return css`
           bottom: 0;
           left: 50%;
           translate: -50% calc(-${$margin});
           transform-origin: bottom;
         `;
       case PlaceOrientation.InsetBottomRight:
-        return `
+        return css`
           bottom: 0;
           right: 0;
           translate: calc(-${$margin}) calc(-${$margin});

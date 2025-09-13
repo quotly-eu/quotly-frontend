@@ -1,45 +1,50 @@
-import React from "react";
-import { render } from "utils/quotly-testing";
-import Button from "../Button";
+import React from 'react';
+import { render } from 'utils/quotly-testing';
+import Button from '../Button';
 
-describe("Button", () => {
-  it("renders", () => {
+describe('Button', () => {
+  it('renders', () => {
     expect(render(
       <Button 
-        children="Button"
-        href="/"
-      />
+        href='/'
+      >
+        Button
+      </Button>
     )).not.toBeNull();
   });
-  it("renders text", () => {
-    const text = "Button";
+  it('renders text', () => {
+    const text = 'Button';
     const { getByText } = render(
       <Button 
-        children={text}
-        href="/"
-      />
+        href='/'
+      >
+        {text}
+      </Button>
     );
     expect(getByText(text)).toBeInTheDocument();
   });
-  it("has href", () => {
-    const href = "/";
+  it('has href', () => {
+    const href = '/';
     const { getByRole } = render(
       <Button 
-        children="Button"
+        as='a'
         href={href}
-      />
+      >
+        Button
+      </Button>
     );
-    expect(getByRole("link")).toHaveAttribute("href", href);
+    expect(getByRole('link')).toHaveAttribute('href', href);
   });
-  it("triggers onClick", () => {
+  it('triggers onClick', () => {
     const onClick = jest.fn();
     const { getByText } = render(
       <Button 
-        children="Button"
         onClick={onClick}
-      />
+      >
+        Button
+      </Button>
     );
-    getByText("Button").click();
+    getByText('Button').click();
     expect(onClick).toHaveBeenCalled();
   });
 });
