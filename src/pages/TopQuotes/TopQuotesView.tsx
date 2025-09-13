@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { css, useTheme } from 'styled-components';
 
 import Switcher from 'components/Switcher/Switcher';

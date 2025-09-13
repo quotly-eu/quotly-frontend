@@ -26,4 +26,10 @@ jest.mock('react-i18next', () => ({
   }),
   Trans: ({ children }: { i18nKey: string; children: React.ReactNode }) => children
 }));
+jest.mock('utils/api', () => ({
+  $api: {
+    useQuery: () => ({ data: undefined, status: 'idle', isLoading: false, isError: false }),
+    useMutation: () => ({ mutate: jest.fn(), data: undefined, isSuccess: false, isError: false }),
+  }
+}));
 jest.mock('@fortawesome/react-fontawesome');
