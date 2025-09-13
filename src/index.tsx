@@ -13,18 +13,19 @@ import ApiContextProvider from 'contexts/ApiContext/ApiContext';
 import { BrowserRouter } from 'react-router-dom';
 import AppDataProvider from './contexts/AppData/AppData';
 import { useLocalStorage } from 'usehooks-ts';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 const Index = () => {
-  const [ currentTheme ] = useLocalStorage<keyof typeof themes>('theme', 'light');
-
+  const [currentTheme] = useLocalStorage<keyof typeof themes>('theme', 'light');
+  const queryClient = new QueryClient();
   return (
-    <React.StrictMode>
-      <I18nextProvider i18n={i18n}>
-        <ThemeProvider theme={themes[currentTheme]}>
+    <I18nextProvider i18n={i18n}>
+      <ThemeProvider theme={themes[currentTheme]}>
+        <QueryClientProvider client={queryClient}>
           <ApiContextProvider>
             <AppDataProvider>
               <BrowserRouter>
@@ -32,9 +33,9 @@ const Index = () => {
               </BrowserRouter>
             </AppDataProvider>
           </ApiContextProvider>
-        </ThemeProvider>
-      </I18nextProvider>
-    </React.StrictMode>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </I18nextProvider>
   );
 };
 

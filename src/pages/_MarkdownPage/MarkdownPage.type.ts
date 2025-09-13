@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Options } from "react-markdown";
 
 /**
@@ -6,7 +7,7 @@ import { Options } from "react-markdown";
  * <MarkdownPage children=''
  */
 export type MarkdownPageType = Options & {
-  childrenPre?: React.ReactNode;
+  childrenPre?: ReactNode;
   childrenSuf?: MarkdownPageType['childrenPre'];
   title?: string;
   maxDepth?: number;

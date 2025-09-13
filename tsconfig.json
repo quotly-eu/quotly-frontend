@@ -13,9 +13,10 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -24,9 +25,22 @@
     "types": [
       "vite/client",
       "vite-plugin-pwa/react"
+    ],
+    "plugins": [
+       {
+        "name": "@styled/typescript-styled-plugin",
+        "lint": {
+          "validProperties": ["text-wrap"]
+        }
+      }
     ]
   },
   "include": [
-    "src"
+    "src",
+    "eslint.config.mts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }

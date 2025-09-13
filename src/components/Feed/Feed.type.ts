@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 /**
  * FeedType for Feed component.
  * @example
@@ -8,7 +10,7 @@
 export type FeedType = {
   title?: string;
   items: {
-    item: React.ReactNode,
+    item: ReactNode,
     url: string,
   }[];
 };

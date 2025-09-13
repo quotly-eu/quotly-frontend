@@ -1,10 +1,9 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { User } from '../../types/User.type';
-import { Role } from '../../types/Role.type';
+import { components } from 'types/api';
 
 type AppConfig = {
-  user?: User;
-  roles?: Role[];
+  user?: components['schemas']['User'];
+  roles?: components['schemas']['Role'][];
 };
 
 type AppAction = {
@@ -32,7 +31,7 @@ const reducer = (state: AppConfig, action: AppAction) => {
   }
 };
 
-const AppData = createContext<[AppConfig, React.Dispatch<AppAction>]>([config, () => {}]);
+const AppData = createContext<[AppConfig, React.Dispatch<AppAction>]>([config, () => { }]);
 
 /**
  * App Context config
@@ -48,7 +47,7 @@ export const useAppData = () => useContext(AppData);
  *  <App />
  * </AppDataProvider>
  */
-const AppDataProvider = ({children}:{children: React.ReactNode}) => {
+const AppDataProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, config);
   const value: [AppConfig, React.Dispatch<AppAction>] = [state, dispatch];
   return (

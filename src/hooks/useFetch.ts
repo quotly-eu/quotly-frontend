@@ -11,7 +11,7 @@ const useFetch = <T,>(route: string | URL, init?: RequestInit, isText?: boolean)
   const runFetch = () => {
     fetch(endpoint, init).then(async res => setResponse({
       status: res.status,
-      data: isText ? await res.text() : await res.json()
+      data: (isText ? await res.text() : await res.json()) as ApiResponse<T>['data'],
     })).catch(() => setResponse({
       status: 500,
       data: {} as ApiResponse<T>['data'],

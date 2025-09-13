@@ -105,7 +105,7 @@ const QuoteComment = ({ author, avatarUrl, comment, dated, level, children }: Co
         <>
           <Style_Guidance />
           <Style_SubComments>
-            {children.map(child => <QuoteComment level={(level || 0) + 1} {...child} />)}
+            {children.map(child => <QuoteComment key={child.id} level={(level || 0) + 1} {...child} />)}
           </Style_SubComments>
         </>
       }

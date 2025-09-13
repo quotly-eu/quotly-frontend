@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 /**
  * SwitcherType to define the props of the Switcher component
  * @example
@@ -7,6 +9,6 @@
  */
 export type SwitcherType = {
   breakpoint?: string, 
-  desktop?: React.ReactNode
-  mobile?: React.ReactNode, 
+  desktop?: ReactNode
+  mobile?: ReactNode, 
 };

@@ -22,6 +22,7 @@ const Style_Dialog = styled.dialog`
   }
 `;
 
+// eslint-disable-next-line react/display-name
 const Dialog = forwardRef<HTMLDialogElement, DialogType>(({
   open=false, 
   toggleDialog,

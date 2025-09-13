@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 /**
  * GuideLinksType for GuideLinks component
  * @example
@@ -7,7 +9,7 @@
  */
 export type GuideLinksType =  {
   links: {
-    label: React.ReactNode;
+    label: ReactNode;
     url?: string;
   }[];
   textAlign?: 'left' | 'center' | 'right';

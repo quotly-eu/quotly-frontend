@@ -22,7 +22,7 @@ const FloatDropDownContainer = styled.div`
 const FloatDropDownMenu = styled.div<FloatDropDownProps>`
   position: absolute;
 
-  ${({ theme, $hasParentWidth }) => `
+  ${({ theme, $hasParentWidth }) => css`
     border-radius: ${theme.spacing.xs.rem};
     box-shadow: ${theme.shadows.default};
     transition: all ${theme.transition.times.m} ease-in-out;
@@ -36,10 +36,10 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
 
   ${placeOrientation}
 
-  ${({ $active }: FloatDropDownProps) => $active ? `
+  ${({ $active }: FloatDropDownProps) => $active ? css`
     opacity: 1;
     pointer-events: all;
-    ` : `
+    ` : css`
     opacity: 0;
     pointer-events: none;
     scale: 1 0.9;
@@ -48,19 +48,17 @@ const FloatDropDownMenu = styled.div<FloatDropDownProps>`
   backdrop-filter: brightness(1.075) blur(25px);
   overflow: hidden;
   z-index: 10000;
-}
 `;
 
-// noinspection CssUnusedSymbol
 const FloatDropDownItem = css<FloatDropDownItemProps>`
   display: flex;
   -webkit-tap-highlight-color: transparent;
 
-  ${({ theme, $active }) => `
-    ${$active ? `
+  ${({ theme, $active }) => css`
+    ${$active ? css`
       color: ${theme.colors.primary};
       font-weight: bold;
-    ` : `
+    ` : css`
       color: ${theme.colors.text.dark};
     `}
 
@@ -89,7 +87,7 @@ const FloatDropDownAnchorItem = styled.a<FloatDropDownItemProps>`
   ${FloatDropDownItem}
 `;
 
-const FloatDropDownLinkItem = styled(Link)<FloatDropDownItemProps>`
+const FloatDropDownLinkItem = styled(Link) <FloatDropDownItemProps>`
   ${FloatDropDownItem}
 `;
 
@@ -114,7 +112,7 @@ const FloatDropDown = ({
   hasParentWidth?: boolean
 }) => {
   const theme = useTheme();
-  const [ isOpen, setIsOpen ] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropDownMenu = () => {

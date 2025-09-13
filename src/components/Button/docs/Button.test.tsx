@@ -6,18 +6,20 @@ describe('Button', () => {
   it('renders', () => {
     expect(render(
       <Button 
-        children='Button'
         href='/'
-      />
+      >
+        Button
+      </Button>
     )).not.toBeNull();
   });
   it('renders text', () => {
     const text = 'Button';
     const { getByText } = render(
       <Button 
-        children={text}
         href='/'
-      />
+      >
+        {text}
+      </Button>
     );
     expect(getByText(text)).toBeInTheDocument();
   });
@@ -26,9 +28,10 @@ describe('Button', () => {
     const { getByRole } = render(
       <Button 
         as='a'
-        children='Button'
         href={href}
-      />
+      >
+        Button
+      </Button>
     );
     expect(getByRole('link')).toHaveAttribute('href', href);
   });
@@ -36,9 +39,10 @@ describe('Button', () => {
     const onClick = jest.fn();
     const { getByText } = render(
       <Button 
-        children='Button'
         onClick={onClick}
-      />
+      >
+        Button
+      </Button>
     );
     getByText('Button').click();
     expect(onClick).toHaveBeenCalled();

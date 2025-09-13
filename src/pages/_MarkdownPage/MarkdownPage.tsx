@@ -28,7 +28,7 @@ const Style_MarkdownPage = styled.div`
 `;
 
 const CSS_HeadingFirst = css`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     padding-bottom: ${theme.spacing.xxs.em};
     border-bottom: 1px solid ${theme.colors.transparency.black(0.1)};
     margin-block: ${theme.spacing.s.em} ${theme.spacing.xxs.em};
@@ -67,7 +67,7 @@ const Style_Table = styled.table`
 `;
 
 const CSS_TableCell = css`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     padding: ${theme.spacing.xxs.em};
     border-left: 1px solid ${theme.colors.transparency.black(0.1)};
     &:first-child {
@@ -85,7 +85,7 @@ const Style_TableTD = styled.td`
 `;
 
 const Style_TableTBody = styled.tbody`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     tr {
       border-top: 1px solid ${theme.colors.transparency.black(0.1)};
     }
@@ -93,27 +93,27 @@ const Style_TableTBody = styled.tbody`
 `;
 
 const Style_Link = styled(HashLink)`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     color: ${theme.colors.primary};
     text-decoration: none;
   `}
 `;
 
 const Style_P = styled.p`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     margin-bottom: ${theme.spacing.xxs.em};
   `}
 `;
 
 const Style_UL = styled(Style_P).attrs({as: 'ul'})`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     margin-bottom: ${theme.spacing.xxs.em};
   `}
 `;
 
 const Style_HR = styled.hr`
   border:none;
-  ${({ theme }) => `
+  ${({ theme }) => css`
     margin-block: ${theme.spacing.xxs.em};
     border-bottom: 1px solid ${theme.colors.transparency.black(0.1)}; 
   `}
@@ -128,20 +128,21 @@ const MarkdownPage = ({children, childrenPre, childrenSuf, title, maxDepth= 3, .
 
   const returnOnClick = () => navigate(-1);
 
-  const HeadingRenderer = ({node, children}: JSX.IntrinsicElements['h1' | 'h2' | 'h3'] & ExtraProps) => {
+  const HeadingRenderer = ({node, children}: React.JSX.IntrinsicElements['h1' | 'h2' | 'h3'] & ExtraProps) => {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     const id = children?.toString()
       .toLowerCase()
       .replace(/[^\w\säöü-]/g, "")
       .replace(/\s+/g, "-");
     const Heading = 
       node?.tagName =='h3' ? 
-      <Style_HeadingSecond id={id} children={children} /> : 
-      <Style_HeadingFirst as={node?.tagName} id={id} children={children} />;
+      <Style_HeadingSecond id={id}>{children}</Style_HeadingSecond> : 
+      <Style_HeadingFirst as={node?.tagName} id={id}>{children}</Style_HeadingFirst>;
 
     return Heading;
   };
 
-  const TableRenderer = ({children}: JSX.IntrinsicElements['table'] & ExtraProps) => {
+  const TableRenderer = ({children}: React.JSX.IntrinsicElements['table'] & ExtraProps) => {
     return (
       <Style_TableContainer>
         <Style_Table>
@@ -151,10 +152,10 @@ const MarkdownPage = ({children, childrenPre, childrenSuf, title, maxDepth= 3, .
     );
   };
 
-  const AnchorRenderer = ({children, href}: JSX.IntrinsicElements['a'] & ExtraProps) => {
+  const AnchorRenderer = ({children, href}: React.JSX.IntrinsicElements['a'] & ExtraProps) => {
     const to = decodeURIComponent(href || '');
     const replace = to.startsWith('#');
-    return <Style_Link children={children} to={to} replace={replace} />;
+    return <Style_Link to={to} replace={replace}>{children}</Style_Link>;
   };
 
   return (
@@ -163,7 +164,7 @@ const MarkdownPage = ({children, childrenPre, childrenSuf, title, maxDepth= 3, .
       <Button isIconButton onClick={returnOnClick}><FontAwesomeIcon icon='arrow-left' /></Button>
       {childrenPre}
       <Markdown 
-        children={children} {...rest} 
+        {...rest} 
         components={{
           h1: HeadingRenderer,
           h2: HeadingRenderer,
@@ -189,7 +190,9 @@ const MarkdownPage = ({children, childrenPre, childrenSuf, title, maxDepth= 3, .
             }
           ]
         ]}
-      />
+      >
+        {children}
+      </Markdown>
       {childrenSuf}
     </Style_MarkdownPage>
   );

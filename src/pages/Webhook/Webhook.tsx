@@ -1,29 +1,18 @@
-import { useApiContext } from 'contexts/ApiContext/ApiContext';
-import useFetch from 'hooks/useFetch';
+import React, { useEffect } from 'react';
 import { useQuery } from 'hooks/useQuery';
-import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { $api } from 'utils/api';
 
 /**
  * Webhook Page to verify the Discord authorization
  */
 const Webhook = () => {
   const { search } = useLocation();
-  const { routes } = useApiContext();
   const query = useQuery(search);
   const navigate = useNavigate();
-  const [ cookies, , removeCookie ] = useCookies([ 'state', 'token' ]);
-  const { runFetch, response } = useFetch<string>(`${routes.users.sub?.webhook()}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: new URLSearchParams({
-      code: query.get('code')!,
-      token: cookies.token
-    })
-  });
+  const [cookies, , removeCookie] = useCookies(['state', 'token']);
+  const { mutate: mutateWebhook, isError, isSuccess } = $api.useMutation('post', '/v1/users/webhook'); 
 
   /**
    * Check if the authorization has been made only from the same site.
@@ -37,21 +26,24 @@ const Webhook = () => {
       return;
     }
     removeCookie('state');
-    runFetch();
-  }, []);
+    mutateWebhook({
+      body: {
+        code: query.get('code')!,
+      }
+    });
+  }, [cookies.state, navigate, query, removeCookie, mutateWebhook]);
 
   useEffect(() => {
-    if (!response) return;
-    if (response?.status === 200) {
+    if (isSuccess) {
       navigate('/settings', {
         replace: true
       });
-    } else if (process.env.NODE_ENV === 'production') {
+    } else if (process.env.NODE_ENV === 'production' && isError) {
       navigate('/settings?error', {
         replace: true
       });
     }
-  }, [ response ]);
+  }, [isError, isSuccess, navigate]);
 
   return <></>;
 };

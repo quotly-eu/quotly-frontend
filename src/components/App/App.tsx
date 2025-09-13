@@ -21,18 +21,15 @@ import Cookies from 'pages/Cookies/Cookies';
 import TermsOfService from 'pages/TermsOfService/TermsOfService';
 import QuoteView from 'pages/QuoteView/QuoteView';
 import Logout from 'pages/Logout/Logout';
-import useFetch from 'hooks/useFetch';
-import { User } from 'types/User.type';
-import { useApiContext } from 'contexts/ApiContext/ApiContext';
-import { useCookies } from 'react-cookie';
-import { Role } from 'types/Role.type';
 import TopQuotes from 'pages/TopQuotes/TopQuotesView';
 import UserView from 'pages/User/UserView';
 import SavedQuotes from 'pages/SavedQuotes/SavedQuotes';
 import SearchQuotes from 'pages/SearchQuotes/SearchQuotes';
-import { useAppData } from '../../contexts/AppData/AppData';
-import Settings from '../../pages/Settings/Settings';
-import Webhook from '../../pages/Webhook/Webhook';
+import { useAppData } from 'contexts/AppData/AppData';
+import Settings from 'pages/Settings/Settings';
+import Webhook from 'pages/Webhook/Webhook';
+import { $api } from 'utils/api';
+import useGetToken from 'hooks/useGetToken';
 
 // FontAwesome library
 library.add(fas, far, fab);
@@ -97,54 +94,43 @@ const RouteContainer = styled.div`
  * App Component with BrowserRouter and Routes
  */
 const App = () => {
-  const { routes } = useApiContext();
-  const [ config, dispatch ] = useAppData();
-  const [ cookies ] = useCookies([ 'token' ]);
+  const [config, dispatch] = useAppData();
+  const token = useGetToken();
   const navigate = useNavigate();
   const quoteDialogRef = useRef<HTMLDialogElement>(null);
-  const [ mobileCurrentTop, setMobileCurrentTop ] = useState(0);
-  const [ isQuoteDialogActive, setIsQuoteDialogActive ] = useState(false);
-  const {
-    runFetch: fetchMe,
-    response: userResponse
-  } = useFetch<User>(`${routes.users.sub?.me()}?token=${cookies.token}`);
-  const {
-    runFetch: fetchRoles,
-    response: rolesResponse
-  } = useFetch<Role[]>(`${routes.users.sub?.roles(userResponse?.data.userId || 0)}`);
+  const [mobileCurrentTop, setMobileCurrentTop] = useState(0);
+  const [isQuoteDialogActive, setIsQuoteDialogActive] = useState(false);
+  const { data: user, status: userStatus } = $api.useQuery('get', '/v1/users/me', { params: { query: { token: token! } } }, { enabled: !!token });
+  const { data: roles } = $api.useQuery('get', '/v1/users/{id}/roles', { params: { path: { id: user?.userId! } } }, { enabled: !!user?.userId });
 
   useEffect(() => {
-    if (!cookies.token) return;
-    fetchMe();
-  }, [ cookies.token ]);
-
-  useEffect(() => {
-    console.log(userResponse);
-    if(userResponse?.status === 200) {
-      dispatch({
-        type: 'setUser',
-        config: {
-          ...config,
-          user: userResponse.data
-        }
-      });
-      fetchRoles();
-    } else if (Number(userResponse?.status) >= 400) {
+    if (userStatus === 'error') {
       navigate('/logout');
+      return;
     }
-  }, [ userResponse ]);
+    if (!user) return;
+
+    dispatch({
+      type: 'setUser',
+      config: {
+        ...config,
+        user
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, navigate, user, userStatus]);
 
   useEffect(() => {
-    if (rolesResponse && rolesResponse.status === 200) {
-      dispatch({
-        type: 'setRoles',
-        config: {
-          ...config,
-          roles: rolesResponse.data
-        }
-      });
-    }
-  }, [ rolesResponse ]);
+    if (!roles) return;
+    dispatch({
+      type: 'setRoles',
+      config: {
+        ...config,
+        roles
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, roles]);
 
   // Prevent right-click context menu on production for user experience
   const onContextMenu = (e: React.MouseEvent) => {
@@ -189,30 +175,30 @@ const App = () => {
         <Route path="tos" element={<TermsOfService />} />
         <Route
           path="*" element={
-          <AppContainer onContextMenu={onContextMenu}>
-            <>
-              <RouteContainer onScroll={mobileScroll}>
-                <NavbarTop />
-                <PagesContainer>
-                  <Routes>
-                    <Route index element={<Main />} />
-                    <Route path="quote/:id" element={<QuoteView />} />
-                    <Route path="top" element={<TopQuotes />} />
-                    <Route path="search" element={<SearchQuotes />} />
-                    <Route path="user/:id" element={<UserView />} />
-                    <Route path="saved" element={<SavedQuotes />} />
-                    <Route path="settings" element={<Settings />} />
-                    <Route path="*" element={<Navigate replace to="/404" />} />
-                  </Routes>
-                </PagesContainer>
-              </RouteContainer>
+            <AppContainer onContextMenu={onContextMenu}>
+              <>
+                <RouteContainer onScroll={mobileScroll}>
+                  <NavbarTop />
+                  <PagesContainer>
+                    <Routes>
+                      <Route index element={<Main />} />
+                      <Route path="quote/:id" element={<QuoteView />} />
+                      <Route path="top" element={<TopQuotes />} />
+                      <Route path="search" element={<SearchQuotes />} />
+                      <Route path="user/:id" element={<UserView />} />
+                      <Route path="saved" element={<SavedQuotes />} />
+                      <Route path="settings" element={<Settings />} />
+                      <Route path="*" element={<Navigate replace to="/404" />} />
+                    </Routes>
+                  </PagesContainer>
+                </RouteContainer>
 
-              <NavbarLeft toggleDialog={toggleDialog} />
+                <NavbarLeft toggleDialog={toggleDialog} />
 
-              <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} isActive={isQuoteDialogActive} />
-            </>
-          </AppContainer>
-        }
+                <QuoteDialog ref={quoteDialogRef} toggleDialog={toggleDialog} isActive={isQuoteDialogActive} />
+              </>
+            </AppContainer>
+          }
         />
         <Route path="404" element={<NotFound />} />
       </Routes>

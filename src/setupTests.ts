@@ -8,14 +8,16 @@ import '__mocks__/iconify-react';
 
 import '__mocks__/remark-gfm';
 import '__mocks__/remark-toc';
+import React from 'react';
 
+const t = (key: string) => key;
 jest.mock('react-markdown');
 jest.mock('usehooks-ts', () => ({
   useLocalStorage: (key: string, init: string) => ([ init, jest.fn(), jest.fn ]),
 }));
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string) => key,
+    t,
     i18n: {
       language: undefined,
       languages: [],

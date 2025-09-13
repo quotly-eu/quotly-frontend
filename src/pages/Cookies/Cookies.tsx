@@ -9,16 +9,16 @@ import { useTranslation } from 'react-i18next';
 const Cookies = () => {
   const { t, i18n: { language } } = useTranslation();
   const url = new URL(`/locales/${language}/Cookies.md`, window.location.href).href;
-  const markdown = useFetch<string>(url, {
+  const { runFetch, response } = useFetch<string>(url, {
     headers: [
       ['Accept', 'text/markdown']
     ]
   }, true);
 
-  useEffect(() => markdown.runFetch(), []);
+  useEffect(() => runFetch(), [runFetch]);
 
   return (
-    <MarkdownPage children={markdown.response?.data} title={t('guides.cookies')} maxDepth={2} />
+    <MarkdownPage title={t('guides.cookies')} maxDepth={2}>{response?.data}</MarkdownPage>
   );
 };
 

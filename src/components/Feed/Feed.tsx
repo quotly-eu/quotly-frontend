@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FeedType } from './Feed.type';
 import { Link } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     gap: ${theme.spacing.xxs.rem};
     padding: ${theme.spacing.m.rem};
     border-radius: ${theme.spacing.s.rem};
@@ -17,7 +17,7 @@ const FeedContainer = styled.div`
 
 const FeedItem = styled(Link)`
   display: flex;
-  ${({ theme }) => `
+  ${({ theme }) => css`
     color: ${theme.colors.text.gray};
     gap: ${theme.spacing.xs.rem};
     padding: ${theme.spacing.xs.rem};
@@ -26,7 +26,7 @@ const FeedItem = styled(Link)`
 
     transition: backdrop-filter ${theme.transition.times.m};
   `}
-  > * {
+  * {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
