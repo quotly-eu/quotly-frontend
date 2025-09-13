@@ -50,11 +50,6 @@ const MobileNavbarTopContainer = styled.div`
   z-index: 100000000;
 `;
 
-/* const Left = styled.div`
-  grid-area: left;
-  width:100%;
-`; */
-
 const Center = styled.form`
   grid-area: center;
   width: min(25rem, 100%);
@@ -74,13 +69,14 @@ const NavbarTop = ({ ...props }): React.ReactElement => {
   const [ searchValue, setSearchValue ] = React.useState(searchParams.get('query') || '');
   const navigate = useNavigate();
   const searchInputRef = useRef<HTMLProps<HTMLInputElement>>(null);
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const { t, i18n: { language, languages, changeLanguage } } = useTranslation();
 
   const onSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     const searchInput = searchInputRef.current;
     if (searchInput) {
-      const searchValue = searchInput.value;
+      const searchValue = searchInput.value?.toString();
       navigate(`/search/?query=${searchValue}`);
     }
   };

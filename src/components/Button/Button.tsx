@@ -158,8 +158,7 @@ const Button = ({
   };
 
   return (
-    <ButtonContainer 
-      children={children}
+    <ButtonContainer
       as={as}
       href={href} 
       type={type}
@@ -171,7 +170,9 @@ const Button = ({
       onClick={propagateClick}
       title={title}
       {...rest}
-    />
+    >
+      {children}
+    </ButtonContainer>
   );
 };
 

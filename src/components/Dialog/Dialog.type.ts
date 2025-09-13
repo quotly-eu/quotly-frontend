@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 /**
  * DialogType type for Dialog component
  * @example
@@ -5,6 +7,6 @@
  */
 export type DialogType = {
   open?: boolean;
-  children?: React.ReactNode,
+  children?: ReactNode,
   toggleDialog: () => void;
 };

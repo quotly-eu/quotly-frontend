@@ -10,16 +10,16 @@ import MarkdownPage from 'pages/_MarkdownPage/MarkdownPage';
 const PrivacyPolicy = () => {
   const { t, i18n: { language } } = useTranslation();
   const url = new URL(`/locales/${language}/PrivacyPolicy.md`, window.location.href).href;
-  const markdown = useFetch<string>(url, {
+  const  { runFetch, response } = useFetch<string>(url, {
     headers: [
       ['Accept', 'text/markdown']
     ]
   }, true);
 
-  useEffect(() => markdown.runFetch(), []);
+  useEffect(() => runFetch(), [runFetch]);
 
   return (
-    <MarkdownPage children={markdown.response?.data} title={t('guides.privacy_policy')} />
+    <MarkdownPage title={t('guides.privacy_policy')}>{response?.data}</MarkdownPage>
   );
 };
 

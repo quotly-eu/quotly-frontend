@@ -16,8 +16,8 @@ import { NavbarLeftProps } from './NavbarLeft.type';
 
 import { ReactComponent as Logo } from 'assets/img/quotly.svg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import { useAppData } from '../../contexts/AppData/AppData';
+import useGetToken from 'hooks/useGetToken';
 
 // Styles
 const NavbarLeftContainer = styled.div`
@@ -82,9 +82,11 @@ const Center = styled.div`
 const Bottom = styled.div`
   grid-area: bottom;
 `;
-const PreparedProfileButton = styled(ProfileButton).attrs(({ theme }) => ({
-  size: theme.spacing.xxl.em
-}))``;
+const PreparedProfileButton = styled(ProfileButton).attrs(({ theme }) => {
+  return {
+    size: theme.spacing.xxl.em
+  }
+})``;
 
 /**
  * NavbarLeft Component
@@ -93,21 +95,21 @@ const NavbarLeft = ({ toggleDialog }: NavbarLeftProps) => {
   const theme = useTheme();
   const { pathname } = useLocation();
   const { t } = useTranslation();
-  const [ cookies ] = useCookies([ 'token' ]);
-  const [{user}]= useAppData();
-  const [ avatarUrl, setAvatarUrl ] = useState<string>();
+  const token = useGetToken();
+  const [{ user }] = useAppData();
+  const [avatarUrl, setAvatarUrl] = useState<string>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!cookies.token) {
+    if (!token) {
       navigate('/login');
     }
-  }, [ cookies.token ]);
+  }, [navigate, token]);
 
   useEffect(() => {
     if (!user || !user.discordId || !user.avatarUrl) return;
-      setAvatarUrl(`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`);
-  }, [ user ]);
+    setAvatarUrl(`https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`);
+  }, [user]);
 
   const dropDownItems: DropDownItem[] = [
     {
@@ -132,7 +134,7 @@ const NavbarLeft = ({ toggleDialog }: NavbarLeftProps) => {
       active: pathname.includes(`/user/${user?.userId}`)
     },
     {
-      label: (<><FontAwesomeIcon icon={[ 'fas', 'bookmark' ]} /> {t('saved_quotes')}</>),
+      label: (<><FontAwesomeIcon icon={['fas', 'bookmark']} /> {t('saved_quotes')}</>),
       href: '/saved',
       type: DropDownItemType.LINK,
       active: pathname.includes('/saved')

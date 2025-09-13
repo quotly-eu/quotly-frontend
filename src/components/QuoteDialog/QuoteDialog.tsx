@@ -12,9 +12,8 @@ import GuideLinks from 'components/GuideLinks/GuideLinks';
 
 import { ButtonStyles } from 'components/Button/Button.type';
 import { QuoteDialogType } from './QuoteDialog.type';
-import useFetch from 'hooks/useFetch';
-import { useApiContext } from 'contexts/ApiContext/ApiContext';
-import { useCookies } from 'react-cookie';
+import useGetToken from 'hooks/useGetToken';
+import { $api } from 'utils/api';
 
 const Style_Form = styled.form`
   display: grid;
@@ -62,50 +61,40 @@ const Style_ActionsContainer = styled.div`
 /**
  * QuoteDialog component
  */
+// eslint-disable-next-line react/display-name
 const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
   ({ open = false, isActive = false, toggleDialog }, ref) => {
     const { t } = useTranslation();
-    const { routes } = useApiContext();
-    const [ cookies ] = useCookies([ 'token' ]);
+    const token = useGetToken()!;
 
-    const [ quoteText, setQuoteText ] = useState<string>('');
-    const [ preview, setPreview ] = useState<boolean>(false);
-    const [ isSubmitDisabled, setIsButtonDisabled ] = useState(false);
-    const { runFetch, response } = useFetch(routes.quotes.sub?.create() || '', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        quote: quoteText,
-        send_webhook: 'true',
-        token: cookies.token
-      })
-    });
+    const [quoteText, setQuoteText] = useState<string>('');
+    const [preview, setPreview] = useState<boolean>(false);
+    const [isSubmitDisabled, setIsButtonDisabled] = useState(false);
+    const { mutate, data: quote } = $api.useMutation('post', '/v1/quotes/create');
 
     const onSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      runFetch();
+      mutate({ body: { quote: quoteText, send_webhook: true, token } });
       setIsButtonDisabled(true);
     };
 
     // POST was successful
     useEffect(() => {
-      if (!response) return;
+      if (!quote) return;
       toggleDialog();
       setQuoteText('');
       setIsButtonDisabled(false);
       window.location.reload();
-    }, [ response ]);
+    }, [quote, toggleDialog]);
 
     return (
       <Dialog ref={ref} toggleDialog={toggleDialog} open={open}>
         <Style_Form method="dialog" onSubmit={onSubmit}>
           <GuideLinks
-            links={[ {
-              label: (<><FontAwesomeIcon icon={[ 'fab', 'markdown' ]} /> Markdown</>),
+            links={[{
+              label: (<><FontAwesomeIcon icon={['fab', 'markdown']} /> Markdown</>),
               url: 'https://www.markdownguide.org/basic-syntax/'
-            } ]}
+            }]}
           />
           {!preview ?
             isActive && <Input
@@ -120,7 +109,7 @@ const QuoteDialog = forwardRef<HTMLDialogElement, QuoteDialogType>(
               rows={4}
             />
             :
-            <Style_Markdown children={<Markdown children={quoteText} />} />
+            <Style_Markdown><Markdown>{quoteText}</Markdown></Style_Markdown>
           }
           <Style_ActionsContainer>
             <Button

@@ -16,11 +16,10 @@ import { BadgeStyles } from 'components/Badge/Badge.type';
 import { QuoteType } from 'types/Quote.type';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useFetch from 'hooks/useFetch';
-import { useCookies } from 'react-cookie';
 import { Reaction } from 'types/Reaction.type';
-import { useApiContext } from '../../contexts/ApiContext/ApiContext';
 import { useAppData } from '../../contexts/AppData/AppData';
+import { $api } from 'utils/api';
+import useGetToken from 'hooks/useGetToken';
 
 
 // Styles
@@ -142,14 +141,14 @@ const Actions = styled.div`
 
 const Style_Icon = styled(Icon).attrs({ mode: 'bg', width: '80%', height: '80%' })``;
 
-const Style_Button = styled(Button)<{ $hasReacted?: boolean, $style?: ButtonStyles }>`
+const Style_Button = styled(Button) <{ $hasReacted?: boolean, $style?: ButtonStyles }>`
   position: relative;
 
   ${({
-    $hasReacted,
-    $style,
-    theme
-  }) => $style == ButtonStyles.default && ($hasReacted !== undefined && !$hasReacted && css`
+  $hasReacted,
+  $style,
+  theme
+}) => $style == ButtonStyles.default && ($hasReacted !== undefined && !$hasReacted && css`
     backdrop-filter: brightness(0.925) blur(5px);
 
     box-shadow: inset ${theme.shadows.default};
@@ -180,69 +179,60 @@ const Quote = ({
   isLast?: boolean;
 }) => {
   const { t, i18n: { language } } = useTranslation();
-  const [ { user: authUser, roles } ] = useAppData();
-  const { routes } = useApiContext();
+  const [{ user: authUser, roles }] = useAppData();
   const { origin } = window.location;
-  const [ cookies ] = useCookies([ 'token' ]);
-  const [ saved, setSaved ] = useState(isSaved);
-  const [ isPaletteOpen, setIsPaletteOpen ] = useState(false);
-  const [ reactionName, setReactionName ] = useState<Reaction['reactionName'] | ''>('');
-  const [ newReaction, setNewReaction ] = useState<typeof reactedReaction | ''>(reactedReaction);
+  const token = useGetToken();
+  const [saved, setSaved] = useState(isSaved);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
+  const [reactionName, setReactionName] = useState<Reaction['reactionName']>('');
+  const [newReaction, setNewReaction] = useState<typeof reactedReaction>(reactedReaction);
   const {
-    runFetch: fetchPostSave,
-    response: postSaved
-  } = useFetch<boolean>(`${routes.quotes.sub?.toggleSave(quoteId)}`, {
+    mutate: mutatePostSave,
+    data: postSaved
+  } = $api.useMutation('post', '/v1/quotes/{id}/toggleSave');
+  const {
+    mutate: mutatePostReact,
+    data: postReacted
+  } = $api.useMutation('post', '/v1/quotes/{id}/toggleReact')/* useFetch<boolean>(`${routes.quotes.sub?.toggleReact(quoteId)}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams({
-      token: cookies.token
-    })
-  });
-  const {
-    runFetch: fetchPostReact,
-    response: postReacted
-  } = useFetch<boolean>(`${routes.quotes.sub?.toggleReact(quoteId)}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: new URLSearchParams({
-      token: cookies.token,
+      token,
       reaction_name: reactionName
     })
-  });
+  });*/
   const {
-    runFetch: fetchPostDelete,
-    response: postDelete
-  } = useFetch<boolean>(`${routes.quotes.sub?.delete(quoteId)}`, {
+    mutate: mutatePostDelete,
+    data: postDelete
+  } = $api.useMutation('delete', '/v1/quotes/{id}/delete')/* useFetch<boolean>(`${routes.quotes.sub?.delete(quoteId)}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams({
-      token: cookies.token
+      token
     })
-  });
+  }); */
 
   const quoteUrl = `/quote/${quoteId}`;
-  const userUrl = `/user/${user.userId}`;
-  const userAvatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
+  const userUrl = `/user/${user?.userId}`;
+  const userAvatarUrl = `https://cdn.discordapp.com/avatars/${user?.discordId}/${user?.avatarUrl}`;
 
   const isAdmin = roles && roles.find(role => role.name === 'admin');
-  const isAuthor = authUser && authUser.userId === user.userId;
-  const greatestReaction = reactions?.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0].reactionName;
+  const isAuthor = authUser && authUser.userId === user?.userId;
+  const greatestReaction = reactions?.concat().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))[0]?.reactionName;
   const sumOfReactions = reactions?.reduce((acc, reaction) => acc + (reaction.count || 0), 0);
 
   const quoteOptions = [
     {
       id: 'save',
       label: (<>
-        <FontAwesomeIcon icon={[ saved ? 'fas' : 'far', 'bookmark' ]} />{saved ? t('quote.saved') : t('quote.save')}
+        <FontAwesomeIcon icon={[saved ? 'fas' : 'far', 'bookmark']} />{saved ? t('quote.saved') : t('quote.save')}
       </>),
       onClick: () => {
-        fetchPostSave();
+        mutatePostSave({ params: { path: { id: quoteId } }, body: { token: token! } });
       }
     },
     {
@@ -251,7 +241,7 @@ const Quote = ({
       onClick: () => {
         const url = `${origin}/quote/${quoteId}`;
         if (navigator.share) {
-          navigator.share({
+          void navigator.share({
             title: 'Quotly',
             text: quote,
             url
@@ -263,7 +253,7 @@ const Quote = ({
       id: 'delete',
       label: (<><FontAwesomeIcon icon="trash" /> {t('quote.delete')}</>),
       onClick: () => {
-        fetchPostDelete();
+        mutatePostDelete({ params: { path: { id: quoteId } }, body: { token: token! } });
       }
     }
   ];
@@ -296,18 +286,12 @@ const Quote = ({
   useEffect(() => {
     if (!isSaved) return;
     setSaved(isSaved);
-  }, [ isSaved ]);
+  }, [isSaved]);
 
   useEffect(() => {
-    if (!postSaved) return;
-    setSaved(postSaved.data);
-  }, [ postSaved ]);
-
-  useEffect(() => {
-    quoteOptions[quoteOptions.findIndex(item => item.id === 'save')].label = (<>
-      <FontAwesomeIcon icon={[ saved ? 'fas' : 'far', 'bookmark' ]} /> {saved ? t('quote.saved') : t('quote.save')}
-    </>);
-  }, [ saved ]);
+    if (postSaved === undefined) return;
+    setSaved(postSaved);
+  }, [postSaved]);
 
   /**
    * Redirect to the main page after deleting the quote
@@ -315,7 +299,7 @@ const Quote = ({
   useEffect(() => {
     if (!postDelete) return;
     window.location.pathname = '/';
-  }, [ postDelete ]);
+  }, [postDelete]);
 
   /**
    * Toggle the reaction on the quote
@@ -323,8 +307,8 @@ const Quote = ({
   useEffect(() => {
     if (!reactionName) return;
     setIsPaletteOpen(false);
-    fetchPostReact();
-  }, [ reactionName ]);
+    mutatePostReact({ params: { path: { id: quoteId } }, body: { token: token!, reaction_name: reactionName as "skull" | "thumbs-up" | "red-heart" | "face-with-tears-of-joy" | "melting-face" } });
+  }, [mutatePostReact, quoteId, reactionName, token]);
 
   /**
    * Update the reaction state
@@ -333,16 +317,16 @@ const Quote = ({
     if (!postReacted) return;
     setNewReaction(newReaction !== reactionName && reactionName !== '' ? reactionName : '');
     setReactionName('');
-  }, [ postReacted ]);
+  }, [newReaction, postReacted, reactionName]);
 
   const renderText = () => (
-    <Style_Markdown to={quoteUrl} children={<Markdown children={quote} />} />
+    <Style_Markdown to={quoteUrl}><Markdown>{quote}</Markdown></Style_Markdown>
   );
 
   const renderAuthor = () => (
     <Author to={userUrl}>
-      {user.avatarUrl && <Avatar src={userAvatarUrl} alt={user.displayName} />}
-      {user.displayName} • {new Date(createdAt).toLocaleDateString(language, { dateStyle: 'long' })}
+      {user?.avatarUrl && <Avatar src={userAvatarUrl} alt={user.displayName} />}
+      {user?.displayName} • {new Date(createdAt).toLocaleDateString(language, { dateStyle: 'long' })}
     </Author>
   );
 
@@ -354,21 +338,20 @@ const Quote = ({
       <>
         <Style_Icon icon={'fluent-emoji:' + reaction.reactionName} />
         <Style_Badge
-          children={abbreviateNumber(
-            reaction.count + (
-              isNewReactionEmpty && isReactedReaction ? -1 :
-                isSameReaction && isReactedReaction ? 0 :
-                  newReaction !== undefined && isReactedReaction && !isSameReaction ? -1 :
-                    isSameReaction && !isNewReactionEmpty ? 1 :
-                      isNewReactionEmpty && isReactedReaction ? -1 : 0
-            )
-          )}
           place={{
             place: PlaceOrientation.Bottom,
             margin: '-75%'
           }}
           badgeStyle={BadgeStyles.transparent}
-        />
+        >{abbreviateNumber(
+          reaction.count + (
+            isNewReactionEmpty && isReactedReaction ? -1 :
+              isSameReaction && isReactedReaction ? 0 :
+                newReaction !== undefined && isReactedReaction && !isSameReaction ? -1 :
+                  isSameReaction && !isNewReactionEmpty ? 1 :
+                    isNewReactionEmpty && isReactedReaction ? -1 : 0
+          )
+        )}</Style_Badge>
       </>
     );
   };
@@ -379,30 +362,28 @@ const Quote = ({
       <ButtonPalette
         triggerElement={
           <Style_Button
-            $hasReacted={(newReaction || reactedReaction) && newReaction !== ''}
-            children={renderReaction({
-              reactionName: (
-                newReaction !== '' ? newReaction || reactedReaction || greatestReaction || 'red-heart' :
-                  greatestReaction || 'red-heart'
-              ),
-              count
-            })}
+            $hasReacted={Boolean((newReaction || reactedReaction) && newReaction !== '')}
             $style={ButtonStyles.default}
             isIconButton
-          />
+          >{renderReaction({
+            reactionName: (
+              newReaction !== '' ? newReaction || reactedReaction || greatestReaction || 'red-heart' :
+                greatestReaction || 'red-heart'
+            ),
+            count
+          })}</Style_Button>
         }
         buttons={
           reactions?.map((reaction, index) => (
             <Style_Button
               key={index}
               btnStyle={ButtonStyles.transparent}
-              children={renderReaction(reaction)}
               onClick={() => {
                 setReactionName('');
                 setReactionName(reaction.reactionName);
               }}
               isIconButton
-            />
+            >{renderReaction(reaction)}</Style_Button>
           )) || []
         }
         isOpen={isPaletteOpen}
@@ -412,7 +393,6 @@ const Quote = ({
       />
     );
   };
-
 
   const renderActions = () => (
     <Actions>

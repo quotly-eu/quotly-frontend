@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import { ReactNode, MouseEvent } from "react";
 import { WebTarget } from "styled-components";
 
 /**
@@ -27,7 +29,7 @@ export enum ButtonStyles {
  * <Button>Click Me</Button>
  */
 export type ButtonType = {
-  children?: React.ReactNode,
+  children?: ReactNode,
   href?: string,
   as?: void | WebTarget,
   type?: 'button' | 'submit' | 'reset',
@@ -37,6 +39,6 @@ export type ButtonType = {
   width?: string
   isIconButton?: boolean,
   title?: string,
-  onClick?: (event: React.MouseEvent) => void,
+  onClick?: (event: MouseEvent) => void,
   [rest: string]: unknown
 };

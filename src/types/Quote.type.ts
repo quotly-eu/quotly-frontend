@@ -1,5 +1,4 @@
-import { User } from 'types/User.type';
-import { Reaction } from './Reaction.type';
+import { components } from './api';
 
 /**
  * QuoteType is a type that defines the structure of the quote object.
@@ -10,14 +9,4 @@ import { Reaction } from './Reaction.type';
  * ...
  * }
  */
-export type QuoteType = {
-  quote: string;
-  quoteId: string;
-  createdAt: string;
-  changedAt?: string;
-  deletedAt?: string;
-  user: User;
-  isSaved?: boolean;
-  reaction?: Reaction['reactionName'];
-  reactions?: Reaction[];
-};
+export type QuoteType = components['schemas']['QuoteSchema'];

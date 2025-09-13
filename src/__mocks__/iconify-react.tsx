@@ -1,3 +1,5 @@
+import React from "react";
+
 /**
  * Mocks the Iconify React component.
  */

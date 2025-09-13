@@ -1,23 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { css, useTheme } from 'styled-components';
 
 import Switcher from 'components/Switcher/Switcher';
 import PageTitle from 'components/PageTitle/PageTitle';
 import Quote from 'components/Quote/Quote';
 
-import { QuoteType } from 'types/Quote.type';
-
-import useFetch from 'hooks/useFetch';
-import { useApiContext } from 'contexts/ApiContext/ApiContext';
 import Feeds from 'components/Feeds/Feeds';
 import { useTranslation } from 'react-i18next';
-import { useCookies } from 'react-cookie';
+import { $api } from 'utils/api';
+import useGetToken from 'hooks/useGetToken';
 
 // Styles
 const TopQuotesContainer = styled.div`
   display: grid;
   grid-template-areas: 
-    // 'users users'
       'quotes feeds';
   grid-template-columns: 1fr auto;
 
@@ -48,25 +44,17 @@ const QuotesContainer = styled.div`
 const TopQuotes = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { routes } = useApiContext();
-  const [ cookies ] = useCookies([ 'token' ]);
-  const {
-    runFetch: fetchQuotes,
-    response: quotes
-  } = useFetch<QuoteType[]>(`${routes.quotes.sub?.top()}?token=${cookies.token}&limit=50`);
-
-  useEffect(() => {
-    fetchQuotes();
-  }, []);
+  const token = useGetToken();
+  const {data: quotes} = $api.useQuery('get', '/v1/quotes/top', {params: {query: {token, limit: 50}}});
 
   return (
     <TopQuotesContainer>
       <QuotesContainer>
         <PageTitle title={t('trends')} icon="fire" isVisual />
-        {quotes && quotes.data.map((quote, index) => (
+        {quotes && quotes.map((quote, index) => (
           <Quote
             {...quote}
-            isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
+            isLast={quotes.length !== 1 && quotes.length == (index + 1)}
             key={quote.quoteId}
           />
         ))}

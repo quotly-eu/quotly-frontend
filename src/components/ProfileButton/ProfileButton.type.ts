@@ -1,3 +1,5 @@
+import { SyntheticEvent } from "react";
+
 /**
  * ProfileButtonType for ProfileButton Component
  * @example
@@ -9,5 +11,6 @@ export type ProfileButtonType = {
   src?: string;
   alt?: string;
   size?: string;
-  onClick?: (event?:React.SyntheticEvent) => void;
+  // eslint-disable-next-line no-unused-vars
+  onClick?: (event?:SyntheticEvent) => void;
 };

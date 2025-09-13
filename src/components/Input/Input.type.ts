@@ -1,4 +1,5 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { Dispatch, SetStateAction } from "react";
 import { WebTarget } from "styled-components";
 
 /**
@@ -14,5 +15,5 @@ export interface InputType {
   required?: boolean;
   testing?: boolean;
   as?: void | WebTarget;
-  onChange?: React.Dispatch<React.SetStateAction<string>>
+  onChange?: Dispatch<SetStateAction<string>>
 };

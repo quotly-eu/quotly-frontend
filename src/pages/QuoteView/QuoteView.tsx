@@ -3,21 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-
-import useFetch from 'hooks/useFetch';
-import { useApiContext } from 'contexts/ApiContext/ApiContext';
 
 import QuoteComment from 'components/Comment/Comment';
 import Quote from 'components/Quote/Quote';
 import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
 
-import { Comment } from 'types/Comment.type';
 import { ButtonStyles } from 'components/Button/Button.type';
 import { CommentType } from 'components/Comment/Comment.type';
-import { QuoteType } from 'types/Quote.type';
 import PageTitle from 'components/PageTitle/PageTitle';
+import { $api } from 'utils/api';
+import useGetToken from 'hooks/useGetToken';
 
 const Style_QuoteView = styled.div`
   display: flex;
@@ -72,61 +68,46 @@ const Style_Button = styled(Button)`
 const QuoteView = () => {
   const { t } = useTranslation();
   const { id } = useParams();
-  const { routes } = useApiContext();
-  const [ cookies ] = useCookies([ 'token' ]);
+  const token = useGetToken()!;
   const navigate = useNavigate();
 
-  const [ isFormActive, setIsFormActive ] = useState(false);
-  const [ isSubmitDisabled, setIsSubmitDisabled ] = useState(false);
-  const [ commentText, setCommentText ] = useState('');
-  const constructorQuote = !cookies.token ?
-    routes.quotes.construct(id || '') :
-    `${routes.quotes.construct(id || '')}?token=${cookies.token}`;
+  const [isFormActive, setIsFormActive] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [commentText, setCommentText] = useState('');
 
-  const { runFetch: fetchQuote, response: quote } = useFetch<QuoteType>(constructorQuote);
-  const {
-    runFetch: fetchComments,
-    response: comments
-  } = useFetch<Comment[]>(`${routes.quotes.sub?.comments(id || '')}`);
-  const { runFetch: fetchPostComment, response } = useFetch<Comment>(`${routes.quotes.sub?.createComment(id || '')}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: new URLSearchParams({
-      comment: commentText,
-      token: cookies.token
-    })
-  });
-
-  if (!id) navigate('/');
-  if (quote?.status === 404) navigate('/404', { replace: true });
+  const { data: quote, isError: isQuoteError } = $api.useQuery('get', '/v1/quotes/{id}', {
+    params: {
+      path: {
+        id: Number(id)
+      },
+      query: { token }
+    }
+  }, { enabled: !!id });
+  const { data: comments, refetch: fetchComments } = $api.useQuery('get', '/v1/quotes/{id}/comments', {
+    params: {
+      path: {
+        id: Number(id)
+      }
+    }
+  }, { enabled: !!id });
+  const { mutate: mutatePostComment, data: postComment } = $api.useMutation('post', '/v1/quotes/{id}/comments/create');
 
   useEffect(() => {
-    fetchQuote();
-    fetchComments();
-  }, []);
-
-  useEffect(() => {
-    if (!response) return;
-    fetchComments();
+    if (!postComment) return;
+    void fetchComments();
 
     setIsFormActive(false);
     setCommentText('');
     setIsSubmitDisabled(false);
-  }, [ response ]);
+  }, [fetchComments, postComment]);
 
-  const formattedComments: CommentType[] = comments?.data.map(({ commentId, comment, createdAt, user }) => {
-    const avatarUrl = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatarUrl}`;
-
-    return {
-      id: commentId,
-      author: user.displayName,
-      avatarUrl,
-      dated: new Date(createdAt),
-      comment
-    };
-  }) || [];
+  const formattedComments: CommentType[] = comments?.map(({ commentId, comment, createdAt, user }) => ({
+    id: commentId,
+    author: user?.displayName ?? '',
+    avatarUrl: `https://cdn.discordapp.com/avatars/${user?.discordId}/${user?.avatarUrl}`,
+    dated: new Date(createdAt),
+    comment
+  })) || [];
 
   const onFocus = () => setIsFormActive(true);
 
@@ -138,15 +119,18 @@ const QuoteView = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitDisabled(true);
-    fetchPostComment();
+    mutatePostComment({ params: { path: { id: Number(id) } }, body: { comment: commentText, token } });
   };
+
+  if (!id) navigate('/');
+  if (isQuoteError) navigate('/404', { replace: true });
 
   return (
     <Style_QuoteView>
-      {quote?.data && <PageTitle title={quote.data.quote} />}
-      {quote?.data && <Quote
-        {...quote.data}
-        key={quote.data.quoteId}
+      {quote && <PageTitle title={quote.quote} />}
+      {quote && <Quote
+        {...quote}
+        key={quote.quoteId}
       />}
       <Style_Comments>
         <Style_Form onSubmit={onSubmit}>

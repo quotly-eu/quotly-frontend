@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { PlaceOrientation } from "types/placeOrientation.type";
 import { CustomTheme } from "types/declarations/styled-components";
+import { ReactNode } from "react";
 
 /**
  * BadgeStyles
@@ -29,7 +31,7 @@ export enum BadgeStyles {
  * <Badge>Badge</Badge>
  */
 export type BadgeType = {
-  children?: React.ReactNode
+  children?: ReactNode
   place?: {
     place: PlaceOrientation,
     margin?: string

@@ -1,46 +1,9 @@
 import React, { createContext, useContext } from 'react';
-import { ApiContextType } from './ApiContext.type';
 
-const config: ApiContextType = {
-  baseUrl: 'https://api.quotly.eu',
-  routes: {
-    quotes: {
-      construct: (id?) => `${config.baseUrl}/v1/quotes${id ? `/${id}` : ''}`,
-      sub: {
-        create: () => `${config.routes.quotes.construct()}/create`,
-        delete: (id) => `${config.routes.quotes.construct(id)}/delete`,
-        toggleSave: (id) => `${config.routes.quotes.construct(id)}/toggleSave`,
-        toggleReact: (id) => `${config.routes.quotes.construct(id)}/toggleReact`,
-        createComment: (id) => `${config.routes.quotes.construct(id)}/comments/create`,
-        comments: (id) => `${config.routes.quotes.construct(id)}/comments`,
-        reactions: (id) => `${config.routes.quotes.construct(id)}/reactions`,
-        saved: (id) => `${config.routes.quotes.construct(id)}/saved`,
-        top: () => `${config.routes.quotes.construct()}/top`,
-      }
-    },
-    roles: {
-      construct: (roleId?) => `${config.baseUrl}/v1/roles${roleId ? `/${roleId}` : ''}`,
-    },
-    users: {
-      construct: (discordId?) => `${config.baseUrl}/v1/users${discordId ? `/${discordId}` : ''}`,
-      sub: {
-        me: () => `${config.routes.users.construct()}/me`,
-        delete: () => `${config.routes.users.sub?.me()}/delete`,
-        quotes: (id) => `${config.routes.users.construct(id)}/quotes`,
-        reactions: (id) => `${config.routes.users.construct(id)}/reactions`,
-        roles: (id) => `${config.routes.users.construct(id)}/roles`,
-        savedQuotes: (id) => `${config.routes.users.construct(id)}/saved-quotes`,
-        webhook: () => `${config.routes.users.construct()}/webhook`,
-        webhooks: () => `${config.routes.users.construct()}/me/webhooks`
-      }
-    },
-    authorize: {
-      construct: () => `${config.baseUrl}/v1/authorize`,
-    },
-  },
-  discordAuth: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=https%3A%2F%2Fquotly.eu%2Foauth&scope=email+identify',
-  discordWebhook: 'https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=https%3A%2F%2Fquotly.eu%2Fwebhook&integration_type=0&scope=email+identify+webhook.incoming'
-};
+const config = {
+  discordAuth: `https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=${encodeURIComponent(`${window.origin}/oauth`)}&scope=email+identify`,
+  discordWebhook: `https://discord.com/oauth2/authorize?client_id=1303517823452184697&response_type=code&redirect_uri=${encodeURIComponent(`${window.origin}/webhook`)}&integration_type=0&scope=email+identify+webhook.incoming`
+} as const;
 
 const ApiContext = createContext(config);
 

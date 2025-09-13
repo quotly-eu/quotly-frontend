@@ -5,8 +5,8 @@ import Button from 'components/Button/Button';
 
 describe('ButtonPalette', () => {
   const buttons = [
-    <Button as='a' href='#' />,
-    <Button as='a'href='#' />,
+    <Button key='1' as='a' href='#' />,
+    <Button key='2' as='a' href='#' />,
   ];
 
   const triggerElement = <button>Toggle Menu</button>;

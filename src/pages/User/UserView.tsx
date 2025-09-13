@@ -1,16 +1,13 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useApiContext } from 'contexts/ApiContext/ApiContext';
-import useFetch from 'hooks/useFetch';
 import ProfileButton from 'components/ProfileButton/ProfileButton';
 import Quote from 'components/Quote/Quote';
-import { QuoteType } from 'types/Quote.type';
-import { User } from 'types/User.type';
-import { useCookies } from 'react-cookie';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import Switcher from '../../components/Switcher/Switcher';
+import useGetToken from 'hooks/useGetToken';
+import { $api } from 'utils/api';
 
 const UserViewContainer = styled.div`
   display: grid;
@@ -97,33 +94,41 @@ const FeedItem = styled.div`
 const UserView = () => {
   const { t, i18n: { language } } = useTranslation();
   const { id } = useParams();
-  const { routes } = useApiContext();
-  const [ cookies ] = useCookies([ 'token' ]);
-  const { runFetch: fetchUser, response: user } = useFetch<User>(routes.users.construct(Number(id)));
+  const token = useGetToken()!;
+  const { data: user } = $api.useQuery('get', '/v1/users/{id}', {
+    params: {
+      path: {
+        id: Number(id)
+      }
+    }
+  }, { enabled: !!id });
   const {
-    runFetch: fetchQuotes,
-    response: quotes
-  } = useFetch<QuoteType[]>(`${routes.users.sub?.quotes(Number(id))}?token=${cookies.token}`);
+    data: quotes
+  } = $api.useQuery('get', '/v1/users/{id}/quotes', {
+    params: {
+      path: {
+        id: Number(id)
+      },
+      query: {
+        token
+      }
+    }
+  }, { enabled: !!id });
 
-  const userAvatarUrl = useMemo(() => `https://cdn.discordapp.com/avatars/${user?.data.discordId}/${user?.data.avatarUrl}`, [ user ]);
-
-  useEffect(() => {
-    if (!id) return;
-    fetchUser();
-    fetchQuotes();
-  }, [ id ]);
+  const userAvatarUrl = useMemo(() => `https://cdn.discordapp.com/avatars/${user?.discordId}/${user?.avatarUrl}`, [user]);
 
   return (
     <UserViewContainer>
       <QuotesContainer>
         <Switcher
-          desktop={<PageTitle title={user?.data.displayName} icon="user" isVisual />}
-          mobile={<PageTitle title={user?.data.displayName} />}
+          desktop={<PageTitle title={user?.displayName} icon="user" isVisual />}
+          mobile={<PageTitle title={user?.displayName} />}
         />
-        {quotes?.data && quotes.data.map((quote, index) => (
+        {quotes && quotes.map((quote, index) => (
           <Quote
             {...quote}
-            isLast={quotes.data.length !== 1 && quotes.data.length == (index + 1)}
+            key={quote.quoteId}
+            isLast={quotes.length !== 1 && quotes.length == (index + 1)}
           />
         ))}
       </QuotesContainer>
@@ -131,10 +136,10 @@ const UserView = () => {
         <FeedContainer>
           <ProfileButton src={userAvatarUrl} size="10rem" />
           <FeedRow>
-            <FeedItem><strong>{user?.data.displayName}</strong></FeedItem>
+            <FeedItem><strong>{user?.displayName}</strong></FeedItem>
           </FeedRow>
           <FeedRow>
-            <FeedItem>{t('user.joined')} {user && new Date(user.data.createdAt).toLocaleDateString(language, { dateStyle: 'long' })}</FeedItem>
+            <FeedItem>{t('user.joined')} {user && new Date(user.createdAt).toLocaleDateString(language, { dateStyle: 'long' })}</FeedItem>
           </FeedRow>
         </FeedContainer>
       </FeedsContainer>

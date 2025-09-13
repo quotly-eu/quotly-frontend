@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useApiContext } from 'contexts/ApiContext/ApiContext';
@@ -16,6 +16,7 @@ import { generateToken } from 'utils/generateToken';
 import { useCookies } from 'react-cookie';
 import PageTitle from 'components/PageTitle/PageTitle';
 import { Link, useNavigate } from 'react-router-dom';
+import useGetToken from 'hooks/useGetToken';
 
 const Style_PageContainer = styled.div`
   display: grid;
@@ -28,7 +29,7 @@ const Style_LoginContainer = styled.div`
   grid-auto-flow: column;
   grid-template-columns: 1fr auto auto;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     padding: ${theme.spacing.m.rem};
     gap: ${theme.spacing.xl.rem};
 
@@ -49,7 +50,7 @@ const Style_LeftContainer = styled.div`
 
 const Style_Separator = styled.div`
   width: 1px;
-  ${({ theme }) => `
+  ${({ theme }) => css`
     background-color: ${theme.colors.accent_white_1};
 
     @media (max-width: ${theme.breakpoints.md}) {
@@ -64,16 +65,15 @@ const Style_RightContainer = styled.div`
   flex-direction: column;
   max-width: 400px;
 
-  ${({ theme }) => `
+  ${({ theme }) => css`
     gap: ${theme.spacing.m.rem};
-    // border-left: 2px solid ${theme.colors.transparency.black(0.1)};
     border-radius: ${theme.spacing.m.rem};
   `}
   place-self: center;
 `;
 
 const Style_Footer = styled.footer`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     padding: ${theme.spacing.xs.rem};
   `}
 `;
@@ -88,7 +88,7 @@ const Style_Description = styled.h2`
 `;
 
 const Style_AuthInfo = styled.small`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     color: ${theme.colors.text.gray};
   `}
 `;
@@ -104,13 +104,14 @@ const Login = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { discordAuth } = useApiContext();
-  const [ cookies, setCookie ] = useCookies(['state', 'token']);
+  const [, setCookie] = useCookies(['state', 'token']);
+  const token = useGetToken();
 
   useEffect(() => {
-    if(cookies.token) {
+    if (token) {
       navigate('/');
     }
-  }, [cookies.token]);
+  }, [navigate, token]);
 
   const onClick = () => {
     const stateToken = generateToken(32);

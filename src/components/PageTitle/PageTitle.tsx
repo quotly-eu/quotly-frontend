@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
@@ -44,7 +44,7 @@ const PageTitle = ({ title, altTitle, icon, prefix, isVisual = false }: PageTitl
 
   useEffect(() => {
     document.title = `${prefix ?? t('quotly')}${title ? (' - ' + title) : ''}`;
-  }, [ location, title ]);
+  }, [location, prefix, t, title]);
 
   return isVisual ? (
     <PageTitleContainer>

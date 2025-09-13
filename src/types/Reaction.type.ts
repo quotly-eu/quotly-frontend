@@ -1,3 +1,5 @@
+import { components } from "./api";
+
 /**
  * Reactions is a type that defines the structure of the reactions of the quote object.
  * @example 
@@ -7,7 +9,4 @@
  * ...
  * }
  */
-export type Reaction = {
-  reactionName: 'red-heart' | 'thumbs-up' | 'face-with-tears-of-joy' | 'melting-face' | 'skull';
-  count: number;
-};
+export type Reaction = components['schemas']['QuoteReactionSchema'];
