@@ -5,72 +5,68 @@ import Quote from '../Quote';
 describe('Quote', () => {
   it('renders', () => {
     expect(render(
-      <Quote 
+      <Quote
         quote='**Test**'
-        quoteId='1'
-        createdAt={new Date(2024,4,7).toISOString()}
+        quoteId={1}
+        createdAt={new Date(2024, 4, 7).toISOString()}
         user={{
           userId: 1,
           discordId: '1',
           avatarUrl: 'abc',
           displayName: 'Author',
-          createdAt: new Date(2024,4,7).toISOString()
-        }}
-      />
+          createdAt: new Date(2024, 4, 7).toISOString()
+        }} userId={0} isSaved={null} reactions={[]} />
     )).not.toBeNull();
   });
   it('renders text', () => {
     const text = `**Test:** 'test'`;
     const { getByText } = render(
-      <Quote 
+      <Quote
         quote={text}
-        quoteId='1'
-        createdAt={new Date(2024,4,7).toISOString()}
+        quoteId={1}
+        createdAt={new Date(2024, 4, 7).toISOString()}
         user={{
           userId: 1,
           discordId: '1',
           avatarUrl: 'abc',
           displayName: 'Author',
-          createdAt: new Date(2024,4,7).toISOString()
-        }}
-      />
+          createdAt: new Date(2024, 4, 7).toISOString()
+        }} userId={0} isSaved={null} reactions={[]} />
     );
-    expect(getByText(text, {exact:false})).toBeInTheDocument();
+    expect(getByText(text, { exact: false })).toBeInTheDocument();
   });
   it('renders author', () => {
     const author = 'Author';
     const { getByText } = render(
-      <Quote 
+      <Quote
         quote='**Test**'
-        quoteId='1'
-        createdAt={new Date(2024,4,7).toISOString()}
+        quoteId={1}
+        createdAt={new Date(2024, 4, 7).toISOString()}
         user={{
           userId: 1,
           discordId: '1',
           avatarUrl: 'abc',
           displayName: author,
-          createdAt: new Date(2024,4,7).toISOString()
-        }}
-      />
+          createdAt: new Date(2024, 4, 7).toISOString()
+        }} userId={0} isSaved={null} reactions={[]} />
     );
-    expect(getByText(author, {exact:false})).toBeInTheDocument();
+    expect(getByText(author, { exact: false })).toBeInTheDocument();
   });
   it('renders dated', () => {
-    const dated = new Date(2024,4,7).toISOString();
+    const dated = new Date(2024, 4, 7).toISOString();
     const { getByText } = render(
-      <Quote 
-      quote='**Test**'
-        quoteId='1'
+      <Quote
+        quote='**Test**'
+        quoteId={1}
         createdAt={dated}
         user={{
           userId: 1,
           discordId: '1',
           avatarUrl: 'abc',
           displayName: 'Author',
-          createdAt: new Date(2024,4,7).toISOString()
-        }}
-      />
+          createdAt: new Date(2024, 4, 7).toISOString()
+        }} userId={0} isSaved={null} reactions={[]} />
     );
-    expect(getByText(new Date(dated).toLocaleDateString(undefined, {dateStyle: 'long'}), {exact:false})).toBeInTheDocument();
+    expect(getByText(new Date(dated).toLocaleDateString(undefined, { dateStyle: 'long' }), { exact: false })).toBeInTheDocument();
   });
 });
