@@ -15,7 +15,10 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with: 
+        submodules: 'true'
     - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:

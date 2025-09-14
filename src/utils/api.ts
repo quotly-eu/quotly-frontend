@@ -3,7 +3,7 @@ import createClient from "openapi-react-query";
 import { paths } from "types/api";
 
 const fetchClient = createFetchClient<paths>({
-  baseUrl: "http://localhost:3560",
+  baseUrl: process.env.NODE_ENV === 'production' ? "https://api.quotly.eu" : "http://localhost:3560",
 });
 
 /**
